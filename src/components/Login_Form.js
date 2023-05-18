@@ -2,7 +2,6 @@ import Form_Field from './Form_Field';
 import Main_Button from './Main_Button';
 import Stack from '@mui/material/Stack';
 import Link from '@mui/material/Link';
-import login_image from '../graphics/login_image.png';
 
 const Form = () => {
   return (
