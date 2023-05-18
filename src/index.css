@@ -1,5 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
+h2 {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0px;
+}
+
+.tag-thin {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.tag-bold {
+  font-size: 14px;
+  font-weight: 600;
+}
+
 body {
   margin: 0;
   font-family: 'Inter';

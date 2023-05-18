@@ -1,0 +1,38 @@
+.login-intro {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.signup-desc {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.signup-desc a {
+    color: #4F87DB;
+    text-decoration: none;
+}
+
+.forgot-password {
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.forgot-password a {
+    color: #4F87DB;
+    text-decoration: none;
+}
+
+.signup-image {
+    display: flex;
+    justify-content: center; /* horizontally center */
+    align-items: center;    /* vertically center */
+}
+
+.signup-section {
+    display: flex;
+    justify-content: space-around; /* horizontally center */
+    align-items: center;    /* vertically center */
+    padding: 150px;
+}

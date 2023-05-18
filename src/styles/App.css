@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Darumadrop+One&display=swap');
+
 nav {
   width: auto; /* 1650px */
   background: #F8F8F8;
@@ -8,8 +10,9 @@ nav {
 }
 
 .ninenote-logo {
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-size: 20px;
+  font-family: 'Darumadrop One', cursive;
+  font-size: 25px;
+  color: #4F87DB;
 }
 
 .nav_menu a {
