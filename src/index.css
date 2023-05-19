@@ -1,9 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
+h1 {
+  font-size: 40px;
+  font-weight: 700;
+}
+
 h2 {
   font-size: 32px;
   font-weight: 600;
   margin: 0px;
+}
+
+h3 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+body {
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0px;
+  font-family: 'Inter';
+  /* -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; */
+}
+
+.body-bold {
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .tag-thin {
@@ -16,11 +40,14 @@ h2 {
   font-weight: 600;
 }
 
-body {
-  margin: 0;
-  font-family: 'Inter';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.mini-tag-thin {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.mini-tag-bold {
+  font-size: 12px;
+  font-weight: 600;
 }
 
 code {

@@ -1,8 +1,8 @@
-import Button from '@mui/material/Button';
+import { Button } from '@mui/material';
 
 const Main_Button = ({ value }) => {
   return (
-    <Button variant="contained">{ value }</Button>
+    <Button variant="contained" color="blue">{ value }</Button>
   )
 }
 

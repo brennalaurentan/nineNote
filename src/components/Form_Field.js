@@ -1,5 +1,4 @@
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
+import { TextField, MenuItem } from '@mui/material';
 
 const normal_field = (field_name) => <TextField 
                                       id="outlined-search" 

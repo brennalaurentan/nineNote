@@ -1,6 +1,14 @@
+import '../index.css';
+import { Helmet } from 'react-helmet';
+
 const Module_Resource_Directory = () => {
   return (
-    <div>Module Resource Directory</div>
+    <>
+      <Helmet>
+        <title>nineNote | Module Resource Directory</title>
+      </Helmet>
+      <div>Module Resource Directory</div>
+    </>
   )
 }
 

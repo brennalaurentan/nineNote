@@ -1,7 +1,6 @@
 import Form_Field from './Form_Field';
 import Main_Button from './Main_Button';
-import Stack from '@mui/material/Stack';
-import Link from '@mui/material/Link';
+import { Stack, Link } from '@mui/material';
 
 const matriculation_year = [
   {
@@ -147,7 +146,7 @@ const certifications = [
 const Form = () => {
   return (
     <>
-        <div href="/" className="ninenote-logo">nineNote</div>  
+        <div className="ninenote-logo">nineNote</div>  
         <div className='login-intro'>
           <h2>Sign Up</h2>
         </div>

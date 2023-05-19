@@ -1,6 +1,14 @@
+import '../index.css';
+import { Helmet } from 'react-helmet';
+
 const Module_Recommender = () => {
   return (
-    <div>Module Recommender</div>
+    <>
+      <Helmet>
+        <title>nineNote | Module Recommender</title>
+      </Helmet>
+      <div>Module Recommender</div>
+    </>
   )
 }
 
