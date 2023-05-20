@@ -46,6 +46,49 @@ const Customised_Theme = createTheme({
         main: '#FFFFFF',
       },
     },
+    typography: {
+      logo: {
+        fontSize: "25px",
+        fontWeight: "200",
+        fontFamily: "Darumadrop One",
+      },
+      h1: {
+        fontSize: "40px",
+        fontWeight: "700",
+        fontFamily: "Inter",
+      },
+      h2: {
+        fontSize: "32px",
+        fontWeight: "600",
+        fontFamily: "Inter",
+      },
+      h3: {
+        fontSize: "22px",
+        fontWeight: "600",
+        fontFamily: "Inter",
+        
+      },
+      body_bold: {
+        fontSize: "16px", 
+        fontWeight: "600",
+        fontFamily: "Inter",
+      },
+      body_thin: {
+        fontSize: "16px",
+        fontWeight: "400",
+        fontFamily: "Inter",
+      },
+      tag_bold: {
+        fontSize: "14px",
+        fontWeight: "600",
+        fontFamily: "Inter",
+      },
+      tag_thin: {
+        fontSize: "14px",
+        fontWeight: "400",
+        fontFamily: "Inter",
+      },
+    },
   });
 
 export default Customised_Theme

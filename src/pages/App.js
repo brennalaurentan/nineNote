@@ -1,7 +1,6 @@
 import '../index.css';
 import '../styles/App.css';
 import Customised_Theme from '../components/Customised_Theme'
-import Main_Navbar from '../components/Main_Navbar';
 import { Route, Routes } from "react-router-dom";
 import { ThemeProvider } from '@mui/material/styles';
 import Login from './Login';
@@ -17,17 +16,14 @@ function App() {
   return (
     <>  
       <ThemeProvider theme={Customised_Theme}>
-        <Main_Navbar/>
-          <div className='container'>
-            <Routes>
-              <Route path="/" element={<Login/>} />
-              <Route path="/signup" element={<Signup/>} />
-              <Route path="/graduation-progress-tracker" element={<Graduation_Progress_Tracker/>} />
-              <Route path="/module-recommender" element={<Module_Recommender/>} />
-              <Route path="/module-resource-directory" element={<Module_Resource_Directory/>} />
-              <Route path="/my-profile" element={<My_Profile/>} />
-            </Routes>
-          </div>
+        <Routes>
+          <Route path="/" element={<Login/>} />
+          <Route path="/signup" element={<Signup/>} />
+          <Route path="/graduation-progress-tracker" element={<Graduation_Progress_Tracker/>} />
+          <Route path="/module-recommender" element={<Module_Recommender/>} />
+          <Route path="/module-resource-directory" element={<Module_Resource_Directory/>} />
+          <Route path="/my-profile" element={<My_Profile/>} />
+        </Routes>
       </ThemeProvider>
     </>
   );

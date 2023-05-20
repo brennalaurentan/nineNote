@@ -1,21 +1,21 @@
-import { Link, Avatar } from '@mui/material';
+import { Link, Avatar, AppBar, Toolbar, Typography, Stack } from '@mui/material';
 
 const Main_Navbar = () => {
   return (
-    <nav className="nav">
-        <div className="ninenote-logo">nineNote</div>  
-        <div className="nav_menu">
-          <Link href="/">Login</Link>
-          <Link href="/graduation-progress-tracker">Graduation Progress Tracker</Link>
-          <Link href="/module-recommender">Module Recommender</Link>
-          <Link href="/module-resource-directory">Module Resource Directory</Link>
-        </div>
-        <div>
-          <Link href="/my-profile">
-            <Avatar sx={{ bgcolor: 'blue.main', textDecoration:'none' }}>NN</Avatar>
-          </Link>
-        </div>
-    </nav>
+      <AppBar sx={{bgcolor: "blue.main"}}>
+        <Toolbar>
+          <Typography variant="logo" color="white.main" sx={{ flexGrow: 1 }}>nineNote</Typography>
+          <Stack direction="row" gap="64px" display="flex" alignItems="center">
+            <Link href="/" underline="none" color="white.main">Login</Link>
+            <Link href="/graduation-progress-tracker" underline="none" color="white.main">Graduation Progress Tracker</Link>
+            <Link href="/module-recommender" underline="none" color="white.main">Module Recommender</Link>
+            <Link href="/module-resource-directory" underline="none" color="white.main">Module Resource Directory</Link>
+            <Link href="/my-profile">
+              <Avatar sx={{ bgcolor: "dark_gray.main", textDecoration:"none" }}>NN</Avatar>
+            </Link>
+          </Stack>
+        </Toolbar>
+      </AppBar>
   )
 }
 

@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Darumadrop+One&display=swap');
 
+.container {
+  margin-top: 60px;
+}
+
 nav {
   width: auto; /* 1650px */
   background: #ECF7FC;

@@ -13,16 +13,16 @@ const password_field = (field_name) => <TextField
                                         />
 
 const dropdown_field = (field_name, values) => <TextField
-                                        id="outlined-select-currency"
-                                        select
-                                        label={field_name}
-                                        >
-                                        {values.map((option) => (
-                                          <MenuItem key={option.value} value={option.value}>
-                                            {option.label}
-                                          </MenuItem>
-                                        ))}
-                                        </TextField>
+                                                id="outlined-select-currency"
+                                                select
+                                                label={field_name}
+                                                >
+                                                {values.map((option) => (
+                                                  <MenuItem key={option.value} value={option.value}>
+                                                    {option.label}
+                                                  </MenuItem>
+                                                ))}
+                                                </TextField>
 
 const Form_Field = ({ field_name, type, values }) => {
   return type == "normal"
