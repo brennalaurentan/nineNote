@@ -2,7 +2,7 @@ import { Link, Avatar, AppBar, Toolbar, Typography, Stack } from '@mui/material'
 
 const Main_Navbar = () => {
   return (
-      <AppBar sx={{bgcolor: "blue.main"}}>
+      <AppBar position="sticky" sx={{bgcolor: "blue.main"}}>
         <Toolbar>
           <Typography variant="logo" color="white.main" sx={{ flexGrow: 1 }}>nineNote</Typography>
           <Stack direction="row" gap="64px" display="flex" alignItems="center">

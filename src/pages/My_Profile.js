@@ -1,5 +1,6 @@
 import '../index.css';
 import { Helmet } from 'react-helmet';
+import Main_Navbar from '../components/Main_Navbar';
 
 const My_Profile = () => {
   return (
@@ -7,6 +8,7 @@ const My_Profile = () => {
       <Helmet>
         <title>nineNote | My Profile</title>
       </Helmet>
+      <Main_Navbar />
       <div>My Profile</div>
     </>
   )

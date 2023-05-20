@@ -21,7 +21,7 @@ const Signup = () => {
       >
         <Stack direction="row" gap="256px">
           <Signup_Form />
-          <img src={signup_image} alt="Logo" width="500px"/>
+          <img src={signup_image} alt="Logo" width="500px" />
         </Stack>
       </Grid>
     </>

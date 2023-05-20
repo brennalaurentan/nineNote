@@ -8,7 +8,7 @@ const Module_Recommender = () => {
       <Helmet>
         <title>nineNote | Module Recommender</title>
       </Helmet>
-      <Main_Navbar/>
+      <Main_Navbar />
       <div>Module Recommender</div>
     </>
   )

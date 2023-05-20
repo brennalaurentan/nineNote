@@ -8,7 +8,7 @@ const Module_Resource_Directory = () => {
       <Helmet>
         <title>nineNote | Module Resource Directory</title>
       </Helmet>
-      <Main_Navbar/>
+      <Main_Navbar />
       <div>Module Resource Directory</div>
     </>
   )

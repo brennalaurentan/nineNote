@@ -21,7 +21,7 @@ const Login = () => {
       >
         <Stack direction="row" gap="256px">
           <Login_Form />
-          <img src={login_image} alt="Logo" width="500px"/>
+          <img src={login_image} alt="Logo" width="500px" />
         </Stack>
       </Grid>
     </>

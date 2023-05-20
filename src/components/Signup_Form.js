@@ -147,16 +147,16 @@ const Form = () => {
   return (
     <>
       <Stack gap="32px">
-        <Stack gap="16px" width="400px"> 
-          <Typography variant="logo" color="blue.main">nineNote</Typography>  
+        <Stack gap="16px" width="400px">
+          <Typography variant="logo" color="blue.main">nineNote</Typography>
           <Typography variant="h2">Sign Up</Typography>
-          <Form_Field field_name={"Email Address"} type={"normal"}/>
-          <Form_Field field_name={"Password"} type={"password"}/>
-          <Form_Field field_name={"Matriculation Year"} type={"dropdown"} values={matriculation_year}/>
-          <Form_Field field_name={"Current/Prospective Course"} type={"dropdown"} values={course}/>
-          <Form_Field field_name={"Additional Certifications for Exemptions"} type={"dropdown"} values={certifications}/>
+          <Form_Field field_name={"Email Address"} type={"normal"} />
+          <Form_Field field_name={"Password"} type={"password"} />
+          <Form_Field field_name={"Matriculation Year"} type={"dropdown"} values={matriculation_year} />
+          <Form_Field field_name={"Current/Prospective Course"} type={"dropdown"} values={course} />
+          <Form_Field field_name={"Additional Certifications for Exemptions"} type={"dropdown"} values={certifications} />
         </Stack>
-        <Link href="/graduation-progress-tracker"><Main_Button value="CREATE ACCOUNT"/></Link>
+        <Link href="/graduation-progress-tracker"><Main_Button value="CREATE ACCOUNT" /></Link>
       </Stack>
     </>
   )
