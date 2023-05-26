@@ -1,26 +1,28 @@
 import Form_Field from './Form_Field';
 import Main_Button from './Main_Button';
-import { Stack, Link, Typography, Button } from '@mui/material';
+import { Stack, Link, Typography } from '@mui/material';
 import { useState } from "react";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from './firebase';
+import { useNavigate } from 'react-router-dom';
 
 const Form = () => {
 
   const [loginEmail, setLoginEmail] = useState(null);
   const [loginPassword, setLoginPassword] = useState(null);
 
-  const login = async () => {
+  const navigate = useNavigate();
+  async function Login(){
     try {
       console.log(loginEmail);
       console.log(loginPassword);
       const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+      navigate('/graduation-progress-tracker');
       console.log(user);
-      
     } catch (error) {
       console.log(error.message);
-    }
-  };
+    };
+  }
 
   const logout = async () => {
 
@@ -56,20 +58,11 @@ const Form = () => {
         <Link underline="none">
           <Typography variant="tag_thin" display="flex" justifyContent="flex-end">Forgot your password?</Typography>
         </Link>
-        <Link /*href="/graduation-progress-tracker"*/>
+        <Link>
           <Main_Button 
             value="LOG IN"
             type="login"
-            onClickAction={async () => {
-              try {
-                console.log(loginEmail);
-                console.log(loginPassword);
-                const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
-                console.log(user);
-              } catch (error) {
-                console.log(error.message);
-              }
-            }}
+            onClickAction={Login}
           />
         </Link>
       </Stack>

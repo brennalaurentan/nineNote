@@ -5,6 +5,7 @@ import { Stack, Link, Typography } from '@mui/material';
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from './firebase';
+import { useNavigate } from 'react-router-dom';
 
 const matriculation_year = [
   {
@@ -152,14 +153,18 @@ const Form = () => {
   const [registerEmail, setRegisterEmail] = useState(null);
   const [registerPassword, setRegisterPassword] = useState(null);
 
-  const register = async () => {
+  const navigate = useNavigate();
+  async function Register(){
     try {
+      console.log(registerEmail);
+      console.log(registerPassword);
       const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
+      navigate('/graduation-progress-tracker');
       console.log(user);
     } catch (error) {
       console.log(error.message);
-    }
-  };
+    };
+  }
 
   return (
     <>
@@ -193,20 +198,11 @@ const Form = () => {
           <Form_Field field_name={"Current/Prospective Course"} type={"dropdown"} values={course} />
           <Form_Field field_name={"Additional Certifications for Exemptions"} type={"dropdown"} values={certifications} />
         </Stack>
-        <Link /*href="/graduation-progress-tracker"*/>
+        <Link>
           <Main_Button
             value="CREATE ACCOUNT"
             type="signup"
-            onClickAction={async () => {
-              try {
-                console.log(registerEmail);
-                console.log(registerPassword);
-                const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
-                console.log(user);
-              } catch (error) {
-                console.log(error.message);
-              }
-            }}
+            onClickAction={Register}
           />
         </Link>
       </Stack>
