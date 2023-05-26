@@ -45,13 +45,6 @@ const Form = () => {
             console.log("live email update: " + loginEmail);
           }}
         />
-        <input
-          placeholder="Email"
-          onChange = {(event) => {
-            setLoginEmail(event.target.value);
-            console.log("email update: " + loginEmail);
-          }}
-        />
         <Form_Field
           field_name={"Password"}
           type={"password"}
@@ -60,17 +53,10 @@ const Form = () => {
             console.log("live password update: " + loginPassword);
           }}
         />
-        <input
-          placeholder="Password"
-          onChange = {(event) => {
-            setLoginPassword(event.target.value);
-            console.log("password update: " + loginEmail);
-          }}
-        />
         <Link underline="none">
           <Typography variant="tag_thin" display="flex" justifyContent="flex-end">Forgot your password?</Typography>
         </Link>
-        <Link>
+        <Link /*href="/graduation-progress-tracker"*/>
           <Main_Button 
             value="LOG IN"
             type="login"
@@ -86,7 +72,6 @@ const Form = () => {
             }}
           />
         </Link>
-        <button onClick={login}>Log In</button>
       </Stack>
     </>
   )

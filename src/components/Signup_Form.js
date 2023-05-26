@@ -167,6 +167,12 @@ const Form = () => {
         <Stack gap="16px" width="400px">
           <Typography variant="logo" color="blue.main">nineNote</Typography>
           <Typography variant="h2">Sign Up</Typography>
+          <Stack direction="row" gap="4px" alignItems="center">
+          <Typography variant="tag_thin">Already have an account?</Typography>
+          <Link href="/" underline="none">
+            <Typography variant="tag_thin">Log in</Typography>
+          </Link>
+        </Stack>
           <Form_Field
             field_name={"Email Address"}
             type={"email"}
@@ -175,13 +181,6 @@ const Form = () => {
               console.log("live email update: " + registerEmail);
             }}
           />
-          <input
-          placeholder="Set email"
-          onChange = {(event) => {
-            setRegisterEmail(event.target.value);
-            console.log("live email update: " + registerEmail);
-          }}
-        />
           <Form_Field
             field_name={"Password"}
             type={"password"}
@@ -190,18 +189,11 @@ const Form = () => {
               console.log("live password update: " + registerPassword);
             }}
           />
-          <input
-          placeholder="Set password"
-          onChange = {(event) => {
-            setRegisterPassword(event.target.value);
-            console.log("live password update: " + registerEmail);
-          }}
-        />
           <Form_Field field_name={"Matriculation Year"} type={"dropdown"} values={matriculation_year} />
           <Form_Field field_name={"Current/Prospective Course"} type={"dropdown"} values={course} />
           <Form_Field field_name={"Additional Certifications for Exemptions"} type={"dropdown"} values={certifications} />
         </Stack>
-        <Link href="/graduation-progress-tracker">
+        <Link /*href="/graduation-progress-tracker"*/>
           <Main_Button
             value="CREATE ACCOUNT"
             type="signup"
@@ -217,7 +209,6 @@ const Form = () => {
             }}
           />
         </Link>
-        <button onClick={register}>Sign Up</button>
       </Stack>
     </>
   )
