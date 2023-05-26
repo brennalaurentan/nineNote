@@ -1,6 +1,10 @@
 import Form_Field from './Form_Field';
 import Main_Button from './Main_Button';
+//import Signup_Button from './Signup_Button';
 import { Stack, Link, Typography } from '@mui/material';
+import { useState } from "react";
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from './firebase';
 
 const matriculation_year = [
   {
@@ -144,19 +148,76 @@ const certifications = [
 ];
 
 const Form = () => {
+
+  const [registerEmail, setRegisterEmail] = useState(null);
+  const [registerPassword, setRegisterPassword] = useState(null);
+
+  const register = async () => {
+    try {
+      const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
+      console.log(user);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <>
       <Stack gap="32px">
         <Stack gap="16px" width="400px">
           <Typography variant="logo" color="blue.main">nineNote</Typography>
           <Typography variant="h2">Sign Up</Typography>
-          <Form_Field field_name={"Email Address"} type={"normal"} />
-          <Form_Field field_name={"Password"} type={"password"} />
+          <Form_Field
+            field_name={"Email Address"}
+            type={"email"}
+            onChangeAction={(event) => {
+              setRegisterEmail(event.target.value);
+              console.log("live email update: " + registerEmail);
+            }}
+          />
+          <input
+          placeholder="Set email"
+          onChange = {(event) => {
+            setRegisterEmail(event.target.value);
+            console.log("live email update: " + registerEmail);
+          }}
+        />
+          <Form_Field
+            field_name={"Password"}
+            type={"password"}
+            onChangeAction={(event) => {
+              setRegisterPassword(event.target.value);
+              console.log("live password update: " + registerPassword);
+            }}
+          />
+          <input
+          placeholder="Set password"
+          onChange = {(event) => {
+            setRegisterPassword(event.target.value);
+            console.log("live password update: " + registerEmail);
+          }}
+        />
           <Form_Field field_name={"Matriculation Year"} type={"dropdown"} values={matriculation_year} />
           <Form_Field field_name={"Current/Prospective Course"} type={"dropdown"} values={course} />
           <Form_Field field_name={"Additional Certifications for Exemptions"} type={"dropdown"} values={certifications} />
         </Stack>
-        <Link href="/graduation-progress-tracker"><Main_Button value="CREATE ACCOUNT" /></Link>
+        <Link href="/graduation-progress-tracker">
+          <Main_Button
+            value="CREATE ACCOUNT"
+            type="signup"
+            onClickAction={async () => {
+              try {
+                console.log(registerEmail);
+                console.log(registerPassword);
+                const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
+                console.log(user);
+              } catch (error) {
+                console.log(error.message);
+              }
+            }}
+          />
+        </Link>
+        <button onClick={register}>Sign Up</button>
       </Stack>
     </>
   )

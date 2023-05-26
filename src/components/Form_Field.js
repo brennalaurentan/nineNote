@@ -3,13 +3,22 @@ import { TextField, MenuItem } from '@mui/material';
 const normal_field = (field_name) => <TextField
   id="outlined-search"
   label={field_name}
-  type="search" />
+  type="search"
+/>
 
-const password_field = (field_name) => <TextField
+const email_field = (field_name, onChangeAction) => < TextField
+  id="outlined-search"
+  label={field_name}
+  type="search"
+  onChange={onChangeAction}
+/>
+
+const password_field = (field_name, onChangeAction) => <TextField
   id="outlined-password-input"
   label={field_name}
   type="password"
   autoComplete="current-password"
+  onChange={onChangeAction}
 />
 
 const dropdown_field = (field_name, values) => <TextField
@@ -24,12 +33,14 @@ const dropdown_field = (field_name, values) => <TextField
   ))}
 </TextField>
 
-const Form_Field = ({ field_name, type, values }) => {
-  return type == "normal"
+const Form_Field = ({ field_name, type, values, onChangeAction }) => {
+  return type == "search"
     ? normal_field(field_name)
     : type == "password"
-      ? password_field(field_name)
-      : dropdown_field(field_name, values);
+      ? password_field(field_name, onChangeAction)
+      : type == "email"
+        ? email_field(field_name, onChangeAction)
+        : dropdown_field(field_name, values);
 }
 
 export default Form_Field
