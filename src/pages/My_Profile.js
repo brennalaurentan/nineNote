@@ -32,6 +32,7 @@ const My_Profile = () => {
       <Main_Navbar />
       <div>My Profile</div>
       <Typography variant="tag_thin">Current user: {user.email}</Typography>
+      <Typography>Testing</Typography>
     </>
   )
 }
