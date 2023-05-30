@@ -1,11 +1,12 @@
 import Form_Field from './Form_Field';
 import Main_Button from './Main_Button';
-//import Signup_Button from './Signup_Button';
 import { Stack, Link, Typography } from '@mui/material';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from './firebase';
 import { useNavigate } from 'react-router-dom';
+import { db } from './firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
 const matriculation_year = [
   {
@@ -152,6 +153,8 @@ const Form = () => {
 
   const [registerEmail, setRegisterEmail] = useState(null);
   const [registerPassword, setRegisterPassword] = useState(null);
+  const [matriculationYear, setMatriculationYear] = useState([]);
+  const matriculationYearCollectionRef = collection(db, "matriculation_year");
 
   const navigate = useNavigate();
   async function Register(){
@@ -165,6 +168,16 @@ const Form = () => {
       console.log(error.message);
     };
   }
+
+  useEffect(() => {
+    const getMatriculationYear = async () => {
+      const matriculationYear = await getDocs(matriculationYearCollectionRef);
+      setMatriculationYear(matriculationYear.docs.map((AY) => ({...AY.data(), value: AY.id, label: AY.year})));
+      console.log(matriculationYear);
+      console.log("test test");
+    }
+    getMatriculationYear()
+  }, [])
 
   return (
     <>
@@ -196,7 +209,6 @@ const Form = () => {
           />
           <Form_Field field_name={"Matriculation Year"} type={"dropdown"} values={matriculation_year} />
           <Form_Field field_name={"Current/Prospective Course"} type={"dropdown"} values={course} />
-          <Form_Field field_name={"Additional Certifications for Exemptions"} type={"dropdown"} values={certifications} />
         </Stack>
         <Link>
           <Main_Button
