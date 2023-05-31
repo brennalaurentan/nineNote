@@ -37,7 +37,7 @@ const Customised_Theme = createTheme({
     dark_gray: {
       main: '#5B5B5B',
     },
-    light_grey: {
+    light_gray: {
       main: '#EEEEEE',
     },
     off_white: {
