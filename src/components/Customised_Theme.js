@@ -19,6 +19,8 @@ const Customised_Theme = createTheme({
     },
     light_blue: {
       main: '#3BAED9',
+      light: '#ECF7FC',
+      dark: '#2681A3',
     },
     blue: {
       main: '#4F87DB',

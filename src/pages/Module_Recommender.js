@@ -11,9 +11,9 @@ const Module_Recommender = () => {
         <title>nineNote | Module Recommender</title>
       </Helmet>
       <Main_Navbar />
-      <Stack direction="row" gap="128px" padding="32px">
+      <Stack direction="row" padding="56px">
         <Tab_Panel />
-        <Box ml="384px">
+        <Box ml="320px">
           <Typography id={1.1} variant="h2">Y1 S1</Typography>
           <Typography>
             Lorem Ipsum is simply dummy text of the printing and typesetting industry.
