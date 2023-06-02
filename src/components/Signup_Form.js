@@ -169,14 +169,31 @@ const Form = () => {
     };
   }
 
+  /*
   useEffect(() => {
     const getMatriculationYear = async () => {
       const matriculationYear = await getDocs(matriculationYearCollectionRef);
       setMatriculationYear(matriculationYear.docs.map((AY) => ({...AY.data(), value: AY.id, label: AY.year})));
       console.log(matriculationYear);
+      console.log(matriculation_year);
       console.log("test test");
     }
     getMatriculationYear()
+  }, []);
+  */
+
+  const fetchPost = async() => {
+    await getDocs(collection(db, "matriculationYear"))
+        .then((querySnapshot) => {
+          const newData = querySnapshot.docs
+            .map((doc) => ({...doc.data(), value:doc.id, label:doc.year}));
+            setMatriculationYear(newData);
+            console.log(matriculationYear, newData);
+          })
+  };
+  
+  useEffect(() => {
+    fetchPost();
   }, [])
 
   return (
@@ -207,7 +224,7 @@ const Form = () => {
               console.log("live password update: " + registerPassword);
             }}
           />
-          <Form_Field field_name={"Matriculation Year"} type={"dropdown"} values={matriculation_year} />
+          <Form_Field field_name={"Matriculation Year"} type={"dropdown"} values={matriculationYear} />
           <Form_Field field_name={"Current/Prospective Course"} type={"dropdown"} values={course} />
         </Stack>
         <Link>
