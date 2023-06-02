@@ -25,6 +25,7 @@ const Customised_Theme = createTheme({
     blue: {
       main: '#4F87DB',
       light: '#A2BEE7',
+      dark: '#2959A0',
       contrastText: '#FFF',
     },
     purple: {

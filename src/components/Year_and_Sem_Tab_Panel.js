@@ -2,7 +2,7 @@ import Tab_Item from './Tab_Item';
 import { Box, Typography, Stack } from '@mui/material';
 import { useState } from "react";
 
-const Tab_Panel = () => {
+const Year_and_Sem_Tab_Panel = () => {
     const [selectedIndex, setSelectedIndex] = useState(1.1);
 
     const handleListItemClick = (event, index) => {
@@ -73,4 +73,4 @@ const Tab_Panel = () => {
     );
 }
 
-export default Tab_Panel
+export default Year_and_Sem_Tab_Panel

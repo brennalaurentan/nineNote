@@ -2,7 +2,7 @@ import { Card, CardContent, Stack, Typography } from '@mui/material';
 
 const Module_Resource_Card = () => {
     return (
-        <Card elevation={0} sx={{ marginBottom: "10px", padding: "10px", width: "900px", bgcolor: "light_blue.light", borderRadius: "15px" }}>
+        <Card elevation={0} sx={{ marginBottom: "10px", padding: "30px", width: "900px", bgcolor: "light_blue.light", borderRadius: "15px" }}>
             <CardContent>
                 <Stack gap="32px">
                     <Stack gap="8px">

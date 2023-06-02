@@ -1,7 +1,7 @@
 import '../index.css';
 import { Helmet } from 'react-helmet';
 import Main_Navbar from '../components/Main_Navbar';
-import Tab_Panel from '../components/Tab_Panel';
+import Year_and_Sem_Tab_Panel from '../components/Year_and_Sem_Tab_Panel';
 import { Typography, Stack, Box } from '@mui/material';
 
 const Module_Recommender = () => {
@@ -12,8 +12,8 @@ const Module_Recommender = () => {
       </Helmet>
       <Main_Navbar />
       <Stack direction="row" padding="56px">
-        <Tab_Panel />
-        <Box ml="320px">
+        <Year_and_Sem_Tab_Panel />
+        <Box ml="512px">
           <Typography id={1.1} variant="h2">Y1 S1</Typography>
           <Typography>
             Lorem Ipsum is simply dummy text of the printing and typesetting industry.
