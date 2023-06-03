@@ -21,10 +21,12 @@ const password_field = (field_name, onChangeAction) => <TextField
   onChange={onChangeAction}
 />
 
-const dropdown_field = (field_name, values) => <TextField
+const dropdown_field = (field_name, values) => 
+<TextField
   id="outlined-select-currency"
   select
   label={field_name}
+  defaultValue={''}
 >
   {values.map((option) => (
     <MenuItem key={option.value} value={option.value}>

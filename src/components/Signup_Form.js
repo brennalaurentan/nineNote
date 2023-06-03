@@ -6,9 +6,9 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from './firebase';
 import { useNavigate } from 'react-router-dom';
 import { db } from './firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { QuerySnapshot, collection, doc, getDoc, getDocs, docChanges } from 'firebase/firestore';
 
-const matriculation_year = [
+const static_matriculation_year = [
   {
     value: '1',
     label: 'AY23/24',
@@ -39,7 +39,7 @@ const matriculation_year = [
   },
 ];
 
-const course = [
+const static_course = [
   {
     value: 'CHS1',
     label: 'Data Science and Economics',
@@ -138,7 +138,7 @@ const course = [
   },
 ];
 
-const certifications = [
+const static_certifications = [
   {
     value: '1',
     label: 'Polytechnic Diploma and equivalent',
@@ -155,6 +155,7 @@ const Form = () => {
   const [registerPassword, setRegisterPassword] = useState(null);
   const [matriculationYear, setMatriculationYear] = useState([]);
   const matriculationYearCollectionRef = collection(db, "matriculation_year");
+  let matriculationYearArray = [];
 
   const navigate = useNavigate();
   async function Register(){
@@ -169,32 +170,26 @@ const Form = () => {
     };
   }
 
-  /*
   useEffect(() => {
     const getMatriculationYear = async () => {
-      const matriculationYear = await getDocs(matriculationYearCollectionRef);
-      setMatriculationYear(matriculationYear.docs.map((AY) => ({...AY.data(), value: AY.id, label: AY.year})));
-      console.log(matriculationYear);
-      console.log(matriculation_year);
+      let querySnapshot = await getDocs(collection(db, "matriculation_year"));
+      // almost there but just can't seem to retrieve the 'year' field from firebase
+      // need to somehow retrieve childDoc.year where year is a field we created on firebase
+      querySnapshot.forEach(childDoc => {
+        const arrayCount = matriculationYearArray.length;
+        let newElement = {
+          "value": arrayCount.toString(),
+          "label": arrayCount.toString()
+        }
+        matriculationYearArray.push(newElement);
+      });
+      console.log(matriculationYearArray);
+      console.log(static_matriculation_year);
       console.log("test test");
+      return querySnapshot.docs.map(doc => doc.data());
     }
     getMatriculationYear()
   }, []);
-  */
-
-  const fetchPost = async() => {
-    await getDocs(collection(db, "matriculationYear"))
-        .then((querySnapshot) => {
-          const newData = querySnapshot.docs
-            .map((doc) => ({...doc.data(), value:doc.id, label:doc.year}));
-            setMatriculationYear(newData);
-            console.log(matriculationYear, newData);
-          })
-  };
-  
-  useEffect(() => {
-    fetchPost();
-  }, [])
 
   return (
     <>
@@ -224,8 +219,8 @@ const Form = () => {
               console.log("live password update: " + registerPassword);
             }}
           />
-          <Form_Field field_name={"Matriculation Year"} type={"dropdown"} values={matriculationYear} />
-          <Form_Field field_name={"Current/Prospective Course"} type={"dropdown"} values={course} />
+          <Form_Field field_name={"Matriculation Year"} type={"dropdown"} values={matriculationYearArray} />
+          <Form_Field field_name={"Current/Prospective Course"} type={"dropdown"} values={static_course} />
         </Stack>
         <Link>
           <Main_Button
