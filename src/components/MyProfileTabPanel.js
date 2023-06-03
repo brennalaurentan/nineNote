@@ -1,8 +1,8 @@
-import Tab_Item from './Tab_Item';
+import TabItem from './TabItem';
 import { Box, Typography, Stack } from '@mui/material';
 import { useState } from "react";
 
-const My_Profile_Tab_Panel = () => {
+const MyProfileTabPanel = () => {
     const [selectedIndex, setSelectedIndex] = useState(1);
 
     const handleListItemClick = (event, index) => {
@@ -19,25 +19,25 @@ const My_Profile_Tab_Panel = () => {
             <Stack gap="16px">
                 <Typography variant="h3">My Profile</Typography>
                 <Box>
-                    <Tab_Item
+                    <TabItem
                         id={1}
                         selected_id={selectedIndex}
                         value={"Basic Information"}
                         onClickAction={(event) => handleListItemClick(event, 1)}
                     />
-                    <Tab_Item
+                    <TabItem
                         id={2}
                         selected_id={selectedIndex}
                         value={"Module Exemptions"}
                         onClickAction={(event) => handleListItemClick(event, 2)}
                     />
-                    <Tab_Item
+                    <TabItem
                         id={3}
                         selected_id={selectedIndex}
                         value={"Saved Module Combinations"}
                         onClickAction={(event) => handleListItemClick(event, 3)}
                     />
-                    <Tab_Item
+                    <TabItem
                         id={4}
                         selected_id={selectedIndex}
                         value={"Saved Module Resources"}
@@ -49,4 +49,4 @@ const My_Profile_Tab_Panel = () => {
     );
 }
 
-export default My_Profile_Tab_Panel
+export default MyProfileTabPanel

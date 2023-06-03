@@ -4,7 +4,7 @@ import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Main_Navbar = () => {
+const MainNavbar = () => {
 
   const [user, setUser] = useState({});
   onAuthStateChanged(auth, (currentUser) => {
@@ -43,4 +43,4 @@ const Main_Navbar = () => {
   )
 }
 
-export default Main_Navbar
+export default MainNavbar

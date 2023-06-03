@@ -1,5 +1,5 @@
-import Form_Field from './Form_Field';
-import Main_Button from './Main_Button';
+import FormField from './FormField';
+import MainButton from './MainButton';
 import { Stack, Link, Typography } from '@mui/material';
 import { useEffect, useState } from "react";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -138,63 +138,83 @@ const course = [
   },
 ];
 
-const Basic_Info_Form = () => {
+const certifications = [
+  {
+    value: '1',
+    label: 'Polytechnic Diploma and equivalent',
+  },
+  {
+    value: '2',
+    label: 'Diploma Plus and equivalent',
+  },
+];
 
-  // const [registerEmail, setRegisterEmail] = useState(null);
-  // const [registerPassword, setRegisterPassword] = useState(null);
-  // const [matriculationYear, setMatriculationYear] = useState([]);
-  // const matriculationYearCollectionRef = collection(db, "matriculation_year");
+const SignupForm = () => {
 
-  // const navigate = useNavigate();
-  // async function Register() {
-  //   try {
-  //     console.log(registerEmail);
-  //     console.log(registerPassword);
-  //     const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
-  //     navigate('/graduation-progress-tracker');
-  //     console.log(user);
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   };
-  // }
+  const [registerEmail, setRegisterEmail] = useState(null);
+  const [registerPassword, setRegisterPassword] = useState(null);
+  const [matriculationYear, setMatriculationYear] = useState([]);
+  const matriculationYearCollectionRef = collection(db, "matriculation_year");
 
-  // useEffect(() => {
-  //   const getMatriculationYear = async () => {
-  //     const matriculationYear = await getDocs(matriculationYearCollectionRef);
-  //     setMatriculationYear(matriculationYear.docs.map((AY) => ({ ...AY.data(), value: AY.id, label: AY.year })));
-  //     console.log(matriculationYear);
-  //     console.log("test test");
-  //   }
-  //   getMatriculationYear()
-  // }, [])
+  const navigate = useNavigate();
+  async function Register(){
+    try {
+      console.log(registerEmail);
+      console.log(registerPassword);
+      const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
+      navigate('/graduation-progress-tracker');
+      console.log(user);
+    } catch (error) {
+      console.log(error.message);
+    };
+  }
+
+  useEffect(() => {
+    const getMatriculationYear = async () => {
+      const matriculationYear = await getDocs(matriculationYearCollectionRef);
+      setMatriculationYear(matriculationYear.docs.map((AY) => ({...AY.data(), value: AY.id, label: AY.year})));
+      console.log(matriculationYear);
+      console.log("test test");
+    }
+    getMatriculationYear()
+  }, [])
 
   return (
     <>
       <Stack gap="32px">
         <Stack gap="16px" width="400px">
-          <Form_Field
+          <Typography variant="logo" color="blue.main">nineNote</Typography>
+          <Typography variant="h2">Sign Up</Typography>
+          <Stack direction="row" gap="4px" alignItems="center">
+          <Typography variant="tag_thin">Already have an account?</Typography>
+          <Link href="/" underline="none">
+            <Typography variant="tag_thin">Log in</Typography>
+          </Link>
+        </Stack>
+          <FormField
             field_name={"Email Address"}
             type={"email"}
-            // onChangeAction={(event) => {
-            //   setRegisterEmail(event.target.value);
-            //   console.log("live email update: " + registerEmail);
-            // }}
+            onChangeAction={(event) => {
+              setRegisterEmail(event.target.value);
+              console.log("live email update: " + registerEmail);
+            }}
           />
-          <Form_Field
+          <FormField
             field_name={"Password"}
             type={"password"}
-            // onChangeAction={(event) => {
-            //   setRegisterPassword(event.target.value);
-            //   console.log("live password update: " + registerPassword);
-            // }}
+            onChangeAction={(event) => {
+              setRegisterPassword(event.target.value);
+              console.log("live password update: " + registerPassword);
+            }}
           />
-          <Form_Field field_name={"Matriculation Year"} type={"dropdown"} values={matriculation_year} />
-          <Form_Field field_name={"Current/Prospective Course"} type={"dropdown"} values={course} />
+          <FormField field_name={"Matriculation Year"} type={"dropdown"} values={matriculation_year} />
+          <FormField field_name={"Current/Prospective Course"} type={"dropdown"} values={course} />
         </Stack>
         <Link>
-          <Main_Button
-            value="SAVE CHANGES"
-            // onClickAction={Register}
+          <MainButton
+            value="CREATE ACCOUNT"
+            type="signup"
+            onClickAction={Register}
           />
         </Link>
       </Stack>
@@ -202,4 +222,4 @@ const Basic_Info_Form = () => {
   )
 }
 
-export default Basic_Info_Form
+export default SignupForm

@@ -1,12 +1,12 @@
-import Form_Field from './Form_Field';
-import Main_Button from './Main_Button';
+import FormField from './FormField';
+import MainButton from './MainButton';
 import { Stack, Link, Typography } from '@mui/material';
 import { useState } from "react";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from './firebase';
 import { useNavigate } from 'react-router-dom';
 
-const Form = () => {
+const LoginForm = () => {
 
   const [loginEmail, setLoginEmail] = useState(null);
   const [loginPassword, setLoginPassword] = useState(null);
@@ -39,7 +39,7 @@ const Form = () => {
             <Typography variant="tag_thin">Create an account</Typography>
           </Link>
         </Stack>
-        <Form_Field
+        <FormField
           field_name={"Email Address"}
           type={"email"}
           onChangeAction={(event) => {
@@ -47,7 +47,7 @@ const Form = () => {
             console.log("live email update: " + loginEmail);
           }}
         />
-        <Form_Field
+        <FormField
           field_name={"Password"}
           type={"password"}
           onChangeAction={(event) => {
@@ -59,7 +59,7 @@ const Form = () => {
           <Typography variant="tag_thin" display="flex" justifyContent="flex-end">Forgot your password?</Typography>
         </Link>
         <Link>
-          <Main_Button 
+          <MainButton 
             value="LOG IN"
             type="login"
             onClickAction={Login}
@@ -70,4 +70,4 @@ const Form = () => {
   )
 }
 
-export default Form
+export default LoginForm

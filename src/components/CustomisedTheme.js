@@ -1,6 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 
-const Customised_Theme = createTheme({
+const CustomisedTheme = createTheme({
   palette: {
     red: {
       main: '#DB4453',
@@ -95,4 +95,4 @@ const Customised_Theme = createTheme({
   },
 });
 
-export default Customised_Theme
+export default CustomisedTheme

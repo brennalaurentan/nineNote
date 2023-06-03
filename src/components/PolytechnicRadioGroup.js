@@ -1,6 +1,6 @@
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Typography } from '@mui/material';
 
-const Polytechnic_Radio_Group = () => {
+const PolytechnicRadioGroup = () => {
     return (
         <FormControl>
             <FormLabel>
@@ -18,4 +18,4 @@ const Polytechnic_Radio_Group = () => {
     )
 }
 
-export default Polytechnic_Radio_Group
+export default PolytechnicRadioGroup

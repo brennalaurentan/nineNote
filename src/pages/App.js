@@ -1,28 +1,28 @@
 import '../index.css';
 import '../styles/App.css';
-import Customised_Theme from '../components/Customised_Theme'
+import CustomisedTheme from '../components/CustomisedTheme'
 import { Route, Routes } from "react-router-dom";
 import { ThemeProvider } from '@mui/material/styles';
 import Login from './Login';
 import Signup from './Signup';
-import Graduation_Progress_Tracker from './Graduation_Progress_Tracker';
-import Module_Recommender from './Module_Recommender';
-import Module_Resource_Directory from './Module_Resource_Directory';
-import My_Profile from './My_Profile';
+import GraduationProgressTracker from './GraduationProgressTracker';
+import ModuleRecommender from './ModuleRecommender';
+import ModuleResourceDirectory from './ModuleResourceDirectory';
+import MyProfile from './MyProfile';
 
 function App() {
   // const ref = firebase.firestore().collection("users");
 
   return (
     <>
-      <ThemeProvider theme={Customised_Theme}>
+      <ThemeProvider theme={CustomisedTheme}>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/graduation-progress-tracker" element={<Graduation_Progress_Tracker />} />
-          <Route path="/module-recommender" element={<Module_Recommender />} />
-          <Route path="/module-resource-directory" element={<Module_Resource_Directory />} />
-          <Route path="/my-profile" element={<My_Profile />} />
+          <Route path="/graduation-progress-tracker" element={<GraduationProgressTracker />} />
+          <Route path="/module-recommender" element={<ModuleRecommender />} />
+          <Route path="/module-resource-directory" element={<ModuleResourceDirectory />} />
+          <Route path="/my-profile" element={<MyProfile />} />
         </Routes>
       </ThemeProvider>
     </>

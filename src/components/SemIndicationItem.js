@@ -1,6 +1,6 @@
 import { Typography, Box } from "@mui/material"
 
-const Sem_Indication_Item = ({ pos, value, active }) => {
+const SemIndicationItem = ({ pos, value, active }) => {
     return (
         <Box
             padding="8px"
@@ -36,4 +36,4 @@ const Sem_Indication_Item = ({ pos, value, active }) => {
     )
 }
 
-export default Sem_Indication_Item
+export default SemIndicationItem

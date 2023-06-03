@@ -33,7 +33,7 @@ const dropdown_field = (field_name, values) => <TextField
   ))}
 </TextField>
 
-const Form_Field = ({ field_name, type, values, onChangeAction }) => {
+const FormField = ({ field_name, type, values, onChangeAction }) => {
   return type == "search"
     ? normal_field(field_name)
     : type == "password"
@@ -43,4 +43,4 @@ const Form_Field = ({ field_name, type, values, onChangeAction }) => {
         : dropdown_field(field_name, values);
 }
 
-export default Form_Field
+export default FormField

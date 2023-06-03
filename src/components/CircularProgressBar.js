@@ -1,6 +1,6 @@
-import { CircularProgress, circularProgressClasses, Box, Typography } from '@mui/material';
+import { CircularProgress, circularProgressClasses, Box } from '@mui/material';
 
-const Circular_PB = () => {
+const CircularProgressBar = () => {
     return (
         <Box sx={{ position: 'relative' }}>
             <CircularProgress
@@ -31,4 +31,4 @@ const Circular_PB = () => {
     )
 }
 
-export default Circular_PB
+export default CircularProgressBar

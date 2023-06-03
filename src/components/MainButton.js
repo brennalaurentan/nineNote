@@ -8,7 +8,7 @@ const Normal_Button = ({ value }) => {
   )
 }
 
-const OnClickAction_Button = ({ value, onClickAction }) => {
+const Main_Button = ({ value, onClickAction }) => {
   return (
     <Button variant="contained" color="blue" onClick={onClickAction}>
       {value}
@@ -26,4 +26,4 @@ const Main_Button = ({ value, type, onClickAction}) => {
 
 //export default Main_Button
 
-export default OnClickAction_Button
+export default Main_Button
