@@ -14,7 +14,6 @@ const Circular_PB = () => {
             />
             <CircularProgress
                 variant="determinate"
-                disableShrink
                 sx={{
                     color: (theme) => theme.palette.orange.main,
                     position: 'absolute',
