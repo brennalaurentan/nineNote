@@ -3,7 +3,7 @@ import { Card, CardContent, Typography, Grid, Stack } from '@mui/material';
 const Module_Pill = () => {
     return (
         <>
-            <Card sx={{ width: "300px", height: "70px", bgcolor: "blue.light", borderRadius: "15px" }}>
+            <Card sx={{ width: "300px", height: "70px", bgcolor: "light_blue.main", borderRadius: "15px" }}>
                 <CardContent>
                     <Stack direction="row" alignItems="center" display="flex" justifyContent="space-between">
                         <Typography variant="body_bold">Module Code</Typography>

@@ -40,7 +40,7 @@ const My_Profile = () => {
         <Stack ml="512px" gap="64px">
           <Stack direction="row" gap="64px" alignItems="center">
             <Avatar sx={{ bgcolor: "blue.light", textDecoration: "none", width: 150, height: 150 }}>
-              <EditIcon />
+              <EditIcon sx={{ color: "blue.main" }}/>
             </Avatar>
             <Box>
               <Typography variant="body_bold" color="blue.main">NAME</Typography>

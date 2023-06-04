@@ -225,7 +225,7 @@ const Form = () => {
         <Link>
           <Main_Button
             value="CREATE ACCOUNT"
-            type="signup"
+            type="contained"
             onClickAction={Register}
           />
         </Link>

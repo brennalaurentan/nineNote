@@ -61,7 +61,7 @@ const Form = () => {
         <Link>
           <Main_Button 
             value="LOG IN"
-            type="login"
+            type="contained"
             onClickAction={Login}
           />
         </Link>
