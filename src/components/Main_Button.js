@@ -1,15 +1,15 @@
 import { Button } from '@mui/material';
 
-const Text_Button = ( value ) => 
-  <Button variant="text">{value}</Button>
+const Text_Button = ( main_color, value ) => 
+  <Button variant="text" sx={{ color: main_color, fontWeight: "bold" }}>{value}</Button>
 
-const Contained_Button = ( value, onClickAction ) =>
-  <Button variant="contained" onClick={onClickAction}>{value}</Button>
+const Contained_Button = ( main_color, value, onClickAction ) =>
+  <Button variant="contained" sx={{ bgcolor: main_color, fontWeight: "bold" }} onClick={onClickAction}>{value}</Button>
 
-const Main_Button = ({ type, value, onClickAction }) => {
+const Main_Button = ({ type, main_color, value, onClickAction }) => {
   return type === "contained"
-    ? Contained_Button(value, onClickAction)
-    : Text_Button(value);
+    ? Contained_Button(main_color, value, onClickAction)
+    : Text_Button(main_color, value);
 }
 
 export default Main_Button

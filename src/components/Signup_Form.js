@@ -226,8 +226,9 @@ const Form = () => {
         </Stack>
         <Link>
           <Main_Button
-            value="CREATE ACCOUNT"
             type="contained"
+            main_color="blue.main"
+            value="CREATE ACCOUNT"
             onClickAction={Register}
           />
         </Link>

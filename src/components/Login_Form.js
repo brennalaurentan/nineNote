@@ -12,7 +12,7 @@ const Form = () => {
   const [loginPassword, setLoginPassword] = useState(null);
 
   const navigate = useNavigate();
-  async function Login(){
+  async function Login() {
     try {
       console.log(loginEmail);
       console.log(loginPassword);
@@ -59,9 +59,10 @@ const Form = () => {
           <Typography variant="tag_thin" display="flex" justifyContent="flex-end">Forgot your password?</Typography>
         </Link>
         <Link>
-          <Main_Button 
-            value="LOG IN"
+          <Main_Button
             type="contained"
+            main_color="blue.main"
+            value="LOG IN"
             onClickAction={Login}
           />
         </Link>
