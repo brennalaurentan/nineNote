@@ -26,6 +26,7 @@ const dropdown_field = (field_name, values) =>
   id="outlined-select-currency"
   select
   label={field_name}
+  type="dropdown"
   defaultValue={''}
 >
   {values.map((option) => (

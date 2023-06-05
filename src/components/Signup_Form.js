@@ -172,23 +172,25 @@ const Form = () => {
 
   useEffect(() => {
     const getMatriculationYear = async () => {
-      let querySnapshot = await getDocs(collection(db, "matriculation_year"));
+      const querySnapshot = await getDocs(collection(db, "matriculation_year"));
       // almost there but just can't seem to retrieve the 'year' field from firebase
       // need to somehow retrieve childDoc.year where year is a field we created on firebase
+      console.log("current matriculationYearArray: " + matriculationYearArray);
       querySnapshot.forEach(childDoc => {
         const arrayCount = matriculationYearArray.length;
         let newElement = {
           "value": arrayCount.toString(),
-          "label": arrayCount.toString()
+          "label": childDoc.data().year.toString()
         }
+        console.log("pushing label: " + childDoc.data().year);
         matriculationYearArray.push(newElement);
+        console.log("count after pushing: " + matriculationYearArray.length);
       });
       console.log(matriculationYearArray);
       console.log(static_matriculation_year);
       console.log("test test");
-      return querySnapshot.docs.map(doc => doc.data());
-    }
-    getMatriculationYear()
+    };
+    getMatriculationYear();
   }, []);
 
   return (
