@@ -1,26 +1,26 @@
 import '../index.css';
 import { Helmet } from 'react-helmet';
-import Main_Navbar from '../components/Main_Navbar';
-import Module_List_Item from '../components/Module_List_Item';
-import Module_Resource_Card from '../components/Module_Resource_Card'
+import MainNavbar from '../components/MainNavbar';
+import ModuleListItem from '../components/ModuleListItem';
+import ModuleResourceCard from '../components/ModuleResourceCard'
 import { Stack, Typography } from '@mui/material';
 
-const Module_Resource_Directory = () => {
+const ModuleResourceDirectory = () => {
   return (
     <>
       <Helmet>
         <title>nineNote | Module Resource Directory</title>
       </Helmet>
-      <Main_Navbar />
+      <MainNavbar />
       <Stack gap="16px" padding="56px">
         <Typography variant="h3">All Modules</Typography>
         <Stack direction="row" gap="64px">
-          <Module_List_Item />
-          <Module_Resource_Card />
+          <ModuleListItem />
+          <ModuleResourceCard />
         </Stack>
       </Stack>
     </>
   )
 }
 
-export default Module_Resource_Directory
+export default ModuleResourceDirectory

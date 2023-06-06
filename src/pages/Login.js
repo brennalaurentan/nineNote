@@ -2,7 +2,7 @@ import '../index.css';
 import '../styles/Login.css';
 import { Helmet } from 'react-helmet';
 import { Stack, Grid } from '@mui/material';
-import Login_Form from "../components/Login_Form";
+import LoginForm from "../components/LoginForm";
 import login_image from '../graphics/login_image.png';
 
 const Login = () => {
@@ -20,7 +20,7 @@ const Login = () => {
         sx={{ minHeight: '100vh' }}
       >
         <Stack direction="row" gap="256px">
-          <Login_Form />
+          <LoginForm />
           <img src={login_image} alt="Logo" width="500px" />
         </Stack>
       </Grid>

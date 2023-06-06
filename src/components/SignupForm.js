@@ -1,5 +1,5 @@
-import Form_Field from './Form_Field';
-import Main_Button from './Main_Button';
+import FormField from './FormField';
+import MainButton from './MainButton';
 import { Stack, Link, Typography } from '@mui/material';
 import { useEffect, useState } from "react";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -149,7 +149,7 @@ const static_certifications = [
   },
 ];
 
-const Form = () => {
+const SignupForm = () => {
 
   const [registerEmail, setRegisterEmail] = useState(null);
   const [registerPassword, setRegisterPassword] = useState(null);
@@ -205,7 +205,7 @@ const Form = () => {
             <Typography variant="tag_thin">Log in</Typography>
           </Link>
         </Stack>
-          <Form_Field
+          <FormField
             field_name={"Email Address"}
             type={"email"}
             onChangeAction={(event) => {
@@ -213,7 +213,7 @@ const Form = () => {
               console.log("live email update: " + registerEmail);
             }}
           />
-          <Form_Field
+          <FormField
             field_name={"Password"}
             type={"password"}
             onChangeAction={(event) => {
@@ -221,11 +221,11 @@ const Form = () => {
               console.log("live password update: " + registerPassword);
             }}
           />
-          <Form_Field field_name={"Matriculation Year"} type={"dropdown"} values={matriculationYearArray} />
-          <Form_Field field_name={"Current/Prospective Course"} type={"dropdown"} values={static_course} />
+          <FormField field_name={"Matriculation Year"} type={"dropdown"} values={matriculationYearArray} />
+          <FormField field_name={"Current/Prospective Course"} type={"dropdown"} values={static_course} />
         </Stack>
         <Link>
-          <Main_Button
+          <MainButton
             type="contained"
             main_color="blue.main"
             value="CREATE ACCOUNT"
@@ -237,4 +237,4 @@ const Form = () => {
   )
 }
 
-export default Form
+export default SignupForm

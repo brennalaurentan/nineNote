@@ -1,8 +1,8 @@
 import { Typography, Stack, ListItemButton, ListItemIcon, ListItemText, Box } from '@mui/material';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
-import Sem_Indication from './Sem_Indication'
+import SemIndication from './SemIndication'
 
-const Module_List_Item = () => {
+const ModuleListItem = () => {
     return (
         <Box width="900px">
             <Stack gap="16px">
@@ -18,7 +18,7 @@ const Module_List_Item = () => {
                                         <Typography variant="body_bold">Module Code</Typography>
                                         <Typography variant="tag_bold" color="orange.main">X MCs</Typography>
                                     </Stack>
-                                    <Sem_Indication sem1={true} sem2={true} st1={false} st2={false} />
+                                    <SemIndication sem1={true} sem2={true} st1={false} st2={false} />
                                 </Stack>
                             </>
                         }
@@ -29,10 +29,9 @@ const Module_List_Item = () => {
                         }
                     />
                 </ListItemButton>
-                {/* <Sem_Indication sem1={true} sem2={true} st1={false} st2={false} /> */}
             </Stack>
         </Box>
     )
 }
 
-export default Module_List_Item
+export default ModuleListItem

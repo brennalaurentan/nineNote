@@ -1,18 +1,18 @@
 import '../index.css';
 import { Helmet } from 'react-helmet';
-import Main_Navbar from '../components/Main_Navbar';
-import Year_and_Sem_Tab_Panel from '../components/Year_and_Sem_Tab_Panel';
+import MainNavbar from '../components/MainNavbar';
+import YearAndSemTabPanel from '../components/YearAndSemTabPanel';
 import { Typography, Stack, Box } from '@mui/material';
 
-const Module_Recommender = () => {
+const ModuleRecommender = () => {
   return (
     <>
       <Helmet>
         <title>nineNote | Module Recommender</title>
       </Helmet>
-      <Main_Navbar />
+      <MainNavbar />
       <Stack direction="row" padding="56px">
-        <Year_and_Sem_Tab_Panel />
+        <YearAndSemTabPanel />
         <Box ml="512px">
           <Typography id={1.1} variant="h2">Y1 S1</Typography>
           <Typography>
@@ -216,4 +216,4 @@ const Module_Recommender = () => {
   )
 }
 
-export default Module_Recommender
+export default ModuleRecommender

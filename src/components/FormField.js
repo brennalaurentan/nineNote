@@ -36,14 +36,14 @@ const dropdown_field = (field_name, values) =>
   ))}
 </TextField>
 
-const Form_Field = ({ field_name, type, values, onChangeAction }) => {
-  return type == "search"
+const FormField = ({ field_name, type, values, onChangeAction }) => {
+  return type === "search"
     ? normal_field(field_name)
-    : type == "password"
+    : type === "password"
       ? password_field(field_name, onChangeAction)
-      : type == "email"
+      : type === "email"
         ? email_field(field_name, onChangeAction)
         : dropdown_field(field_name, values);
 }
 
-export default Form_Field
+export default FormField

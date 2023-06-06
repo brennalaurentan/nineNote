@@ -1,7 +1,7 @@
 import { ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
 import BookIcon from '@mui/icons-material/Book';
 
-const Tab_Item = ({id, selected_id, value, onClickAction}) => {
+const TabItem = ({id, selected_id, value, onClickAction}) => {
     return (
         <ListItemButton selected={selected_id === id} onClick={onClickAction}>
             <ListItemIcon>
@@ -28,4 +28,4 @@ const Tab_Item = ({id, selected_id, value, onClickAction}) => {
     )
 }
 
-export default Tab_Item
+export default TabItem

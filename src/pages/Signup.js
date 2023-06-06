@@ -2,7 +2,7 @@ import '../index.css';
 import '../styles/Signup.css';
 import { Helmet } from 'react-helmet';
 import { Stack, Grid } from '@mui/material';
-import Signup_Form from "../components/Signup_Form"
+import SignupForm from "../components/SignupForm"
 import signup_image from '../graphics/signup_image.png';
 
 const Signup = () => {
@@ -20,7 +20,7 @@ const Signup = () => {
         sx={{ minHeight: '100vh' }}
       >
         <Stack direction="row" gap="256px">
-          <Signup_Form />
+          <SignupForm />
           <img src={signup_image} alt="Logo" width="500px" />
         </Stack>
       </Grid>

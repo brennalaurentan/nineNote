@@ -1,6 +1,6 @@
-import { Card, CardContent, Typography, Grid, Stack } from '@mui/material';
+import { Card, CardContent, Typography, Stack } from '@mui/material';
 
-const Module_Pill = () => {
+const ModulePill = () => {
     return (
         <>
             <Card sx={{ width: "300px", height: "70px", bgcolor: "light_blue.main", borderRadius: "15px" }}>
@@ -16,4 +16,4 @@ const Module_Pill = () => {
     )
 }
 
-export default Module_Pill
+export default ModulePill

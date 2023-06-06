@@ -1,6 +1,6 @@
 import { Card, CardContent, Stack, Typography } from '@mui/material';
 
-const Module_Resource_Card = () => {
+const ModuleResourceCard = () => {
     return (
         <Card elevation={0} sx={{ marginBottom: "10px", padding: "30px", width: "900px", bgcolor: "light_blue.light", borderRadius: "15px" }}>
             <CardContent>
@@ -25,4 +25,4 @@ const Module_Resource_Card = () => {
     )
 }
 
-export default Module_Resource_Card
+export default ModuleResourceCard
