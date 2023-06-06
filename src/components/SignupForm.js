@@ -156,6 +156,7 @@ const SignupForm = () => {
   const [matriculationYear, setMatriculationYear] = useState([]);
   const matriculationYearCollectionRef = collection(db, "matriculation_year");
   let matriculationYearArray = [];
+  let courseArray = [];
 
   const navigate = useNavigate();
   async function Register(){
@@ -173,25 +174,49 @@ const SignupForm = () => {
   useEffect(() => {
     const getMatriculationYear = async () => {
       const querySnapshot = await getDocs(collection(db, "matriculation_year"));
-      // almost there but just can't seem to retrieve the 'year' field from firebase
-      // need to somehow retrieve childDoc.year where year is a field we created on firebase
       console.log("current matriculationYearArray: " + matriculationYearArray);
       querySnapshot.forEach(childDoc => {
-        const arrayCount = matriculationYearArray.length;
-        let newElement = {
-          "value": arrayCount.toString(),
-          "label": childDoc.data().year.toString()
+        const matriculationArrayCount = matriculationYearArray.length;
+        console.log(querySnapshot.size);
+        if (matriculationArrayCount < querySnapshot.size) {
+          let newElement = {
+            "value": matriculationArrayCount.toString(),
+            "label": childDoc.data().year.toString()
+          }
+          console.log("pushing label: " + childDoc.data().year);
+          matriculationYearArray.push(newElement);
+          console.log("count after pushing: " + matriculationYearArray.length);
         }
-        console.log("pushing label: " + childDoc.data().year);
-        matriculationYearArray.push(newElement);
-        console.log("count after pushing: " + matriculationYearArray.length);
       });
       console.log(matriculationYearArray);
       console.log(static_matriculation_year);
-      console.log("test test");
     };
     getMatriculationYear();
-  }, []);
+  });
+
+  useEffect(() => {
+    const getCourse = async () => {
+      const querySnapshot = await getDocs(collection(db, "courseLibrary"));
+      querySnapshot.forEach(childDoc => {
+        console.log(childDoc.data());
+        /*
+        childDoc.data().collection('courses').forEach(childChildDoc => {
+          console.log("current childChildDoc: " + childChildDoc);
+          let newElement = {
+            "name": childChildDoc.data().name
+          }
+          console.log("pushing label: " + childDoc.data().name);
+          courseArray.push(newElement);
+        })
+        console.log("count after pushing: " + courseArray.length);
+        */
+      });
+      console.log(courseArray);
+      console.log(static_course);
+      
+    };
+    getCourse();
+  });
 
   return (
     <>
