@@ -15,7 +15,7 @@ const ModuleExemptions = () => {
                         and add them to your module exemptions!"/>
                 </Stack>
                 <Box display="flex" flexWrap="wrap" gap="30px">
-                    <ModulePill />
+                    <ModulePill code={"Module Code"} name={"Module Name"} mc={"4"}/>
                 </Box>
             </Box>
         </Stack>
