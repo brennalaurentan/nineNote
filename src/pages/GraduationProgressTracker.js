@@ -1,10 +1,15 @@
+// styles
 import '../index.css';
+
+// components / pages / images
+import MainNavbar from '../components/common/MainNavbar';
+import CreditsSelected from '../components/graduation_progress_tracker/CreditsSelected';
+import GraduationStatus from '../components/graduation_progress_tracker/GraduationStatus';
+import ModuleExemptions from '../components/graduation_progress_tracker/ModuleExemptions';
+import ModulePlanner from '../components/graduation_progress_tracker/ModulePlanner';
+
+// tools
 import { Helmet } from 'react-helmet';
-import MainNavbar from '../components/MainNavbar';
-import CreditsSelected from '../components/CreditsSelected';
-import GraduationStatus from '../components/GraduationStatus';
-import ModuleExemptions from '../components/ModuleExemptions';
-import ModulePlanner from '../components/ModulePlanner';
 import { Stack } from '@mui/material';
 
 const GraduationProgressTracker = () => {

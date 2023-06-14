@@ -1,3 +1,8 @@
+// styles
+
+// components / pages / images
+
+// tools
 import { Typography, Box } from "@mui/material"
 
 const SemIndicationItem = ({ pos, value, active }) => {

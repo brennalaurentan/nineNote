@@ -1,6 +1,11 @@
+// styles
+
+// components / pages / images
+import SemIndication from './SemIndication'
+
+// tools
 import { Typography, Stack, ListItemButton, ListItemIcon, ListItemText, Box } from '@mui/material';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
-import SemIndication from './SemIndication'
 
 const ModuleListItem = () => {
     return (

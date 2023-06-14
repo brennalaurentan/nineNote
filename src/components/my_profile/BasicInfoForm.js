@@ -1,5 +1,10 @@
-import FormField from './FormField';
-import MainButton from './MainButton';
+// styles
+
+// components / pages / images
+import FormField from '../common/FormField';
+import MainButton from '../common/MainButton';
+
+// tools
 import { Stack, Link } from '@mui/material';
 
 const matriculation_year = [
@@ -140,20 +145,21 @@ const BasicInfoForm = () => {
           <FormField
             field_name={"Email Address"}
             type={"email"}
-            // onChangeAction
+          // onChangeAction
           />
           <FormField
             field_name={"Password"}
             type={"password"}
-            // onChangeAction
+          // onChangeAction
           />
           <FormField field_name={"Matriculation Year"} type={"dropdown"} values={matriculation_year} />
           <FormField field_name={"Current/Prospective Course"} type={"dropdown"} values={course} />
         </Stack>
         <Link>
           <MainButton
+            type="contained"
             value="SAVE CHANGES"
-            // onClickAction
+          // onClickAction
           />
         </Link>
       </Stack>

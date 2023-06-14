@@ -1,9 +1,14 @@
-import FormField from './FormField';
-import MainButton from './MainButton';
+// styles
+
+// components / pages / images
+import FormField from '../common/FormField';
+import MainButton from '../common/MainButton';
+
+// tools
 import { Stack, Link, Typography } from '@mui/material';
 import { useState } from "react";
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from './firebase';
+import { auth } from '../others/firebase';
 import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {

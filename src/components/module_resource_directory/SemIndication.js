@@ -1,5 +1,10 @@
-import { Stack } from '@mui/material';
+// styles
+
+// components / pages / images
 import SemIndicationItem from './SemIndicationItem'
+
+// tools
+import { Stack } from '@mui/material';
 
 const SemIndication = ({sem1, sem2, st1, st2}) => {
   return (

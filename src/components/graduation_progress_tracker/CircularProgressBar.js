@@ -1,3 +1,8 @@
+// styles
+
+// components / pages / images
+
+// tools
 import { CircularProgress, circularProgressClasses, Box } from '@mui/material';
 
 const CircularProgressBar = () => {

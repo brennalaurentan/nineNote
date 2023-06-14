@@ -1,7 +1,12 @@
+// styles
 import '../index.css';
+
+// components / pages / images
+import MainNavbar from '../components/common/MainNavbar';
+import YearAndSemTabPanel from '../components/module_recommender/YearAndSemTabPanel';
+
+// tools
 import { Helmet } from 'react-helmet';
-import MainNavbar from '../components/MainNavbar';
-import YearAndSemTabPanel from '../components/YearAndSemTabPanel';
 import { Typography, Stack, Box } from '@mui/material';
 
 const ModuleRecommender = () => {
@@ -13,7 +18,7 @@ const ModuleRecommender = () => {
       <MainNavbar />
       <Stack direction="row" padding="56px">
         <YearAndSemTabPanel />
-        <Box ml="512px">
+        <Box ml="488px">
           <Typography id={1.1} variant="h2">Y1 S1</Typography>
           <Typography>
             Lorem Ipsum is simply dummy text of the printing and typesetting industry.

@@ -1,14 +1,19 @@
+// styles
 import '../index.css';
 import '../styles/App.css';
-import CustomisedTheme from '../components/CustomisedTheme'
-import { Route, Routes } from "react-router-dom";
-import { ThemeProvider } from '@mui/material/styles';
+
+// components / pages / images
+import CustomisedTheme from '../components/others/CustomisedTheme'
 import Login from './Login';
 import Signup from './Signup';
 import GraduationProgressTracker from './GraduationProgressTracker';
 import ModuleRecommender from './ModuleRecommender';
 import ModuleResourceDirectory from './ModuleResourceDirectory';
 import MyProfile from './MyProfile';
+
+// tools
+import { Route, Routes } from "react-router-dom";
+import { ThemeProvider } from '@mui/material/styles';
 
 function App() {
   // const ref = firebase.firestore().collection("users");

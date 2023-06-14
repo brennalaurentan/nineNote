@@ -1,3 +1,8 @@
+// styles
+
+// components / pages / images
+
+// tools
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Typography } from '@mui/material';
 
 const PolytechnicRadioGroup = () => {

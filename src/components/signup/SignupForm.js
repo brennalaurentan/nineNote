@@ -1,11 +1,15 @@
-import FormField from './FormField';
-import MainButton from './MainButton';
+// styles
+
+// components / pages / images
+import FormField from '../common/FormField';
+import MainButton from '../common/MainButton';
+
+// tools
 import { Stack, Link, Typography } from '@mui/material';
 import { useEffect, useState } from "react";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from './firebase';
+import { auth, db } from '../others/firebase';
 import { useNavigate } from 'react-router-dom';
-import { db } from './firebase';
 import { QuerySnapshot, collection, doc, getDoc, getDocs, docChanges } from 'firebase/firestore';
 
 const static_matriculation_year = [

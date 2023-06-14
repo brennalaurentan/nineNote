@@ -1,4 +1,9 @@
+// styles
+
+// components / pages / images
 import TabItem from './TabItem';
+
+// tools
 import { Box, Typography, Stack } from '@mui/material';
 import { useState } from "react";
 

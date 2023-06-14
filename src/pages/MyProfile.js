@@ -1,14 +1,14 @@
+// styles
 import '../index.css';
-import { Typography, Stack, Box, Avatar } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
+
+// components / pages / images
+import MainNavbar from '../components/common/MainNavbar';
+import MyProfileTabSection from '../components/my_profile/MyProfileTabSection';
+
+// tools
 import { Helmet } from 'react-helmet';
-import MainNavbar from '../components/MainNavbar';
-import MyProfileTabPanel from '../components/MyProfileTabPanel';
-import BasicInfoForm from '../components/BasicInfoForm';
-import PolytechnicRadioGroup from '../components/PolytechnicRadioGroup';
-import ModuleExemptionTable from '../components/ModuleExemptionTable'
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../components/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../components/others/firebase';
 import { useState } from 'react';
 
 const MyProfile = () => {
@@ -35,7 +35,8 @@ const MyProfile = () => {
         <title>nineNote | My Profile</title>
       </Helmet>
       <MainNavbar />
-      <Stack direction="row" padding="56px">
+      <MyProfileTabSection />
+      {/* <Stack direction="row" padding="56px">
         <MyProfileTabPanel />
         <Stack ml="512px" gap="64px">
           <Stack direction="row" gap="64px" alignItems="center">
@@ -54,7 +55,7 @@ const MyProfile = () => {
           <PolytechnicRadioGroup />
           <ModuleExemptionTable />
         </Stack>
-      </Stack>
+      </Stack> */}
     </>
   )
 }
