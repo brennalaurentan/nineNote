@@ -5,6 +5,7 @@ import BasicInfoForm from './BasicInfoForm';
 import PolytechnicRadioGroup from './PolytechnicRadioGroup';
 import ModuleExemptionTable from './ModuleExemptionTable'
 import MA1301ExemptionTable from './MA1301ExemptionTable'
+import AlertDisplay from './AlertDisplay'
 
 // tools
 import React from 'react';
@@ -63,7 +64,10 @@ const MyProfileTabs = ({ value }) => {
             {/* Tab 2 */}
             <TabPanel value={value} index={1}>
                 <Stack ml="188px" gap="16px">
-                    <Typography variant="h3">Additional Certifications for Exemptions</Typography>
+                    <Stack direction="row" gap="100px">
+                        <Typography variant="h3">Additional Certifications for Exemptions</Typography>
+                        <AlertDisplay />
+                    </Stack>
                     <Stack gap="64px">
                         <PolytechnicRadioGroup />
                         <ModuleExemptionTable />
