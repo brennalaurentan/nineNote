@@ -3,7 +3,7 @@
 // components / pages / images
 
 // tools
-import { TextField, MenuItem } from '@mui/material';
+import { TextField, MenuItem, Select } from '@mui/material';
 
 const email_field = (field_name, onChangeAction) => < TextField
   id="outlined-search"
@@ -28,12 +28,11 @@ const password_field = (field_name, onChangeAction) => <TextField
   onChange={onChangeAction}
 />
 
-const dropdown_field = (field_name, values) => 
+const dropdown_field = (field_name, values) =>
 <TextField
   id="outlined-select-currency"
   select
   label={field_name}
-  type="dropdown"
   defaultValue={''}
 >
   {values.map((option) => (
@@ -42,6 +41,7 @@ const dropdown_field = (field_name, values) =>
     </MenuItem>
   ))}
 </TextField>
+
 
 const FormField = ({ field_name, type, values, onChangeAction }) => {
   return type === "module"
