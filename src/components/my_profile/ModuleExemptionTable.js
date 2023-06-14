@@ -1,3 +1,8 @@
+// styles
+
+// components / pages / images
+
+// tools
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { 
@@ -6,7 +11,6 @@ import {
     Typography, Paper, Checkbox 
 } from '@mui/material'
 import { visuallyHidden } from '@mui/utils';
-
 
 function createData(name, exempted_mods) {
     return {

@@ -1,5 +1,10 @@
-import ModulePill from '../components/ModulePill';
-import ButtonDialog from '../components/ButtonDialog';
+// styles
+
+// components / pages / images
+import ModulePill from './ModulePill';
+import ButtonDialog from './ButtonDialog';
+
+// tools
 import { Typography, Box, Stack } from '@mui/material';
 
 const ModuleExemptions = () => {

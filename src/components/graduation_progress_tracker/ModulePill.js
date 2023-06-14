@@ -1,3 +1,8 @@
+// styles
+
+// components / pages / images
+
+// tools
 import { Card, CardContent, Typography, Stack } from '@mui/material';
 
 const ModulePill = ({code, name, mc}) => {

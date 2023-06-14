@@ -1,8 +1,11 @@
+// styles
+
+// components / pages / images
+import MainButton from '../common/MainButton';
+import FormField from '../common/FormField';
+
+// tools
 import * as React from 'react';
-import MainButton from '../components/MainButton';
-import FormField from '../components/FormField';
-import ModulePill from '../components/ModulePill';
-import addItem from '../components/ModulePlanner';
 import {
   Typography, Dialog, DialogActions,
   DialogContent, DialogContentText, DialogTitle,

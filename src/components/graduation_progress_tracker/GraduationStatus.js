@@ -1,4 +1,9 @@
-import ProgressBarLabel from '../components/ProgressBarLabel';
+// styles
+
+// components / pages / images
+import ProgressBarLabel from './ProgressBarLabel';
+
+// tools
 import { Typography, Stack } from '@mui/material';
 
 const GraduationStatus = () => {

@@ -1,9 +1,14 @@
+// styles
 import '../index.css';
 import '../styles/Signup.css';
+
+// components / pages / images
+import SignupForm from "../components/signup/SignupForm"
+import signup_image from '../graphics/signup_image.png';
+
+// tools
 import { Helmet } from 'react-helmet';
 import { Stack, Grid } from '@mui/material';
-import SignupForm from "../components/SignupForm"
-import signup_image from '../graphics/signup_image.png';
 
 const Signup = () => {
   return (

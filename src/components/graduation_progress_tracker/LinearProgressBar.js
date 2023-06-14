@@ -1,3 +1,8 @@
+// styles
+
+// components / pages / images
+
+// tools
 import { styled } from '@mui/material/styles';
 import { LinearProgress, linearProgressClasses } from '@mui/material';
 

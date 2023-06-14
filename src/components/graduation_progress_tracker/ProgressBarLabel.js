@@ -1,5 +1,10 @@
+// styles
+
+// components / pages / images
 import LinearProgressBar from './LinearProgressBar';
 import CircularProgressBar from './CircularProgressBar';
+
+// tools
 import { Stack, Box, Typography, Card, CardContent } from '@mui/material';
 
 const Linear_PB_Label = () => {

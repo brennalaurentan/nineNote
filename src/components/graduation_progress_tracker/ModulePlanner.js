@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
-import MainButton from '../components/MainButton';
-import ModulePill from '../components/ModulePill';
+// styles
+
+// components / pages / images
+import MainButton from '../common/MainButton';
+import ModulePill from './ModulePill';
 import ButtonDialog from './ButtonDialog';
+
+// tools
+import React, { useState } from 'react';
 import { Stack, Typography, Box } from '@mui/material';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import _ from "lodash";

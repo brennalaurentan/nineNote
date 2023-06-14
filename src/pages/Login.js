@@ -1,9 +1,15 @@
+// styles
 import '../index.css';
 import '../styles/Login.css';
+
+// components / pages / images
+import LoginForm from "../components/login/LoginForm";
+import login_image from '../graphics/login_image.png';
+
+// tools
 import { Helmet } from 'react-helmet';
 import { Stack, Grid } from '@mui/material';
-import LoginForm from "../components/LoginForm";
-import login_image from '../graphics/login_image.png';
+
 
 const Login = () => {
   return (

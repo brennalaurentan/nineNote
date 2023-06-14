@@ -1,5 +1,10 @@
+// styles
+
+// components / pages / images
+
+// tools
 import { Link, Avatar, AppBar, Toolbar, Typography, Stack } from '@mui/material';
-import { auth } from './firebase';
+import { auth } from '../others/firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';

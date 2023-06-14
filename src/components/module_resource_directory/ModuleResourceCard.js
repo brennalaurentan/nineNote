@@ -1,3 +1,8 @@
+// styles
+
+// components / pages / images
+
+// tools
 import { Card, CardContent, Stack, Typography } from '@mui/material';
 
 const ModuleResourceCard = () => {

@@ -1,8 +1,13 @@
+// styles
 import '../index.css';
+
+// components / pages / images
+import MainNavbar from '../components/common/MainNavbar';
+import ModuleListItem from '../components/module_resource_directory/ModuleListItem';
+import ModuleResourceCard from '../components/module_resource_directory/ModuleResourceCard'
+
+// tools
 import { Helmet } from 'react-helmet';
-import MainNavbar from '../components/MainNavbar';
-import ModuleListItem from '../components/ModuleListItem';
-import ModuleResourceCard from '../components/ModuleResourceCard'
 import { Stack, Typography } from '@mui/material';
 
 const ModuleResourceDirectory = () => {
