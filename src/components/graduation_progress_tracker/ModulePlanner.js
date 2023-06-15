@@ -62,34 +62,35 @@ const ModulePlanner = () => {
         }
 
         // creating a copy of item before removing from state
-        const itemCopy = {...state[source.droppableId].items[source.index]};
+        const itemCopy = { ...state[source.droppableId].items[source.index] };
         setState(prev => {
-            prev = {...prev}
+            prev = { ...prev }
             // remove from previous items array
             prev[source.droppableId].items.splice(source.index, 1)
             // adding to new items array location
             prev[destination.droppableId].items.splice(destination.index, 0, itemCopy)
             return prev
         })
+    }
 
-        const addItem = () => {
-            setState(prev => {
-                return {
-                    ...prev,
-                    "Y1 S1": {
-                        title: "Y1 S1",
-                        items: [
-                            {
-                                id: v4(),
-                                name: ""
-                            }, 
-                            ...prev['Y1 S1'].items
-                        ]
-                    }
+    const addModule = (moduleCode, moduleName, moduleMC) => {
+        setState(prev => {
+            return {
+                ...prev,
+                "Y1 S1": {
+                    title: "Y1 S1",
+                    items: [
+                        {
+                            id: v4(),
+                            code: moduleCode,
+                            name: moduleName,
+                            mc: moduleMC
+                        },
+                        ...prev['Y1 S1'].items
+                    ]
                 }
-            })
-        }
-
+            }
+        })
     }
 
     return (
@@ -109,7 +110,8 @@ const ModulePlanner = () => {
                                         button_text="+ ADD NEW"
                                         header="Add Module"
                                         text="Search for your desired modules by their respective module code 
-                                        and add them to your module planner!"/>
+                                        and add them to your module planner!"
+                                        onSubmit={addModule} />
                                 </Stack>
                                 <Droppable droppableId={key}>
                                     {(provided) => {
@@ -128,10 +130,10 @@ const ModulePlanner = () => {
                                                                         {...provided.draggableProps}
                                                                         {...provided.dragHandleProps}
                                                                     >
-                                                                        <ModulePill 
-                                                                            code={el.code} 
-                                                                            name={el.name} 
-                                                                            mc={el.mc}/>
+                                                                        <ModulePill
+                                                                            code={el.code}
+                                                                            name={el.name}
+                                                                            mc={el.mc} />
                                                                     </div>
                                                                 )
                                                             }}
