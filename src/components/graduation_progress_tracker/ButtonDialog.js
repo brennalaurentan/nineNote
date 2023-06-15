@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import { auth, db } from '../others/firebase';
 import { getAuth } from 'firebase/auth';
-import { query, collection, where, setDoc, getDoc, doc } from 'firebase/firestore';
+import { query, collection, setDoc, getDocs, getDoc, doc, get } from 'firebase/firestore';
 
 const ButtonDialog = ({ button_text, header, text }) => {
   const [open, setOpen] = React.useState(false);
@@ -29,38 +29,31 @@ const ButtonDialog = ({ button_text, header, text }) => {
     setOpen(false);
   };
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     setOpen(false);
     try {
-      // log data for checking
-      console.log(moduleCode);
-      console.log(moduleName);
-      console.log(moduleMC);
-      // add data to firestore
-      const usersCollectionRef = collection(db, 'users');
       const auth = getAuth();
       const user = auth.currentUser;
       const currentUserEmail = user.email;
-      console.log("Current user email is: " + currentUserEmail);
-      //const q = query(usersRef, where('email', '==', currentUserEmail));
-      // obtain user's id for access in the firebase
-      //const userID = getDocs(q).then((qSnap) => {
-        //const data = qSnap.docs.id;
-      //})
-      //console.log(q);
-      const newModule = {
-        email: currentUserEmail,
-        moduleCode: moduleCode,
-        moduleName: moduleName,
-        moduleMC: moduleMC
-      };
-      // go to document with userID found earlier
-      const userRef = doc(usersCollectionRef, currentUserEmail);
-      //const userRef = db.collection('users').doc(currentUserEmail);
-      //const moduleCollectionRef = collection(usersCollectionRef, currentUserEmail + "/modules");
-      // push new module data onto firestore
-      setDoc(userRef, newModule);
-      //setDoc(moduleCollectionRef, newModule);
+
+      const q = query(collection(db, 'users'));
+      const querySnapshot = await getDocs(q);
+      const queryData = querySnapshot.docs.map((detail) => ({
+        ...detail.data(),
+        id: detail.id,
+      }));
+      console.log(queryData);
+      queryData.map(async (v, id) => {
+        // const numModulesRef = collection(db, `users/${currentUserEmail}/modules/`).doc('Y1S1');
+        // const snapshot = await numModulesRef.get();
+        // const count = snapshot.data().numModules;
+        // console.log(`num modules: " + ${count}`);
+        await setDoc(doc(db, `users/${currentUserEmail}/modules/Y1S1/module_3`, 'moduleDetails'), {
+          moduleCode: moduleCode,
+          moduleName: moduleName,
+          moduleMC: moduleMC
+        });
+      })
     } catch (error) {
       console.log(error.message);
     }
