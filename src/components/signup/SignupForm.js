@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../others/firebase';
 import { useNavigate } from 'react-router-dom';
-import { QuerySnapshot, collection, doc, getDoc, getDocs, docChanges } from 'firebase/firestore';
+import { query, collection, doc, setDoc, getDocs } from 'firebase/firestore';
 
 const static_matriculation_year = [
   {
@@ -208,7 +208,8 @@ const SignupForm = () => {
 
   const [registerEmail, setRegisterEmail] = useState(null);
   const [registerPassword, setRegisterPassword] = useState(null);
-  const [matriculationYear, setMatriculationYear] = useState([]);
+  const [matriculationYear, setMatriculationYear] = useState(null);
+  const [course, setCourse] = useState(null);
 
   let courseArray = [];
 
@@ -220,6 +221,35 @@ const SignupForm = () => {
       const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
       navigate('/graduation-progress-tracker');
       console.log(user);
+      const currentUserEmail = registerEmail;
+
+      // const auth = getAuth();
+      // const user = auth.currentUser;
+      // const currentUserEmail = user.email;
+
+      const q = query(collection(db, 'users'));
+      const querySnapshot = await getDocs(q);
+      const queryData = querySnapshot.docs.map((detail) => ({
+        ...detail.data(),
+        id: detail.id,
+      }));
+      console.log(queryData);
+      queryData.map(async (v, id) => {
+        let docCount = 0;
+        const querySnapshot = await getDocs(collection(db, `users`));
+        querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          console.log(doc.id, " => ", doc.data());
+          docCount = doc.data().numModules;
+        });
+
+
+        await setDoc(doc(db, `users`, currentUserEmail), {
+          email: currentUserEmail,
+          matriculationYear: matriculationYear,
+          course: course,
+        });
+      })
     } catch (error) {
       console.log(error.message);
     };
@@ -327,8 +357,23 @@ const SignupForm = () => {
               console.log("live password update: " + registerPassword);
             }}
           />
-          <FormField field_name={"Matriculation Year"} type={"dropdown"} values={matriculationYearArray} />
-          <FormField field_name={"Current/Prospective Course"} type={"dropdown"} values={static_course} />
+          <FormField
+            field_name={"Matriculation Year"}
+            type={"dropdown"} 
+            values={matriculationYearArray}
+            onChangeAction={(event) => {
+              setMatriculationYear(event.target.value);
+              console.log(event.target.value);
+              console.log("live matriculationyear update: " + matriculationYear);
+            }} />
+          <FormField
+            field_name={"Current/Prospective Course"}
+            type={"dropdown"}
+            values={static_course}
+            onChangeAction={(event) => {
+              setCourse(event.target.value);
+              console.log("live course update: " + course);
+            }} />
         </Stack>
         <Link>
           <MainButton

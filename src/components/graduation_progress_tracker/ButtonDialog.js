@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import { auth, db } from '../others/firebase';
 import { getAuth } from 'firebase/auth';
-import { query, collection, setDoc, getDocs, getDoc, doc, get } from 'firebase/firestore';
+import { query, collection, setDoc, getDocs, doc } from 'firebase/firestore';
 
 const ButtonDialog = ({ button_text, header, text }) => {
   const [open, setOpen] = React.useState(false);
@@ -44,14 +44,26 @@ const ButtonDialog = ({ button_text, header, text }) => {
       }));
       console.log(queryData);
       queryData.map(async (v, id) => {
-        // const numModulesRef = collection(db, `users/${currentUserEmail}/modules/`).doc('Y1S1');
-        // const snapshot = await numModulesRef.get();
-        // const count = snapshot.data().numModules;
-        // console.log(`num modules: " + ${count}`);
-        await setDoc(doc(db, `users/${currentUserEmail}/modules/Y1S1/module_3`, 'moduleDetails'), {
+        let docCount = 0;
+        const querySnapshot = await getDocs(collection(db, `users/${currentUserEmail}/modules/`));
+        querySnapshot.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data());
+          // retrieve current number of modules
+          docCount = doc.data().numModules;
+        });
+        // obtain index of next module to add
+        const docNextIndex = docCount + 1;
+
+        // create new collection with new module details
+        await setDoc(doc(db, `users/${currentUserEmail}/modules/Y1S1/module_${docNextIndex}`, 'moduleDetails'), {
           moduleCode: moduleCode,
           moduleName: moduleName,
           moduleMC: moduleMC
+        });
+        
+        // update numModules property in firestore
+        await setDoc(doc(db, `users/${currentUserEmail}/modules`, 'Y1S1'), {
+          numModules: docNextIndex
         });
       })
     } catch (error) {
