@@ -155,29 +155,6 @@ const static_certifications = [
 
 let matriculationYearArray = [];
 const matriculationYearCollectionRef = collection(db, "matriculation_year");
-/*
-try {
-  const qSnapshot = getDocs(matriculationYearCollectionRef)
-    .then((qSnapshot) => {
-      
-    console.log(qSnapshot);
-    qSnapshot.forEach(childDoc => {
-      let newElement = {
-        "value": matriculationYearArray.length.toString(),
-        "label": childDoc.data().year
-      }
-      console.log("pushing label: " + childDoc.data().year);
-      matriculationYearArray.push(newElement);
-  })
-  console.log("matriculationYearArray: " + matriculationYearArray.toString());
-  matriculationYearArray.forEach((item) => console.log(item));
-  console.log("staticMatriculationyear: " + static_matriculation_year.toString());
-  static_matriculation_year.forEach((item) => console.log(item));
-  });
-} catch (error) {
-  console.log(error.message);
-}
-*/
 
 async function loadMatriculationYear() {
   try {
@@ -368,7 +345,7 @@ const SignupForm = () => {
         <FormField
           field_name={"Current/Prospective Course"}
           type={"dropdown"}
-          values={static_course}
+          values={courseArray}
           onChangeAction={(event) => {
             setCourse(event.target.value);
             console.log("live course update: " + course);
