@@ -3,12 +3,13 @@ import '../index.css';
 import '../styles/Login.css';
 
 // components / pages / images
-import LoginForm from "../components/login/LoginForm";
+import Layout from '../components/others/Layout';
+import LoginForm from '../components/login/LoginForm';
 import login_image from '../graphics/login_image.png';
 
 // tools
 import { Helmet } from 'react-helmet';
-import { Stack, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 
 
 const Login = () => {
@@ -17,19 +18,22 @@ const Login = () => {
       <Helmet>
         <title>Welcome to nineNote!</title>
       </Helmet>
-      <Grid
-        container
-        columnSpacing="10px"
-        direction="row"
-        alignItems="center"
-        justifyContent="center"
-        sx={{ minHeight: '100vh' }}
-      >
-        <Stack direction="row" gap="256px">
+
+      <Layout>
+        <Box
+          display="flex"
+          flexDirection={["column-reverse", "row"]}
+          justifyContent="center"
+          alignItems="center"
+          height="85vh"
+          gap={["50px", "300px"]}
+        >
           <LoginForm />
-          <img src={login_image} alt="Logo" width="500px" />
-        </Stack>
-      </Grid>
+          <Box width={["50vw", "30vw"]}>
+            <img src={login_image} alt="Logo" width="100%" />
+          </Box>
+        </Box>
+      </Layout>
     </>
   )
 }
