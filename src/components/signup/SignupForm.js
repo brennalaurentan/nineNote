@@ -223,7 +223,7 @@ const SignupForm = () => {
   const [course, setCourse] = useState("");
 
   const navigate = useNavigate();
-  async function Register(){
+  async function Register() {
     try {
       console.log(registerEmail);
       console.log(registerPassword);
@@ -258,21 +258,21 @@ const SignupForm = () => {
       console.log(error.message);
     };
   }
-  
+
   console.count("component rendered!");
 
   return (
     <>
-      <Stack gap="32px">
-        <Stack gap="16px" width="400px">
+      <Stack gap="24px">
+        <Stack gap="24px">
           <Typography variant="logo" color="blue.main">nineNote</Typography>
           <Typography variant="h2">Sign Up</Typography>
           <Stack direction="row" gap="4px" alignItems="center">
-          <Typography variant="tag_thin">Already have an account?</Typography>
-          <Link href="/" underline="none">
-            <Typography variant="tag_thin">Log in</Typography>
-          </Link>
-        </Stack>
+            <Typography variant="tag_thin">Already have an account?</Typography>
+            <Link href="/" underline="none">
+              <Typography variant="tag_thin">Log in</Typography>
+            </Link>
+          </Stack>
           <FormField
             field_name={"Email Address"}
             type={"email"}
@@ -291,7 +291,7 @@ const SignupForm = () => {
           />
           <FormField
             field_name={"Matriculation Year"}
-            type={"dropdown"} 
+            type={"dropdown"}
             values={matriculationYearArray}
             onChangeAction={(event) => {
               setMatriculationYear(event.target.value);

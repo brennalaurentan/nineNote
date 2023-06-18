@@ -10,6 +10,7 @@ const email_field = (field_name, onChangeAction) => < TextField
   label={field_name}
   type="search"
   onChange={onChangeAction}
+  sx={{width: ["300px", "400px"]}}
 />
 
 const module_field = (field_name, onChangeAction) => < TextField
@@ -26,6 +27,7 @@ const password_field = (field_name, onChangeAction) => <TextField
   type="password"
   autoComplete="current-password"
   onChange={onChangeAction}
+  sx={{width: ["300px", "400px"]}}
 />
 
 const dropdown_field = (field_name, values) =>
@@ -34,6 +36,7 @@ const dropdown_field = (field_name, values) =>
   select
   label={field_name}
   defaultValue={''}
+  sx={{width: ["300px", "400px"]}}
 >
   {values.map((option) => (
     <MenuItem key={option.value} value={option.value}>

@@ -35,7 +35,7 @@ const LoginForm = () => {
 
   return (
     <>
-      <Stack gap="16px" width="400px">
+      <Stack gap="24px">
         <Typography variant="logo" color="blue.main">nineNote</Typography>
         <Typography variant="h2">Log In</Typography>
         <Stack direction="row" gap="4px" alignItems="center">
@@ -60,17 +60,19 @@ const LoginForm = () => {
             console.log("live password update: " + loginPassword);
           }}
         />
-        <Link underline="none">
-          <Typography variant="tag_thin" display="flex" justifyContent="flex-end">Forgot your password?</Typography>
-        </Link>
-        <Link>
-          <MainButton
-            type="contained"
-            main_color="blue.main"
-            value="LOG IN"
-            onClickAction={Login}
-          />
-        </Link>
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Link>
+            <MainButton
+              type="contained"
+              main_color="blue.main"
+              value="LOG IN"
+              onClickAction={Login}
+            />
+          </Link>
+          <Link underline="none">
+            <Typography variant="tag_thin" display="flex" justifyContent="flex-end">Forgot your password?</Typography>
+          </Link>
+        </Stack>
       </Stack>
     </>
   )
