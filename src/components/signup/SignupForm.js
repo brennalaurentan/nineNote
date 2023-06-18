@@ -155,25 +155,25 @@ const static_certifications = [
 
 let matriculationYearArray = [];
 const matriculationYearCollectionRef = collection(db, "matriculation_year");
-async function loadMatriculationYearList(){
+async function loadMatriculationYearList() {
   try {
     const qSnapshot = getDocs(matriculationYearCollectionRef)
       .then((qSnapshot) => {
-        
-      console.log("matriculationYear qSnapshot: " + qSnapshot);
-      qSnapshot.forEach(childDoc => {
-        let newElement = {
-          "value": matriculationYearArray.length.toString(),
-          "label": childDoc.data().year
-        }
-        console.log("pushing label: " + childDoc.data().year);
-        matriculationYearArray.push(newElement);
-    })
-    console.log("matriculationYearArray: " + matriculationYearArray.toString());
-    matriculationYearArray.forEach((item) => console.log(item));
-    console.log("staticMatriculationyear: " + static_matriculation_year.toString());
-    static_matriculation_year.forEach((item) => console.log(item));
-    });
+
+        console.log("matriculationYear qSnapshot: " + qSnapshot);
+        qSnapshot.forEach(childDoc => {
+          let newElement = {
+            "value": matriculationYearArray.length.toString(),
+            "label": childDoc.data().year
+          }
+          console.log("pushing label: " + childDoc.data().year);
+          matriculationYearArray.push(newElement);
+        })
+        console.log("matriculationYearArray: " + matriculationYearArray.toString());
+        matriculationYearArray.forEach((item) => console.log(item));
+        console.log("staticMatriculationyear: " + static_matriculation_year.toString());
+        static_matriculation_year.forEach((item) => console.log(item));
+      });
   } catch (error) {
     console.log(error.message);
   }
@@ -182,33 +182,33 @@ loadMatriculationYearList();
 
 let courseArray = [];
 const courseCollectionRef = collection(db, 'courseLibrary');
-async function loadCourseList(){
+async function loadCourseList() {
   try {
     const qSnapshot = getDocs(courseCollectionRef)
       .then((qSnapshot) => {
-        
-      console.log("course qSnapshot: " + qSnapshot);
-      // for each faculty in courseLibrary
-      qSnapshot.forEach(async faculty => {
-        let facultyCourseCount = 0;
-        const courseSnapshot = await getDocs(collection(db, `courseLibrary/${faculty.id}/courses`));
-        // for each course in the childDoc faculty
-        courseSnapshot.forEach((course) => {
-          facultyCourseCount++;
-          let newElement = {
-            "value": faculty.id.toString() + facultyCourseCount.toString(),
-            "label": course.id.toString()
-          }
-          console.log("pushing value: " + faculty.id.toString() + facultyCourseCount.toString());
-          console.log("pushing label: " + course.id.toString());
-          courseArray.push(newElement);
-        });
-    })
-    console.log("courseArray: " + courseArray.toString());
-    courseArray.forEach((item) => console.log(item));
-    console.log("staticCourse: " + static_course.toString());
-    static_course.forEach((item) => console.log(item));
-    });
+
+        console.log("course qSnapshot: " + qSnapshot);
+        // for each faculty in courseLibrary
+        qSnapshot.forEach(async faculty => {
+          let facultyCourseCount = 0;
+          const courseSnapshot = await getDocs(collection(db, `courseLibrary/${faculty.id}/courses`));
+          // for each course in the childDoc faculty
+          courseSnapshot.forEach((course) => {
+            facultyCourseCount++;
+            let newElement = {
+              "value": faculty.id.toString() + facultyCourseCount.toString(),
+              "label": course.id.toString()
+            }
+            console.log("pushing value: " + faculty.id.toString() + facultyCourseCount.toString());
+            console.log("pushing label: " + course.id.toString());
+            courseArray.push(newElement);
+          });
+        })
+        console.log("courseArray: " + courseArray.toString());
+        courseArray.forEach((item) => console.log(item));
+        console.log("staticCourse: " + static_course.toString());
+        static_course.forEach((item) => console.log(item));
+      });
   } catch (error) {
     console.log(error.message);
   }
@@ -223,7 +223,7 @@ const SignupForm = () => {
   const [course, setCourse] = useState("");
 
   const navigate = useNavigate();
-  async function Register(){
+  async function Register() {
     try {
       console.log(registerEmail);
       console.log(registerPassword);
@@ -258,55 +258,53 @@ const SignupForm = () => {
       console.log(error.message);
     };
   }
-  
+
   console.count("component rendered!");
 
   return (
     <>
-      <Stack gap="32px">
-        <Stack gap="16px" width="400px">
-          <Typography variant="logo" color="blue.main">nineNote</Typography>
-          <Typography variant="h2">Sign Up</Typography>
-          <Stack direction="row" gap="4px" alignItems="center">
+      <Stack gap="24px">
+        <Typography variant="logo" color="blue.main">nineNote</Typography>
+        <Typography variant="h2">Sign Up</Typography>
+        <Stack direction="row" gap="4px" alignItems="center">
           <Typography variant="tag_thin">Already have an account?</Typography>
           <Link href="/" underline="none">
             <Typography variant="tag_thin">Log in</Typography>
           </Link>
         </Stack>
-          <FormField
-            field_name={"Email Address"}
-            type={"email"}
-            onChangeAction={(event) => {
-              setRegisterEmail(event.target.value);
-              console.log("live email update: " + registerEmail);
-            }}
-          />
-          <FormField
-            field_name={"Password"}
-            type={"password"}
-            onChangeAction={(event) => {
-              setRegisterPassword(event.target.value);
-              console.log("live password update: " + registerPassword);
-            }}
-          />
-          <FormField
-            field_name={"Matriculation Year"}
-            type={"dropdown"} 
-            values={matriculationYearArray}
-            onChangeAction={(event) => {
-              setMatriculationYear(event.target.value);
-              console.log(event.target.value);
-              console.log("live matriculationyear update: " + matriculationYear);
-            }} />
-          <FormField
-            field_name={"Current/Prospective Course"}
-            type={"dropdown"}
-            values={courseArray}
-            onChangeAction={(event) => {
-              setCourse(event.target.value);
-              console.log("live course update: " + course);
-            }} />
-        </Stack>
+        <FormField
+          field_name={"Email Address"}
+          type={"email"}
+          onChangeAction={(event) => {
+            setRegisterEmail(event.target.value);
+            console.log("live email update: " + registerEmail);
+          }}
+        />
+        <FormField
+          field_name={"Password"}
+          type={"password"}
+          onChangeAction={(event) => {
+            setRegisterPassword(event.target.value);
+            console.log("live password update: " + registerPassword);
+          }}
+        />
+        <FormField
+          field_name={"Matriculation Year"}
+          type={"dropdown"}
+          values={matriculationYearArray}
+          onChangeAction={(event) => {
+            setMatriculationYear(event.target.value);
+            console.log(event.target.value);
+            console.log("live matriculationyear update: " + matriculationYear);
+          }} />
+        <FormField
+          field_name={"Current/Prospective Course"}
+          type={"dropdown"}
+          values={courseArray}
+          onChangeAction={(event) => {
+            setCourse(event.target.value);
+            console.log("live course update: " + course);
+          }} />
         <Link>
           <MainButton
             type="contained"

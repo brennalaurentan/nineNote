@@ -1,6 +1,6 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
-const CustomisedTheme = createTheme({
+let CustomisedTheme = createTheme({
   palette: {
     red: {
       main: '#DB4453',
@@ -94,5 +94,7 @@ const CustomisedTheme = createTheme({
     },
   },
 });
+
+CustomisedTheme = responsiveFontSizes(CustomisedTheme);
 
 export default CustomisedTheme
