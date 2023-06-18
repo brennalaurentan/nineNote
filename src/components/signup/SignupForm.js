@@ -161,7 +161,7 @@ async function loadMatriculationYearList() {
     const qSnapshot = getDocs(matriculationYearCollectionRef)
       .then((qSnapshot) => {
 
-        console.log(qSnapshot);
+        console.log("matriculationYear qSnapshot: " + qSnapshot);
         qSnapshot.forEach(childDoc => {
           let newElement = {
             "value": matriculationYearArray.length.toString(),
@@ -180,6 +180,41 @@ async function loadMatriculationYearList() {
   }
 }
 loadMatriculationYearList();
+
+let courseArray = [];
+const courseCollectionRef = collection(db, 'courseLibrary');
+async function loadCourseList() {
+  try {
+    const qSnapshot = getDocs(courseCollectionRef)
+      .then((qSnapshot) => {
+
+        console.log("course qSnapshot: " + qSnapshot);
+        // for each faculty in courseLibrary
+        qSnapshot.forEach(async faculty => {
+          let facultyCourseCount = 0;
+          const courseSnapshot = await getDocs(collection(db, `courseLibrary/${faculty.id}/courses`));
+          // for each course in the childDoc faculty
+          courseSnapshot.forEach((course) => {
+            facultyCourseCount++;
+            let newElement = {
+              "value": faculty.id.toString() + facultyCourseCount.toString(),
+              "label": course.id.toString()
+            }
+            console.log("pushing value: " + faculty.id.toString() + facultyCourseCount.toString());
+            console.log("pushing label: " + course.id.toString());
+            courseArray.push(newElement);
+          });
+        })
+        console.log("courseArray: " + courseArray.toString());
+        courseArray.forEach((item) => console.log(item));
+        console.log("staticCourse: " + static_course.toString());
+        static_course.forEach((item) => console.log(item));
+      });
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+loadCourseList();
 
 const SignupForm = () => {
 
