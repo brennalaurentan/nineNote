@@ -3,9 +3,10 @@
 // components / pages / images
 import FormField from '../common/FormField';
 import MainButton from '../common/MainButton';
+import ninenote_blue from '../../graphics/ninenote_blue.png';
 
 // tools
-import { Stack, Link, Typography } from '@mui/material';
+import { Stack, Link, Typography, Box } from '@mui/material';
 import { useState } from "react";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../others/firebase';
@@ -36,7 +37,9 @@ const LoginForm = () => {
   return (
     <>
       <Stack gap="24px">
-        <Typography variant="logo" color="blue.main">nineNote</Typography>
+        <Box width={["15vw", "5vw"]}>
+          <img src={ninenote_blue} alt="Logo" width="100%" />
+        </Box>
         <Typography variant="h2">Log In</Typography>
         <Stack direction="row" gap="4px" alignItems="center">
           <Typography variant="tag_thin">New user?</Typography>
