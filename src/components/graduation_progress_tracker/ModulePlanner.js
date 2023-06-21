@@ -7,10 +7,16 @@ import ButtonDialog from './ButtonDialog';
 
 // tools
 import React, { useState } from 'react';
-import { Stack, Typography, Box } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Stack, Typography, Box, Container } from '@mui/material';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import _ from "lodash";
 import { v4 } from 'uuid';
+
+const SemContainer = styled(Container)(({ theme }) => ({
+    display: "flex",
+    flexWrap: "wrap"
+}));
 
 const item1 = {
     id: v4(),
@@ -116,7 +122,7 @@ const ModulePlanner = () => {
                                 <Droppable droppableId={key}>
                                     {(provided) => {
                                         return (
-                                            <div
+                                            <SemContainer
                                                 ref={provided.innerRef}
                                                 {...provided.droppableProps}
                                             >
@@ -141,7 +147,7 @@ const ModulePlanner = () => {
                                                     )
                                                 })}
                                                 {provided.placeholder}
-                                            </div>
+                                            </SemContainer>
                                         )
                                     }}
                                 </Droppable>

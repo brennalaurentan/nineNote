@@ -19,7 +19,7 @@ const GraduationProgressTracker = () => {
         <title>nineNote | Graduation Progress Tracker</title>
       </Helmet>
       <MainNavbar />
-      <Stack direction="row" gap="128px" padding="56px">
+      <Stack direction="row" gap="64px" padding="56px">
         <Stack gap="56px">
           <CreditsSelected />
           <GraduationStatus />
