@@ -256,7 +256,7 @@ const SignupForm = () => {
                 console.log("pushing value: " + faculty.id.toString() + facultyCourseCount.toString());
                 console.log("pushing label: " + course.id.toString());
                 courseArray.push(newElement);
-              });
+              })
             })
             console.log("courseArray: " + courseArray.toString());
             courseArray.forEach((item) => console.log(item));
