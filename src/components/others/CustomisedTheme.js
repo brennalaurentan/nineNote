@@ -92,6 +92,11 @@ let CustomisedTheme = createTheme({
       fontWeight: "400",
       fontFamily: "Inter",
     },
+    tiny_tag_bold: {
+      fontSize: "12px",
+      fontWeight: "600",
+      fontFamily: "Inter",
+    },
   },
 });
 
