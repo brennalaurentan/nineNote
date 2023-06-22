@@ -7,7 +7,7 @@ import CreditsSelected from '../components/graduation_progress_tracker/CreditsSe
 import GraduationStatus from '../components/graduation_progress_tracker/GraduationStatus';
 import ModuleExemptions from '../components/graduation_progress_tracker/ModuleExemptions';
 import ModulePlanner from '../components/graduation_progress_tracker/ModulePlanner';
-import SnackBar from '../components/graduation_progress_tracker/SnackBar';
+import SnackBar from '../components/common/SnackBar';
 
 // tools
 import { Helmet } from 'react-helmet';

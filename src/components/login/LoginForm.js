@@ -4,7 +4,7 @@
 import FormField from '../common/FormField';
 import MainButton from '../common/MainButton';
 import ninenote_blue from '../../graphics/ninenote_blue.png';
-import SnackBar from '../graduation_progress_tracker/SnackBar';
+import SnackBar from '../common/SnackBar';
 
 // tools
 import { Stack, Link, Typography, Box } from '@mui/material';
