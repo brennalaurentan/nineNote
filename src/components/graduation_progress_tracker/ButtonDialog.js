@@ -15,7 +15,7 @@ import { auth, db } from '../others/firebase';
 import { getAuth } from 'firebase/auth';
 import { query, collection, setDoc, getDocs, doc } from 'firebase/firestore';
 
-const ButtonDialog = ({ button_text, header, text, onSubmit }) => {
+const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
   const [open, setOpen] = React.useState(false);
   const [moduleCode, setModuleCode] = React.useState("");
   const [moduleName, setModuleName] = React.useState("");
@@ -31,7 +31,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit }) => {
   
   const handleAdd = async () => {
     setOpen(false);
-    onSubmit(moduleCode, moduleName, moduleMC);
+    onSubmit(moduleCode, moduleName, moduleMC, yearSem);
     try {
       const auth = getAuth();
       const user = auth.currentUser;

@@ -118,12 +118,12 @@ const ModulePlanner = () => {
         })
     }
 
-    const addModule = (moduleCode, moduleName, moduleMC) => {
+    const addModule = (moduleCode, moduleName, moduleMC, yearSem) => {
         setState(prev => {
             return {
                 ...prev,
-                "Y1 S1": {
-                    title: "Y1 S1",
+                [yearSem]: {
+                    title: yearSem,
                     items: [
                         {
                             id: v4(),
@@ -131,7 +131,7 @@ const ModulePlanner = () => {
                             name: moduleName,
                             mc: moduleMC
                         },
-                        ...prev['Y1 S1'].items
+                        ...prev[yearSem].items
                     ]
                 }
             }
@@ -160,7 +160,8 @@ const ModulePlanner = () => {
                                         header="Add Module"
                                         text="Search for your desired modules by their respective module code 
                                         and add them to your module planner!"
-                                        onSubmit={addModule} />
+                                        onSubmit={addModule} 
+                                        yearSem={data.title}/>
                                 </Stack>
                                 <Droppable droppableId={key}>
                                     {(provided) => {
