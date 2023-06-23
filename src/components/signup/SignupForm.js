@@ -256,14 +256,17 @@ const SignupForm = () => {
                 }
                 console.log("pushing value: " + faculty.id.toString() + facultyCourseCount.toString());
                 console.log("pushing label: " + course.id.toString());
+                console.log("pushing label id: " + course.id);
+                console.log("current facultycoursecount is " + facultyCourseCount.toString());
+                console.log(courseArray);
                 courseArray.push(newElement);
+                setCourseArray(courseArray);
               })
             })
             console.log("courseArray: " + courseArray.toString());
             courseArray.forEach((item) => console.log(item));
             console.log("staticCourse: " + static_course.toString());
             static_course.forEach((item) => console.log(item));
-            setCourseArray(courseArray);
           });
       } catch (error) {
         console.log(error.message);
