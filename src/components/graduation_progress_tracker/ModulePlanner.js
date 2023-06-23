@@ -140,7 +140,7 @@ const ModulePlanner = () => {
         })
     }
 
-    const deleteModule = (moduleCode, yearSem) => {
+    const deleteModule = (moduleID, moduleCode, yearSem) => {
         console.log("Module Deleted: " + moduleCode);
         console.log("Year and Semester: " + yearSem);
         setState(prev => {
@@ -149,7 +149,7 @@ const ModulePlanner = () => {
                 [yearSem]: {
                     title: yearSem,
                     items: [
-                        ...prev[yearSem].items.filter(module => module.code !== moduleCode)
+                        ...prev[yearSem].items.filter(module => module.id !== moduleID)
                     ]
                 }
             }
@@ -195,11 +195,13 @@ const ModulePlanner = () => {
                                                                         {...provided.dragHandleProps}
                                                                     >
                                                                         <ModulePill
+                                                                            moduleID={el.id}
                                                                             moduleCode={el.code}
                                                                             moduleName={el.name}
                                                                             moduleMC={el.mc}
+                                                                            yearSem={data.title}
                                                                             onClick={deleteModule}
-                                                                            yearSem={data.title} />
+                                                                        />
                                                                     </div>
                                                                 )
                                                             }}

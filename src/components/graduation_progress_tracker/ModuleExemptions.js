@@ -72,7 +72,7 @@ const ModuleExemptions = () => {
         })
     }
 
-    const deleteModule = (moduleCode, yearSem) => {
+    const deleteModule = (moduleID, moduleCode, yearSem) => {
         console.log("Module Deleted: " + moduleCode);
         console.log("Year and Semester: " + yearSem);
         setState(prev => {
@@ -81,7 +81,7 @@ const ModuleExemptions = () => {
                 [yearSem]: {
                     title: "",
                     items: [
-                        ...prev[yearSem].items.filter(module => module.code !== moduleCode)
+                        ...prev[yearSem].items.filter(module => module.id !== moduleID)
                     ]
                 }
             }
@@ -125,11 +125,13 @@ const ModuleExemptions = () => {
                                                                         {...provided.dragHandleProps}
                                                                     >
                                                                         <ModulePill
+                                                                            moduleID={el.id}
                                                                             moduleCode={el.code}
                                                                             moduleName={el.name}
                                                                             moduleMC={el.mc}
+                                                                            yearSem="Exemptions"
                                                                             onClick={deleteModule}
-                                                                            yearSem="Exemptions" />
+                                                                        />
                                                                     </div>
                                                                 )
                                                             }}
