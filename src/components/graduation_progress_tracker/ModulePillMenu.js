@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { Menu, MenuItem, IconButton } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-const ModulePillMenu = ({ code, onMenuClick }) => {
+const ModulePillMenu = ({ moduleCode, yearSem, onMenuClick }) => {
     const [menu, setMenu] = useState(null);
     const open = Boolean(menu);
     const handleClick = (event) => {
@@ -17,7 +17,7 @@ const ModulePillMenu = ({ code, onMenuClick }) => {
         setMenu(null);
     };
     const handleDelete = () => {
-        onMenuClick(code);
+        onMenuClick(moduleCode, yearSem);
         setMenu(null);
     };
 

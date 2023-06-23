@@ -44,7 +44,7 @@ const item4 = {
     code: "GEA1000",
     name: "Quantitative Reasoning with Data",
     mc: "4"
-} 
+}
 
 const item5 = {
     id: v4(),
@@ -119,6 +119,8 @@ const ModulePlanner = () => {
     }
 
     const addModule = (moduleCode, moduleName, moduleMC, yearSem) => {
+        console.log("Module Added: " + moduleCode);
+        console.log("Year and Semester: " + yearSem);
         setState(prev => {
             return {
                 ...prev,
@@ -138,8 +140,20 @@ const ModulePlanner = () => {
         })
     }
 
-    const deleteModule = (code) => {
-        console.log("Module deleted: " + code);
+    const deleteModule = (moduleCode, yearSem) => {
+        console.log("Module Deleted: " + moduleCode);
+        console.log("Year and Semester: " + yearSem);
+        setState(prev => {
+            return {
+                ...prev,
+                [yearSem]: {
+                    title: yearSem,
+                    items: [
+                        ...prev[yearSem].items.filter(module => module.code !== moduleCode)
+                    ]
+                }
+            }
+        })
     }
 
     return (
@@ -160,8 +174,8 @@ const ModulePlanner = () => {
                                         header="Add Module"
                                         text="Search for your desired modules by their respective module code 
                                         and add them to your module planner!"
-                                        onSubmit={addModule} 
-                                        yearSem={data.title}/>
+                                        onSubmit={addModule}
+                                        yearSem={data.title} />
                                 </Stack>
                                 <Droppable droppableId={key}>
                                     {(provided) => {
@@ -181,10 +195,11 @@ const ModulePlanner = () => {
                                                                         {...provided.dragHandleProps}
                                                                     >
                                                                         <ModulePill
-                                                                            code={el.code}
-                                                                            name={el.name}
-                                                                            mc={el.mc}
-                                                                            onClick={deleteModule} />
+                                                                            moduleCode={el.code}
+                                                                            moduleName={el.name}
+                                                                            moduleMC={el.mc}
+                                                                            onClick={deleteModule}
+                                                                            yearSem={data.title} />
                                                                     </div>
                                                                 )
                                                             }}
