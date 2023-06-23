@@ -230,11 +230,9 @@ const SignupForm = () => {
       }
     }
     loadMatriculationYearList();
-    //console.log("matriculationYear infinite loop test");
   }, []);
 
   useEffect(() => {
-    //let courseArray = [{value: 'CHS1', label: 'test1'}, {value: 'CHS2', label: 'test2'}];
     let courseArray = [];
     const courseCollectionRef = collection(db, "courseLibrary");
     async function loadCourseList() {
@@ -273,7 +271,6 @@ const SignupForm = () => {
       }
     }
     loadCourseList();
-    //console.log("courseArray infinite loop test");
   }, []);
 
   console.count("component rendered!");
