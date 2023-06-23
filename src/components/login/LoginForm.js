@@ -4,9 +4,10 @@
 import FormField from '../common/FormField';
 import MainButton from '../common/MainButton';
 import ninenote_blue from '../../graphics/ninenote_blue.png';
+import SnackBar from '../common/SnackBar';
 
 // tools
-import { Stack, Link, Typography, Box, Snackbar, Alert } from '@mui/material';
+import { Stack, Link, Typography, Box } from '@mui/material';
 import { useState } from "react";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../others/firebase';
@@ -69,22 +70,7 @@ const LoginForm = () => {
               onClickAction={Login}
             />
           </Link>
-          <Snackbar
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "center",
-            }}
-            autoHideDuration={3000}
-            open={loginError}
-            onClose={() => setLoginError(false)}
-            key="top center"
-          >
-            <Alert severity="error" sx={{ width: "100%" }}>
-              <Typography variant="tag_thin">
-                Incorrect credentials. Please try again.
-              </Typography>
-            </Alert>
-          </Snackbar>
+          <SnackBar type="error" error={loginError} text="Incorrect credentials. Please try again."/>
           <Link underline="none">
             <Typography variant="tag_thin" display="flex" justifyContent="flex-end">Forgot your password?</Typography>
           </Link>

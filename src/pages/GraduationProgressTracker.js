@@ -7,6 +7,7 @@ import CreditsSelected from '../components/graduation_progress_tracker/CreditsSe
 import GraduationStatus from '../components/graduation_progress_tracker/GraduationStatus';
 import ModuleExemptions from '../components/graduation_progress_tracker/ModuleExemptions';
 import ModulePlanner from '../components/graduation_progress_tracker/ModulePlanner';
+import SnackBar from '../components/common/SnackBar';
 
 // tools
 import { Helmet } from 'react-helmet';
@@ -19,6 +20,7 @@ const GraduationProgressTracker = () => {
         <title>nineNote | Graduation Progress Tracker</title>
       </Helmet>
       <MainNavbar />
+      <SnackBar type="success" text="You have logged in successfully." />
       <Stack direction="row" gap="64px" padding="56px">
         <Stack gap="56px">
           <CreditsSelected />

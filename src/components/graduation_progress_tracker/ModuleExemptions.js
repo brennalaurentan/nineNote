@@ -70,6 +70,10 @@ const ModuleExemptions = () => {
         })
     }
 
+    const deleteModule = (code) => {
+        console.log("Module deleted: " + code);
+    }
+
     return (
         <Stack gap="32px">
             <Typography variant="h3">Module Exemptions</Typography>
@@ -108,7 +112,8 @@ const ModuleExemptions = () => {
                                                                         <ModulePill
                                                                             code={el.code}
                                                                             name={el.name}
-                                                                            mc={el.mc} />
+                                                                            mc={el.mc} 
+                                                                            onClick={deleteModule}/>
                                                                     </div>
                                                                 )
                                                             }}

@@ -39,18 +39,57 @@ const item3 = {
     mc: "4"
 }
 
+const item4 = {
+    id: v4(),
+    code: "GEA1000",
+    name: "Quantitative Reasoning with Data",
+    mc: "4"
+} 
+
+const item5 = {
+    id: v4(),
+    code: "IS2218",
+    name: "Digital Plaforms for Business",
+    mc: "4"
+}
+
+const item6 = {
+    id: v4(),
+    code: "CS2030S",
+    name: "Programming Methodology II",
+    mc: "4"
+}
+
+const item7 = {
+    id: v4(),
+    code: "CS2100",
+    name: "Computer Organisation",
+    mc: "4"
+}
+
+const item8 = {
+    id: v4(),
+    code: "IS1108",
+    name: "Digital Ethics and Data Privacy",
+    mc: "4"
+}
+
 const ModulePlanner = () => {
     const [state, setState] = useState({
         "Y1 S1": {
             title: "Y1 S1",
-            items: [item1]
+            items: [item1, item2, item3, item4, item5]
         },
         "Y1 S2": {
             title: "Y1 S2",
-            items: [item2]
+            items: [item6, item7, item8]
         },
         "Y1 ST1": {
             title: "Y1 ST1",
+            items: []
+        },
+        "Y1 ST2": {
+            title: "Y1 ST2",
             items: []
         }
     })
@@ -99,6 +138,10 @@ const ModulePlanner = () => {
         })
     }
 
+    const deleteModule = (code) => {
+        console.log("Module deleted: " + code);
+    }
+
     return (
         <Stack gap="32px" width="100vw">
             <Stack direction="row" display="flex" alignItems="center" justifyContent="space-between">
@@ -139,7 +182,8 @@ const ModulePlanner = () => {
                                                                         <ModulePill
                                                                             code={el.code}
                                                                             name={el.name}
-                                                                            mc={el.mc} />
+                                                                            mc={el.mc}
+                                                                            onClick={deleteModule} />
                                                                     </div>
                                                                 )
                                                             }}
