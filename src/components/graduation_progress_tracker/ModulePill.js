@@ -6,7 +6,7 @@ import ModulePillMenu from '../graduation_progress_tracker/ModulePillMenu';
 // tools
 import { Typography, Stack, Box } from '@mui/material';
 
-const ModulePill = ({ moduleCode, moduleName, moduleMC, onClick, yearSem }) => {
+const ModulePill = ({ moduleID, moduleCode, moduleName, moduleMC, yearSem, onClick }) => {
     return (
         <>
             <Box
@@ -35,7 +35,11 @@ const ModulePill = ({ moduleCode, moduleName, moduleMC, onClick, yearSem }) => {
                         </Stack>
                         <Typography variant="tag_thin">{moduleName}</Typography>
                     </Box>
-                    <ModulePillMenu moduleCode={moduleCode} yearSem={yearSem} onMenuClick={onClick} />
+                    <ModulePillMenu 
+                        moduleID={moduleID} 
+                        moduleCode={moduleCode} 
+                        yearSem={yearSem} 
+                        onMenuClick={onClick} />
                 </Stack>
             </Box>
         </>
