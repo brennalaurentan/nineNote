@@ -234,8 +234,9 @@ const SignupForm = () => {
   }, []);
 
   useEffect(() => {
+    //let courseArray = [{value: 'CHS1', label: 'test1'}, {value: 'CHS2', label: 'test2'}];
     let courseArray = [];
-    const courseCollectionRef = collection(db, 'courseLibrary');
+    const courseCollectionRef = collection(db, "courseLibrary");
     async function loadCourseList() {
       try {
         const qSnapshot = getDocs(courseCollectionRef)
@@ -247,7 +248,7 @@ const SignupForm = () => {
               let facultyCourseCount = 0;
               const courseSnapshot = await getDocs(collection(db, `courseLibrary/${faculty.id}/courses`));
               // for each course in the childDoc faculty
-              courseSnapshot.forEach((course) => {
+              courseSnapshot.forEach(course => {
                 facultyCourseCount++;
                 let newElement = {
                   "value": faculty.id.toString() + facultyCourseCount.toString(),
