@@ -6,7 +6,7 @@ import ModulePillMenu from '../graduation_progress_tracker/ModulePillMenu';
 // tools
 import { Typography, Stack, Box } from '@mui/material';
 
-const ModulePill = ({ code, name, mc, onClick }) => {
+const ModulePill = ({ moduleCode, moduleName, moduleMC, onClick, yearSem }) => {
     return (
         <>
             <Box
@@ -19,7 +19,7 @@ const ModulePill = ({ code, name, mc, onClick }) => {
                 <Stack direction="row" alignItems="center" justifyContent="space-between">
                     <Box>
                         <Stack direction="row" alignItems="center" gap="10px">
-                            <Typography variant="body_bold">{code}</Typography>
+                            <Typography variant="body_bold">{moduleCode}</Typography>
                             <Box
                                 width="45px"
                                 bgcolor="light_gray.main"
@@ -30,35 +30,13 @@ const ModulePill = ({ code, name, mc, onClick }) => {
                                 paddingBottom="3px"
                                 paddingLeft="3px"
                                 paddingRight="3px">
-                                <Typography variant="tiny_tag_bold" color="dark_gray.main">{mc} MCs</Typography>
+                                <Typography variant="tiny_tag_bold" color="dark_gray.main">{moduleMC} MCs</Typography>
                             </Box>
                         </Stack>
-                        <Typography variant="tag_thin">{name}</Typography>
+                        <Typography variant="tag_thin">{moduleName}</Typography>
                     </Box>
-                    <ModulePillMenu code={code} onMenuClick={onClick} />
+                    <ModulePillMenu moduleCode={moduleCode} yearSem={yearSem} onMenuClick={onClick} />
                 </Stack>
-
-                {/* <Stack direction="row" alignItems="flex-start" justifyContent="space-between">
-                    <Box>
-                        <Stack direction="row" alignItems="center" gap="10px">
-                            <Typography variant="body_bold">{code}</Typography>
-                            <Box
-                                width="45px"
-                                bgcolor="light_gray.main"
-                                borderRadius="15px"
-                                display="flex"
-                                justifyContent="center"
-                                paddingTop="3px"
-                                paddingBottom="3px"
-                                paddingLeft="3px"
-                                paddingRight="3px">
-                                <Typography variant="tiny_tag_bold" color="dark_gray.main">{mc} MCs</Typography>
-                            </Box>
-                        </Stack>
-                    </Box>
-                    <ModulePillMenu code={code} onMenuClick={onClick} />
-                </Stack>
-                <Typography variant="tag_thin">{name}</Typography> */}
             </Box>
         </>
     )

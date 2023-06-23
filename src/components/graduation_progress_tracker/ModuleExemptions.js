@@ -50,11 +50,13 @@ const ModuleExemptions = () => {
         })
     }
 
-    const addModule = (moduleCode, moduleName, moduleMC) => {
+    const addModule = (moduleCode, moduleName, moduleMC, yearSem) => {
+        console.log("Module Added: " + moduleCode);
+        console.log("Year and Semester: " + yearSem);
         setState(prev => {
             return {
                 ...prev,
-                "Exemptions": {
+                [yearSem]: {
                     title: "",
                     items: [
                         {
@@ -63,15 +65,27 @@ const ModuleExemptions = () => {
                             name: moduleName,
                             mc: moduleMC
                         },
-                        ...prev['Exemptions'].items
+                        ...prev[yearSem].items
                     ]
                 }
             }
         })
     }
 
-    const deleteModule = (code) => {
-        console.log("Module deleted: " + code);
+    const deleteModule = (moduleCode, yearSem) => {
+        console.log("Module Deleted: " + moduleCode);
+        console.log("Year and Semester: " + yearSem);
+        setState(prev => {
+            return {
+                ...prev,
+                [yearSem]: {
+                    title: "",
+                    items: [
+                        ...prev[yearSem].items.filter(module => module.code !== moduleCode)
+                    ]
+                }
+            }
+        })
     }
 
     return (
@@ -90,7 +104,8 @@ const ModuleExemptions = () => {
                                         header="Add Module Exemptions"
                                         text="Search for your exempted modules by their respective module code 
                                         and add them to your module exemptions!"
-                                        onSubmit={addModule} />
+                                        onSubmit={addModule}
+                                        yearSem="Exemptions" />
                                 </Stack>
                                 <Droppable droppableId={key}>
                                     {(provided) => {
@@ -110,10 +125,11 @@ const ModuleExemptions = () => {
                                                                         {...provided.dragHandleProps}
                                                                     >
                                                                         <ModulePill
-                                                                            code={el.code}
-                                                                            name={el.name}
-                                                                            mc={el.mc} 
-                                                                            onClick={deleteModule}/>
+                                                                            moduleCode={el.code}
+                                                                            moduleName={el.name}
+                                                                            moduleMC={el.mc}
+                                                                            onClick={deleteModule}
+                                                                            yearSem="Exemptions" />
                                                                     </div>
                                                                 )
                                                             }}
