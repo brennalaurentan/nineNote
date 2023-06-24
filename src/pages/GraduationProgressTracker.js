@@ -14,6 +14,16 @@ import { Helmet } from 'react-helmet';
 import { Stack } from '@mui/material';
 
 const GraduationProgressTracker = () => {
+  let ccr = 4;
+  let ccrTotal = 40;
+  let pr = 28;
+  let prTotal = 80;
+  let uer = 4;
+  let uerTotal = 40;
+
+  let totalNumerator = ccr + pr + uer;
+  let totalDenominator = ccrTotal + prTotal + uerTotal;
+
   return (
     <>
       <Helmet>
@@ -23,8 +33,16 @@ const GraduationProgressTracker = () => {
       <SnackBar type="success" text="You have logged in successfully." />
       <Stack direction="row" gap="64px" padding="56px">
         <Stack gap="56px">
-          <CreditsSelected />
-          <GraduationStatus />
+          <CreditsSelected
+            ccr={ccr}
+            ccrTotal={ccrTotal}
+            pr={pr}
+            prTotal={prTotal}
+            uer={uer}
+            uerTotal={uerTotal} />
+          <GraduationStatus
+            numerator={totalNumerator}
+            denominator={totalDenominator} />
           <ModuleExemptions />
         </Stack>
         <ModulePlanner />
