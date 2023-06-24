@@ -10,12 +10,13 @@ import { Typography, Box, Stack } from '@mui/material';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import _ from "lodash";
 import { v4 } from 'uuid';
+import CreditCount from './CreditCount';
 
 const item1 = {
     id: v4(),
     code: "MA1301",
     name: "Introductory Mathematics",
-    mc: "4"
+    mc: 4
 }
 
 const ModuleExemptions = () => {
@@ -88,10 +89,15 @@ const ModuleExemptions = () => {
         })
     }
 
+    // const calculateCredits = (moduleArray) => {
+    //     const moduleMCArray = moduleArray.map(module => module.mc);
+    //     const totalCredits = moduleMCArray.reduce((partialSum, a) => partialSum + a, 0);
+    //     return totalCredits;
+    // }
+
     return (
         <Stack gap="32px">
             <Typography variant="h3">Module Exemptions</Typography>
-
             <DragDropContext onDragEnd={handleDragEnd}>
                 {_.map(state, (data, key) => {
                     return (
@@ -99,6 +105,7 @@ const ModuleExemptions = () => {
                             <Box bgcolor="light_blue.light" padding="30px" borderRadius="30px" display="flex" flexDirection="column" gap="30px">
                                 <Stack direction="row" display="flex" justifyContent="space-between" alignItems="center" marginTop="5px">
                                     <Typography variant="body_bold">{data.title}</Typography>
+                                    {/* <CreditCount moduleArray={data.items} calculateCredits={calculateCredits} /> */}
                                     <ButtonDialog
                                         button_text="+ ADD NEW"
                                         header="Add Module Exemptions"
