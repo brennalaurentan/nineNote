@@ -65,8 +65,6 @@ const MyProfileTabSection = () => {
           >
             <CustomisedTab label="Basic Information" {...a11yProps(0)} />
             <CustomisedTab label="Module Exemptions" {...a11yProps(1)} />
-            <CustomisedTab label="Saved Module Combinations" {...a11yProps(2)} />
-            <CustomisedTab label="Saved Module Resources" {...a11yProps(3)} />
           </CustomisedTabs>
         </Stack>
         <MyProfileTabContent value={value} />

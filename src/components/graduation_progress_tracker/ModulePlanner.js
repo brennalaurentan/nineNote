@@ -15,6 +15,7 @@ import { v4 } from 'uuid';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../others/firebase';
 import { useEffect } from 'react';
+import { getAuth } from 'firebase/auth';
 
 const SemContainer = styled(Container)(({ theme }) => ({
     display: "flex",
@@ -124,34 +125,57 @@ const ModulePlanner = () => {
     
     const usersCollectionRef = collection(db, "users");
     const [modulesBySemester, setModulesBySemester] = useState({});
-    
+    let userSemesterCount = 0;
+    let semesterModulesArray = [];
+
     useEffect(() => {
       async function loadSemesterModules() {
       try {
+        const auth = getAuth();
+        const user = auth.currentUser;
+        const currentUserEmail = user.email;
         const qSnapshot = getDocs(usersCollectionRef)
           .then((qSnapshot) => {
 
             console.log("users qSnapshot: " + qSnapshot);
-            // for each user in users
+            // for each user in users (users is a collection)
             qSnapshot.forEach(async user => {
-              let userSemesterCount = 0;
-              const semesterSnapshot = await getDocs(collection(db, `users/${user.id}/modules`));
-              // for each semester in the childDoc user
-              semesterSnapshot.forEach(async semester => {
+              if (user.id == currentUserEmail) {
+                const semesterSnapshot = await getDocs(collection(db, `users/${user.id}/modules`));
+                // for each semester under the user
+                semesterSnapshot.forEach(async semester => {
+                    userSemesterCount++;
+                    const moduleSnapshot = await getDocs(collection(db, `users/${user.id}/modules/${semester.id}`));
+                    // for each module under the semester
+                    moduleSnapshot.forEach(module => {
+                        let newModule = {
+                            "moduleName": module.data().moduleName,
+                            "moduleCode": module.data().moduleCode,
+                            "moduleMC": module.data().moduleMC
+                        }
+                        semesterModulesArray.push(newModule);
+                        setModulesBySemester(modulesBySemester);
+                        console.log("pushed to semester " + semester.id + ": " + newModule.moduleName);
+                        console.log(semesterModulesArray);
+                    });
+                });
+              }
+            });
+        });
+                /*
                 userSemesterCount++;
-                let semesterModuleCount = semester.data().numModules;
+                let semesterModuleCount = 0;
                 const semesterName = semester.id;
                 const semesterModulesArray = [];
                 console.log("userid: " + user.id);
                 console.log("semesterid: " + semester.id);
                 console.log("trying to access path: " + `users/${user.id}/modules/${semester.id}`);
-                const moduleSnapshot = await getDocs(collection(`users/${user.id}/modules`));
-                // for each module in the semester
-                moduleSnapshot.forEach(async moduleCollection => {
+                semester.forEach(async semesterModule => {
                     semesterModuleCount++;
                     console.log("semester module count is: " + semesterModuleCount.toString());
                     console.log("module collection name is: " + moduleCollection.id);
-                    const moduleDetailsSnapshot = await getDocs(collection(`users/${user.id}/modules/${semester.id}/${moduleCollection.id}/moduleDetails`));
+                    const moduleDetailsSnapshot = await getDocs(collection(db, `users/${user.id}/modules/${semester.id}/${.id}`));
+                    // for each moduleDetail (moduleDetails is a document)
                     moduleDetailsSnapshot.forEach(moduleDetails => {
                     let newModule = {
                         "moduleName": moduleDetails.data().moduleName,
@@ -163,16 +187,13 @@ const ModulePlanner = () => {
                     console.log("pushed to semester " + semesterName + ": " + newModule.moduleName);
                     })
                 })
-                console.log("semester " + semesterName + " completed: " + semesterModuleCount.toString() + " modules");
-              });
-            });
+                */
             /*
             console.log("courseArray: " + courseArray.toString());
             courseArray.forEach((item) => console.log(item));
             console.log("staticCourse: " + static_course.toString());
             static_course.forEach((item) => console.log(item));
             */
-        });
       } catch (error) {
         console.log(error.message);
       }
