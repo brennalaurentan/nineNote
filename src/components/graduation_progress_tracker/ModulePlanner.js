@@ -12,6 +12,9 @@ import { Stack, Typography, Box, Container } from '@mui/material';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import _ from "lodash";
 import { v4 } from 'uuid';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../others/firebase';
+import { useEffect } from 'react';
 
 const SemContainer = styled(Container)(({ theme }) => ({
     display: "flex",
@@ -75,12 +78,37 @@ const item8 = {
 }
 
 const ModulePlanner = () => {
+
     const [state, setState] = useState({
         "Y1 S1": {
             title: "Y1 S1",
             items: [item1, item2, item3, item4, item5]
         },
         "Y1 S2": {
+            title: "Y1 S2",
+            items: [item6, item7, item8]
+        },
+        "Y2 S1": {
+            title: "Y1 S2",
+            items: [item6, item7, item8]
+        },
+        "Y2 S2": {
+            title: "Y1 S2",
+            items: [item6, item7, item8]
+        },
+        "Y3 S1": {
+            title: "Y1 S2",
+            items: [item6, item7, item8]
+        },
+        "Y3 S2": {
+            title: "Y1 S2",
+            items: [item6, item7, item8]
+        },
+        "Y4 S1": {
+            title: "Y1 S2",
+            items: [item6, item7, item8]
+        },
+        "Y4 S2": {
             title: "Y1 S2",
             items: [item6, item7, item8]
         },
@@ -93,6 +121,65 @@ const ModulePlanner = () => {
             items: []
         }
     })
+    
+    const usersCollectionRef = collection(db, "users");
+    const [modulesBySemester, setModulesBySemester] = useState({});
+    
+    useEffect(() => {
+      async function loadSemesterModules() {
+      try {
+        const qSnapshot = getDocs(usersCollectionRef)
+          .then((qSnapshot) => {
+
+            console.log("users qSnapshot: " + qSnapshot);
+            // for each user in users
+            qSnapshot.forEach(async user => {
+              let userSemesterCount = 0;
+              const semesterSnapshot = await getDocs(collection(db, `users/${user.id}/modules`));
+              // for each semester in the childDoc user
+              semesterSnapshot.forEach(async semester => {
+                userSemesterCount++;
+                let semesterModuleCount = semester.data().numModules;
+                const semesterName = semester.id;
+                const semesterModulesArray = [];
+                console.log("userid: " + user.id);
+                console.log("semesterid: " + semester.id);
+                console.log("trying to access path: " + `users/${user.id}/modules/${semester.id}`);
+                const moduleSnapshot = await getDocs(collection(`users/${user.id}/modules`));
+                // for each module in the semester
+                moduleSnapshot.forEach(async moduleCollection => {
+                    semesterModuleCount++;
+                    console.log("semester module count is: " + semesterModuleCount.toString());
+                    console.log("module collection name is: " + moduleCollection.id);
+                    const moduleDetailsSnapshot = await getDocs(collection(`users/${user.id}/modules/${semester.id}/${moduleCollection.id}/moduleDetails`));
+                    moduleDetailsSnapshot.forEach(moduleDetails => {
+                    let newModule = {
+                        "moduleName": moduleDetails.data().moduleName,
+                        "moduleCode": moduleDetails.data().moduleCode,
+                        "moduleMC": moduleDetails.data().moduleMC
+                    }
+                    semesterModulesArray.push(newModule);
+                    setModulesBySemester(modulesBySemester);
+                    console.log("pushed to semester " + semesterName + ": " + newModule.moduleName);
+                    })
+                })
+                console.log("semester " + semesterName + " completed: " + semesterModuleCount.toString() + " modules");
+              });
+            });
+            /*
+            console.log("courseArray: " + courseArray.toString());
+            courseArray.forEach((item) => console.log(item));
+            console.log("staticCourse: " + static_course.toString());
+            static_course.forEach((item) => console.log(item));
+            */
+        });
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+    loadSemesterModules();
+    }, []);
+
 
     const handleDragEnd = ({ destination, source }) => {
         console.log("from", source)
