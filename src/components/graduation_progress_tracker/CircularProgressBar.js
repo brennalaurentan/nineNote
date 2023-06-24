@@ -5,7 +5,7 @@
 // tools
 import { CircularProgress, circularProgressClasses, Box } from '@mui/material';
 
-const CircularProgressBar = () => {
+const CircularProgressBar = ({ progress }) => {
     return (
         <Box sx={{ position: 'relative' }}>
             <CircularProgress
@@ -29,7 +29,7 @@ const CircularProgressBar = () => {
                 }}
                 size={60}
                 thickness={5}
-                value={10}
+                value={progress}
             />
         </Box>
     )
