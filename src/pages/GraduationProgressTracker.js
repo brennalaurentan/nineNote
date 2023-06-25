@@ -14,11 +14,11 @@ import { Helmet } from 'react-helmet';
 import { Stack } from '@mui/material';
 
 const GraduationProgressTracker = () => {
-  let ccr = 4;
+  let ccr = 8;
   let ccrTotal = 40;
-  let pr = 28;
+  let pr = 24;
   let prTotal = 80;
-  let uer = 4;
+  let uer = 0;
   let uerTotal = 40;
 
   let totalNumerator = ccr + pr + uer;

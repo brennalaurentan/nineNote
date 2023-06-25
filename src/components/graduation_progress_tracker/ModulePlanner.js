@@ -26,56 +26,64 @@ const item1 = {
     id: v4(),
     code: "CS1231S",
     name: "Discrete Structures",
-    mc: "4"
+    mc: "4",
+    category: "P"
 }
 
 const item2 = {
     id: v4(),
     code: "CS1101S",
     name: "Programming Methodology I",
-    mc: "4"
+    mc: "4",
+    category: "P"
 }
 
 const item3 = {
     id: v4(),
     code: "MA1521",
     name: "Calculus for Computing",
-    mc: "4"
+    mc: "4",
+    category: "P"
 }
 
 const item4 = {
     id: v4(),
     code: "GEA1000",
     name: "Quantitative Reasoning with Data",
-    mc: "4"
+    mc: "4",
+    category: "CC"
 }
 
 const item5 = {
     id: v4(),
     code: "IS2218",
     name: "Digital Plaforms for Business",
-    mc: "4"
+    mc: "4",
+    category: "P"
 }
 
 const item6 = {
     id: v4(),
     code: "CS2030S",
     name: "Programming Methodology II",
-    mc: "4"
+    mc: "4",
+    category: "P"
 }
 
 const item7 = {
     id: v4(),
     code: "CS2100",
     name: "Computer Organisation",
-    mc: "4"
+    mc: "4",
+    category: "P"
 }
 
 const item8 = {
     id: v4(),
     code: "IS1108",
     name: "Digital Ethics and Data Privacy",
-    mc: "4"
+    mc: "4",
+    category: "P"
 }
 
 const ModulePlanner = () => {
@@ -83,35 +91,11 @@ const ModulePlanner = () => {
     const [state, setState] = useState({
         "Y1 S1": {
             title: "Y1 S1",
-            items: [item1, item2, item3, item4, item5]
+            items: []
         },
         "Y1 S2": {
             title: "Y1 S2",
-            items: [item6, item7, item8]
-        },
-        "Y2 S1": {
-            title: "Y1 S2",
-            items: [item6, item7, item8]
-        },
-        "Y2 S2": {
-            title: "Y1 S2",
-            items: [item6, item7, item8]
-        },
-        "Y3 S1": {
-            title: "Y1 S2",
-            items: [item6, item7, item8]
-        },
-        "Y3 S2": {
-            title: "Y1 S2",
-            items: [item6, item7, item8]
-        },
-        "Y4 S1": {
-            title: "Y1 S2",
-            items: [item6, item7, item8]
-        },
-        "Y4 S2": {
-            title: "Y1 S2",
-            items: [item6, item7, item8]
+            items: []
         },
         "Y1 ST1": {
             title: "Y1 ST1",
@@ -120,10 +104,61 @@ const ModulePlanner = () => {
         "Y1 ST2": {
             title: "Y1 ST2",
             items: []
+        },
+        "Y2 S1": {
+            title: "Y2 S1",
+            items: []
+        },
+        "Y2 S2": {
+            title: "Y2 S2",
+            items: []
+        },
+        "Y2 ST1": {
+            title: "Y2 ST1",
+            items: []
+        },
+        "Y2 ST2": {
+            title: "Y2 ST2",
+            items: []
+        },
+        "Y3 S1": {
+            title: "Y3 S1",
+            items: []
+        },
+        "Y3 S2": {
+            title: "Y3 S2",
+            items: []
+        },
+        "Y3 ST1": {
+            title: "Y3 ST1",
+            items: []
+        },
+        "Y3 ST2": {
+            title: "Y3 ST2",
+            items: []
+        },
+        "Y4 S1": {
+            title: "Y4 S1",
+            items: []
+        },
+        "Y4 S2": {
+            title: "Y4 S2",
+            items: []
+        },
+        "Y4 ST1": {
+            title: "Y4 ST1",
+            items: []
+        },
+        "Y4 ST2": {
+            title: "Y4 ST2",
+            items: []
         }
     })
+
+    const [ccrCreditsCompleted, setCCRCreditsCompleted] = useState();
+    const [pCreditsCompleted, setPCreditsCompleted] = useState();
+    const [ueCreditsCompleted, setUECreditsCompleted] = useState();
     
-    const usersCollectionRef = collection(db, "users");
     const [modulesBySemester, setModulesBySemester] = useState({});
     let userSemesterCount = 0;
     let semesterModulesArray = [];
@@ -134,10 +169,30 @@ const ModulePlanner = () => {
         const auth = getAuth();
         const user = auth.currentUser;
         const currentUserEmail = user.email;
-        const qSnapshot = getDocs(usersCollectionRef)
-          .then((qSnapshot) => {
 
-            console.log("users qSnapshot: " + qSnapshot);
+        const usersCollectionRef = collection(db, "users");
+        const semestersCollectionRef = collection(db, `users/${user.email}/modules`);
+
+        const semestersSnapshot = getDocs(semestersCollectionRef)
+          .then((semestersSnapshot) => {
+
+            // 16 docs, correct
+            console.log("semestersSnapshot: " + semestersSnapshot);
+            console.log(semestersSnapshot);
+
+            // in database: Y1S1, Y1S2, Y1ST1, Y1ST2, ..., Y4ST2
+            semestersSnapshot.forEach(async semester => {
+                console.log("semester: " + semester.id);
+                console.log(semester);
+
+                //const moduleCollectionRef = await getDocs(collection(db, `users/${user.email}/modules/${semester}/`));
+                // retrieves all the documents in modules (each semester)
+                //const moduleSnapshot = await getDocs(collection(db, `users/${user.email}/modules/`))
+                
+            })
+            
+/*
+
             // for each user in users (users is a collection)
             qSnapshot.forEach(async user => {
               if (user.id == currentUserEmail) {
@@ -161,39 +216,9 @@ const ModulePlanner = () => {
                 });
               }
             });
-        });
-                /*
-                userSemesterCount++;
-                let semesterModuleCount = 0;
-                const semesterName = semester.id;
-                const semesterModulesArray = [];
-                console.log("userid: " + user.id);
-                console.log("semesterid: " + semester.id);
-                console.log("trying to access path: " + `users/${user.id}/modules/${semester.id}`);
-                semester.forEach(async semesterModule => {
-                    semesterModuleCount++;
-                    console.log("semester module count is: " + semesterModuleCount.toString());
-                    console.log("module collection name is: " + moduleCollection.id);
-                    const moduleDetailsSnapshot = await getDocs(collection(db, `users/${user.id}/modules/${semester.id}/${.id}`));
-                    // for each moduleDetail (moduleDetails is a document)
-                    moduleDetailsSnapshot.forEach(moduleDetails => {
-                    let newModule = {
-                        "moduleName": moduleDetails.data().moduleName,
-                        "moduleCode": moduleDetails.data().moduleCode,
-                        "moduleMC": moduleDetails.data().moduleMC
-                    }
-                    semesterModulesArray.push(newModule);
-                    setModulesBySemester(modulesBySemester);
-                    console.log("pushed to semester " + semesterName + ": " + newModule.moduleName);
-                    })
-                })
-                */
-            /*
-            console.log("courseArray: " + courseArray.toString());
-            courseArray.forEach((item) => console.log(item));
-            console.log("staticCourse: " + static_course.toString());
-            static_course.forEach((item) => console.log(item));
             */
+        });
+
       } catch (error) {
         console.log(error.message);
       }
