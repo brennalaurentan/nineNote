@@ -155,6 +155,25 @@ const static_certifications = [
   },
 ];
 
+const static_semesters = [
+  "Y1S1",
+  "Y1S2",
+  "Y1ST1",
+  "Y1ST2",
+  "Y2S1",
+  "Y2S2",
+  "Y2ST1",
+  "Y2ST2",
+  "Y3S1",
+  "Y3S2",
+  "Y3S1",
+  "Y3S2",
+  "Y4S1",
+  "Y4S2",
+  "Y4ST1",
+  "Y4ST2"
+]
+
 
 
 const SignupForm = () => {
@@ -186,6 +205,7 @@ const SignupForm = () => {
       queryData.map(async (v, id) => {
         let docCount = 0;
         const querySnapshot = await getDocs(collection(db, `users`));
+        
         querySnapshot.forEach((doc) => {
           // doc.data() is never undefined for query doc snapshots
           console.log(doc.id, " => ", doc.data());
@@ -198,78 +218,11 @@ const SignupForm = () => {
           course: course
         });
 
-        const modulesCollectionRef = collection(db, `users/${currentUserEmail}/modules`);
-        //const docRef = doc(db, modulesCollectionRef, "Y1S1");
-
-        /*
-        await setDoc(docRef, {
-          numModules: 0
-        });
-        */
-        
-        await addDoc(modulesCollectionRef, {
-          numModules: 0
-        });
-        
-        /*
-        await setDoc(doc(db, "cities", "LA"), {
-          name: "Los Angeles",
-          state: "CA",
-          country: "USA"
-        });
-        */
-
-        /*
-        await addDoc(doc(db, modulesCollectionRef, 'Y1S1'), {
-          numModules: 0
-        });
-  
-        await setDoc(doc(db, modulesCollectionRef, 'Y1S2'), {
-          numModules: 0
-        });
-        await setDoc(doc(db, modulesCollectionRef, 'Y1ST1'), {
-          numModules: 0
-        });
-        await setDoc(doc(db, modulesCollectionRef, 'Y1ST2'), {
-          numModules: 0
-        });
-        await setDoc(doc(db, modulesCollectionRef, 'Y2S1'), {
-          numModules: 0
-        });
-        await setDoc(doc(db, modulesCollectionRef, 'Y2S2'), {
-          numModules: 0
-        });
-        await setDoc(doc(db, modulesCollectionRef, 'Y2ST1'), {
-          numModules: 0
-        });
-        await setDoc(doc(db, modulesCollectionRef, 'Y2ST2'), {
-          numModules: 0
-        });
-        await setDoc(doc(db, modulesCollectionRef, 'Y3S1'), {
-          numModules: 0
-        });
-        await setDoc(doc(db, modulesCollectionRef, 'Y3S2'), {
-          numModules: 0
-        });
-        await setDoc(doc(db, modulesCollectionRef, 'Y3ST1'), {
-          numModules: 0
-        });
-        await setDoc(doc(db, modulesCollectionRef, 'Y3ST2'), {
-          numModules: 0
-        });
-        await setDoc(doc(db, modulesCollectionRef, 'Y4S1'), {
-          numModules: 0
-        });
-        await setDoc(doc(db, modulesCollectionRef, 'Y4S2'), {
-          numModules: 0
-        });
-        await setDoc(doc(db, modulesCollectionRef, 'Y4ST1'), {
-          numModules: 0
-        });
-        await setDoc(doc(db, modulesCollectionRef, 'Y4ST2'), {
-          numModules: 0
-        });
-        */
+        for (const semester of static_semesters) {
+          setDoc(doc(db, `users/${currentUserEmail}/modules`, semester), {
+            numModules: 0
+          });
+        }
       })
     } catch (error) {
       console.log(error.message);
