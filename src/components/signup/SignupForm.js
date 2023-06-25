@@ -8,10 +8,11 @@ import ninenote_blue from '../../graphics/ninenote_blue.png';
 // tools
 import { Stack, Link, Typography, Box } from '@mui/material';
 import { useEffect, useState } from "react";
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { auth, db } from '../others/firebase';
 import { useNavigate } from 'react-router-dom';
-import { query, collection, doc, setDoc, getDocs } from 'firebase/firestore';
+import { query, collection, doc, setDoc, getDocs, addDoc } from 'firebase/firestore';
+import { forEach } from 'lodash';
 
 const static_matriculation_year = [
   {
@@ -194,8 +195,81 @@ const SignupForm = () => {
         await setDoc(doc(db, `users`, currentUserEmail), {
           email: currentUserEmail,
           matriculationYear: matriculationYear,
-          course: course,
+          course: course
         });
+
+        const modulesCollectionRef = collection(db, `users/${currentUserEmail}/modules`);
+        //const docRef = doc(db, modulesCollectionRef, "Y1S1");
+
+        /*
+        await setDoc(docRef, {
+          numModules: 0
+        });
+        */
+        
+        await addDoc(modulesCollectionRef, {
+          numModules: 0
+        });
+        
+        /*
+        await setDoc(doc(db, "cities", "LA"), {
+          name: "Los Angeles",
+          state: "CA",
+          country: "USA"
+        });
+        */
+
+        /*
+        await addDoc(doc(db, modulesCollectionRef, 'Y1S1'), {
+          numModules: 0
+        });
+  
+        await setDoc(doc(db, modulesCollectionRef, 'Y1S2'), {
+          numModules: 0
+        });
+        await setDoc(doc(db, modulesCollectionRef, 'Y1ST1'), {
+          numModules: 0
+        });
+        await setDoc(doc(db, modulesCollectionRef, 'Y1ST2'), {
+          numModules: 0
+        });
+        await setDoc(doc(db, modulesCollectionRef, 'Y2S1'), {
+          numModules: 0
+        });
+        await setDoc(doc(db, modulesCollectionRef, 'Y2S2'), {
+          numModules: 0
+        });
+        await setDoc(doc(db, modulesCollectionRef, 'Y2ST1'), {
+          numModules: 0
+        });
+        await setDoc(doc(db, modulesCollectionRef, 'Y2ST2'), {
+          numModules: 0
+        });
+        await setDoc(doc(db, modulesCollectionRef, 'Y3S1'), {
+          numModules: 0
+        });
+        await setDoc(doc(db, modulesCollectionRef, 'Y3S2'), {
+          numModules: 0
+        });
+        await setDoc(doc(db, modulesCollectionRef, 'Y3ST1'), {
+          numModules: 0
+        });
+        await setDoc(doc(db, modulesCollectionRef, 'Y3ST2'), {
+          numModules: 0
+        });
+        await setDoc(doc(db, modulesCollectionRef, 'Y4S1'), {
+          numModules: 0
+        });
+        await setDoc(doc(db, modulesCollectionRef, 'Y4S2'), {
+          numModules: 0
+        });
+        await setDoc(doc(db, modulesCollectionRef, 'Y4ST1'), {
+          numModules: 0
+        });
+        await setDoc(doc(db, modulesCollectionRef, 'Y4ST2'), {
+          numModules: 0
+        });
+        */
       })
     } catch (error) {
       console.log(error.message);
@@ -204,7 +278,7 @@ const SignupForm = () => {
 
   useEffect(() => {
     let matriculationYearArray = [];
-    const matriculationYearCollectionRef = collection(db, "matriculation_year");
+    const matriculationYearCollectionRef = collection(db, "matriculationYear");
     async function loadMatriculationYearList() {
       try {
         const qSnapshot = getDocs(matriculationYearCollectionRef)
@@ -241,11 +315,11 @@ const SignupForm = () => {
           .then((qSnapshot) => {
 
             console.log("course qSnapshot: " + qSnapshot);
-            // for each faculty in courseLibrary
+            // for each faculty in courseLibrary (faculty is a document)
             qSnapshot.forEach(async faculty => {
               let facultyCourseCount = 0;
               const courseSnapshot = await getDocs(collection(db, `courseLibrary/${faculty.id}/courses`));
-              // for each course in the childDoc faculty
+              // for each course in the childDoc faculty (course is a document)
               courseSnapshot.forEach(course => {
                 facultyCourseCount++;
                 let newElement = {
@@ -292,7 +366,7 @@ const SignupForm = () => {
           <FormField
             field_name={"Email Address"}
             type={"email"}
-            onChangeAction={(event) => {
+            onChangeAction={(event, value) => {
               setRegisterEmail(event.target.value);
               console.log("live email update: " + registerEmail);
             }}
@@ -310,8 +384,15 @@ const SignupForm = () => {
             type={"dropdown"}
             values={matriculationYearArray}
             onChangeAction={(event) => {
-              setMatriculationYear(event.target.value);
-              console.log(event.target.value);
+              let selectedMatriculationYearLabel = "";
+              for (const matriculationYear of matriculationYearArray) {
+                if (matriculationYear.value === event.target.value) {
+                  console.log("matriculation year label: " + matriculationYear.label);
+                  selectedMatriculationYearLabel = matriculationYear.label;
+                }
+              }
+              console.log("selected matriculation year label: " + selectedMatriculationYearLabel);
+              setMatriculationYear(selectedMatriculationYearLabel);
               console.log("live matriculationyear update: " + matriculationYear);
             }} />
           <FormField
@@ -319,7 +400,15 @@ const SignupForm = () => {
             type={"dropdown"}
             values={courseArray}
             onChangeAction={(event) => {
-              setCourse(event.target.value);
+              let selectedCourseLabel = "";
+              for (const course of courseArray) {
+                if (course.value === event.target.value) {
+                  console.log("course label: " + course.label);
+                  selectedCourseLabel = course.label;
+                }
+              }
+              console.log("selected course label: " + selectedCourseLabel);
+              setCourse(selectedCourseLabel);
               console.log("live course update: " + course);
             }} />
         </Stack>
