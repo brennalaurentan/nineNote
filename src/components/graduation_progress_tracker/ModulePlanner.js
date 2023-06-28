@@ -12,7 +12,7 @@ import { Stack, Typography, Box, Container } from '@mui/material';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import _ from "lodash";
 import { v4 } from 'uuid';
-import { collection, getDocs, getDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, getDoc, doc, onSnapshot, QuerySnapshot } from 'firebase/firestore';
 import { db } from '../others/firebase';
 import { useEffect } from 'react';
 import { getAuth } from 'firebase/auth';
@@ -186,7 +186,11 @@ const ModulePlanner = () => {
             allSemestersSnapshot.forEach(async semester => {
                 // log each of the 16 semesters
                 console.log("semester: " + semester.id);
-                console.log(semester);
+                // line below only retrieves the numModules field from each of the semesters
+                console.log(semester.data());
+                // still haven't figured out a way to get module_1, module_2 etc
+                // (they're collections)
+
 
                 // create semesterLabel: obtain "Y1 S1" from "Y1S1" by adding a space
                 const semesterLabel = semester.id.replace(/^(.{2})(.*)$/, "$1 $2");
@@ -195,6 +199,12 @@ const ModulePlanner = () => {
                 let modulesForThisSemester = [];
 
                 // access all modules within the semester
+                // the line below does not work
+                semester.forEach(doc => {
+                    console.log(doc.id, " => ", doc.data());
+                });
+
+                // other trash that i've tried...
                 //const semesterDocRef = getDoc(doc(collection(db, `users/${user.email}/modules/${semester}`)));
                 //const semesterDocRef = doc(db, `users/${user.email}/modules`, semester);
                 //const allModulesInSemesterSnapshot = await getDocs(semesterDocRef);
