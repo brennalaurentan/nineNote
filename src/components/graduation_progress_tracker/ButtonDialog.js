@@ -51,7 +51,8 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
         // for each semester
         querySnapshot.forEach((doc) => {
           console.log(doc.id, " => ", doc.data());
-          // retrieve current number of modules
+          // retrieve numModules count in the correct semester
+          // (according to button pressed)
           if (doc.id === yearSemCode) {
             docCount = doc.data().numModules;
           }

@@ -12,7 +12,7 @@ import { Stack, Typography, Box, Container } from '@mui/material';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import _ from "lodash";
 import { v4 } from 'uuid';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, getDoc, doc } from 'firebase/firestore';
 import { db } from '../others/firebase';
 import { useEffect } from 'react';
 import { getAuth } from 'firebase/auth';
@@ -173,50 +173,68 @@ const ModulePlanner = () => {
         const usersCollectionRef = collection(db, "users");
         const semestersCollectionRef = collection(db, `users/${user.email}/modules`);
 
-        const semestersSnapshot = getDocs(semestersCollectionRef)
-          .then((semestersSnapshot) => {
+        const allSemestersSnapshot = getDocs(semestersCollectionRef)
+          .then((allSemestersSnapshot) => {
 
             // 16 docs, correct
-            console.log("semestersSnapshot: " + semestersSnapshot);
-            console.log(semestersSnapshot);
+            console.log("allSemestersSnapshot: " + allSemestersSnapshot);
+            console.log(allSemestersSnapshot);
+
+            let newState = {};
 
             // in database: Y1S1, Y1S2, Y1ST1, Y1ST2, ..., Y4ST2
-            semestersSnapshot.forEach(async semester => {
+            allSemestersSnapshot.forEach(async semester => {
+                // log each of the 16 semesters
                 console.log("semester: " + semester.id);
                 console.log(semester);
+
+                // create semesterLabel: obtain "Y1 S1" from "Y1S1" by adding a space
+                const semesterLabel = semester.id.replace(/^(.{2})(.*)$/, "$1 $2");
+
+                // create 'items' array to store all the modules for the particular semester
+                let modulesForThisSemester = [];
+
+                // access all modules within the semester
+                //const semesterDocRef = getDoc(doc(collection(db, `users/${user.email}/modules/${semester}`)));
+                //const semesterDocRef = doc(db, `users/${user.email}/modules`, semester);
+                //const allModulesInSemesterSnapshot = await getDocs(semesterDocRef);
+                //const allModulesInSemester = collection(db, `users/${user.email}/modules`).get();
+                
+                // within the semester snapshot, for each module collection
+                // (module_1, module_2, ...)
+                /*
+                allModulesInSemesterSnapshot.forEach((module) => {
+                    const newItem = {
+                        id: v4(),
+                        code: module.doc('moduleDetails').data().moduleCode,
+                        name: module.doc('moduleDetails').data().moduleName,
+                        mc: module.doc('moduleDetails').data().moduleMC,
+                        category: "P"
+                    }
+                    modulesForThisSemester.push(newItem);
+                });
+                */
+
+                // create new object for semester, to be stored in main newState object
+                const newSemesterObject = {
+                    title: semesterLabel,
+                    items: []
+                };
+
+                // add new object to main newState object
+                newState[semesterLabel] = newSemesterObject;
 
                 //const moduleCollectionRef = await getDocs(collection(db, `users/${user.email}/modules/${semester}/`));
                 // retrieves all the documents in modules (each semester)
                 //const moduleSnapshot = await getDocs(collection(db, `users/${user.email}/modules/`))
                 
             })
-            
-/*
 
-            // for each user in users (users is a collection)
-            qSnapshot.forEach(async user => {
-              if (user.id == currentUserEmail) {
-                const semesterSnapshot = await getDocs(collection(db, `users/${user.id}/modules`));
-                // for each semester under the user
-                semesterSnapshot.forEach(async semester => {
-                    userSemesterCount++;
-                    const moduleSnapshot = await getDocs(collection(db, `users/${user.id}/modules/${semester.id}`));
-                    // for each module under the semester
-                    moduleSnapshot.forEach(module => {
-                        let newModule = {
-                            "moduleName": module.data().moduleName,
-                            "moduleCode": module.data().moduleCode,
-                            "moduleMC": module.data().moduleMC
-                        }
-                        semesterModulesArray.push(newModule);
-                        setModulesBySemester(modulesBySemester);
-                        console.log("pushed to semester " + semester.id + ": " + newModule.moduleName);
-                        console.log(semesterModulesArray);
-                    });
-                });
-              }
-            });
-            */
+            setModulesBySemester(newState);
+            console.log("modules by semester: ");
+            console.log(modulesBySemester);
+            console.log("static modules by semester: ");
+            console.log(state);
         });
 
       } catch (error) {
