@@ -20,6 +20,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
   const [moduleCode, setModuleCode] = React.useState("");
   const [moduleName, setModuleName] = React.useState("");
   const [moduleMC, setModuleMC] = React.useState();
+  const yearSemCode = yearSem.replace(/ /g, '');
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -47,23 +48,27 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
       queryData.map(async (v, id) => {
         let docCount = 0;
         const querySnapshot = await getDocs(collection(db, `users/${currentUserEmail}/modules/`));
+        // for each semester
         querySnapshot.forEach((doc) => {
           console.log(doc.id, " => ", doc.data());
           // retrieve current number of modules
-          docCount = doc.data().numModules;
+          if (doc.id === yearSemCode) {
+            docCount = doc.data().numModules;
+          }
         });
+        
         // obtain index of next module to add
         const docNextIndex = docCount + 1;
 
         // create new collection with new module details
-        await setDoc(doc(db, `users/${currentUserEmail}/modules/Y1S1/module_${docNextIndex}`, 'moduleDetails'), {
+        await setDoc(doc(db, `users/${currentUserEmail}/modules/${yearSemCode}/module_${docNextIndex}`, 'moduleDetails'), {
           moduleCode: moduleCode,
           moduleName: moduleName,
           moduleMC: moduleMC
         });
         
-        // update numModules property in firestore
-        await setDoc(doc(db, `users/${currentUserEmail}/modules`, 'Y1S1'), {
+        // update numModules property (field) in firestore
+        await setDoc(doc(db, `users/${currentUserEmail}/modules`, yearSemCode), {
           numModules: docNextIndex
         });
       })
