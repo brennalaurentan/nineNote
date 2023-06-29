@@ -12,7 +12,7 @@ import { Stack, Typography, Box, Container } from '@mui/material';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import _ from "lodash";
 import { v4 } from 'uuid';
-import { collection, getDocs, getDoc, doc, onSnapshot, QuerySnapshot } from 'firebase/firestore';
+import { collection, getDocs, getDoc, doc, onSnapshot, QuerySnapshot, setDoc } from 'firebase/firestore';
 import { db } from '../others/firebase';
 import { useEffect } from 'react';
 import { getAuth } from 'firebase/auth';
@@ -85,6 +85,36 @@ const item8 = {
     mc: "4",
     category: "P"
 }
+
+var request = new XMLHttpRequest();
+request.open('GET', 'https://api.nusmods.com/v2/2022-2023/moduleList.json', true);
+request.onload = function () {
+    var data = JSON.parse(this.response);
+    data.forEach((module) => {
+        console.log(module.moduleCode);
+        let moduleCount = 1;
+        // get foundation mods (32MCs)
+        if (module.moduleCode === "CS1231S" ||
+            module.moduleCode === "CS2030S" ||
+            module.moduleCode === "CS2040S" ||
+            module.moduleCode === "CS2100" ||
+            module.moduleCode === "CS2101" ||
+            module.moduleCode === "CS2103T" ||
+            module.moduleCode === "CS2106" ||
+            module.moduleCode === "CS2109S" ||
+            module.moduleCode === "CS3230") {
+            // create new collection with new module details
+            setDoc(doc(db, `graduationRequirements/computerScience/programme/`, `module_${moduleCount}`), {
+                moduleCode: module.moduleCode,
+                moduleName: module.title,
+                moduleMC: "4"
+            });
+            moduleCount++;
+            console.log("module created");
+        }
+    });
+}
+request.send();
 
 const ModulePlanner = () => {
 
