@@ -3,7 +3,8 @@ import '../index.css';
 
 // components / pages / images
 import MainNavbar from '../components/common/MainNavbar';
-import YearAndSemTabPanel from '../components/module_recommender/YearAndSemTabPanel';
+import YearPanel from '../components/module_recommender/YearPanel';
+import RecommendedModules from '../components/module_recommender/RecommendedModules';
 
 // tools
 import { Helmet } from 'react-helmet';
@@ -17,8 +18,8 @@ const ModuleRecommender = () => {
       </Helmet>
       <MainNavbar />
       <Stack direction="row" padding="56px">
-        <YearAndSemTabPanel />
-        <Box ml="488px">
+        <YearPanel />
+        {/* <Box ml="488px">
           <Typography id={1.1} variant="h2">Y1 S1</Typography>
           <Typography>
             Lorem Ipsum is simply dummy text of the printing and typesetting industry.
@@ -215,8 +216,12 @@ const ModuleRecommender = () => {
             and more recently with desktop publishing software like Aldus PageMaker including
             versions of Lorem Ipsum. desktop publishing software like Aldus PageMaker including
           </Typography>
-        </Box>
+        </Box>*/}
+
+        <RecommendedModules />
+
       </Stack>
+
     </>
   )
 }

@@ -10,6 +10,9 @@ let CustomisedTheme = createTheme({
     },
     yellow: {
       main: '#F6C155',
+      light: '#FDF3DD',
+      dark: '#4F4023',
+
     },
     lime_green: {
       main: '#8EBF50',
