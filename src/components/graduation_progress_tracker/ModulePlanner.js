@@ -23,67 +23,19 @@ const SemContainer = styled(Container)(({ theme }) => ({
 }));
 
 const item1 = {
-    id: v4(),
-    code: "CS1231S",
-    name: "Discrete Structures",
-    mc: "4",
-    category: "P"
+    moduleID: v4(),
+    moduleCode: "CS1231S",
+    moduleName: "Discrete Structures",
+    moduleMC: "4",
+    moduleCategory: "P"
 }
 
 const item2 = {
-    id: v4(),
-    code: "CS1101S",
-    name: "Programming Methodology I",
-    mc: "4",
-    category: "P"
-}
-
-const item3 = {
-    id: v4(),
-    code: "MA1521",
-    name: "Calculus for Computing",
-    mc: "4",
-    category: "P"
-}
-
-const item4 = {
-    id: v4(),
-    code: "GEA1000",
-    name: "Quantitative Reasoning with Data",
-    mc: "4",
-    category: "CC"
-}
-
-const item5 = {
-    id: v4(),
-    code: "IS2218",
-    name: "Digital Plaforms for Business",
-    mc: "4",
-    category: "P"
-}
-
-const item6 = {
-    id: v4(),
-    code: "CS2030S",
-    name: "Programming Methodology II",
-    mc: "4",
-    category: "P"
-}
-
-const item7 = {
-    id: v4(),
-    code: "CS2100",
-    name: "Computer Organisation",
-    mc: "4",
-    category: "P"
-}
-
-const item8 = {
-    id: v4(),
-    code: "IS1108",
-    name: "Digital Ethics and Data Privacy",
-    mc: "4",
-    category: "P"
+    moduleID: v4(),
+    moduleCode: "CS1101S",
+    moduleName: "Programming Methodology I",
+    moduleMC: "4",
+    moduleCategory: "P"
 }
 
 const ModulePlanner = () => {
@@ -91,7 +43,7 @@ const ModulePlanner = () => {
     const [state, setState] = useState({
         "Y1 S1": {
             title: "Y1 S1",
-            items: [ item1, item2 ]
+            items: [item1, item2]
         },
         "Y1 S2": {
             title: "Y1 S2",
@@ -158,7 +110,7 @@ const ModulePlanner = () => {
     const [ccrCreditsCompleted, setCCRCreditsCompleted] = useState();
     const [pCreditsCompleted, setPCreditsCompleted] = useState();
     const [ueCreditsCompleted, setUECreditsCompleted] = useState();
-    
+
     const [modulesBySemester, setModulesBySemester] = useState({});
     let userSemesterCount = 0;
     let semesterModulesArray = [];
@@ -176,7 +128,72 @@ const ModulePlanner = () => {
                 // 16 docs, correct
                 console.log("allSemestersSnapshot: " + allSemestersSnapshot);
                 console.log(allSemestersSnapshot);
-                let newState = {};
+                let newState = {
+                    "Y1 S1": {
+                        title: "Y1 S1",
+                        items: []
+                    },
+                    "Y1 S2": {
+                        title: "Y1 S2",
+                        items: []
+                    },
+                    "Y1 ST1": {
+                        title: "Y1 ST1",
+                        items: []
+                    },
+                    "Y1 ST2": {
+                        title: "Y1 ST2",
+                        items: []
+                    },
+                    "Y2 S1": {
+                        title: "Y2 S1",
+                        items: []
+                    },
+                    "Y2 S2": {
+                        title: "Y2 S2",
+                        items: []
+                    },
+                    "Y2 ST1": {
+                        title: "Y2 ST1",
+                        items: []
+                    },
+                    "Y2 ST2": {
+                        title: "Y2 ST2",
+                        items: []
+                    },
+                    "Y3 S1": {
+                        title: "Y3 S1",
+                        items: []
+                    },
+                    "Y3 S2": {
+                        title: "Y3 S2",
+                        items: []
+                    },
+                    "Y3 ST1": {
+                        title: "Y3 ST1",
+                        items: []
+                    },
+                    "Y3 ST2": {
+                        title: "Y3 ST2",
+                        items: []
+                    },
+                    "Y4 S1": {
+                        title: "Y4 S1",
+                        items: []
+                    },
+                    "Y4 S2": {
+                        title: "Y4 S2",
+                        items: []
+                    },
+                    "Y4 ST1": {
+                        title: "Y4 ST1",
+                        items: []
+                    },
+                    "Y4 ST2": {
+                        title: "Y4 ST2",
+                        items: []
+                    }
+                };
 
                 // in database: Y1S1, Y1S2, Y1ST1, Y1ST2, ..., Y4ST2
                 allSemestersSnapshot.forEach(async semester => {
@@ -215,11 +232,11 @@ const ModulePlanner = () => {
                             console.log("module_" + moduleIndex + " moduleMC is: " + tryFindModuleDocumentSnap.data().moduleMC);
                             // obtain fields in moduleDetails since the module document exists
                             const newItem = {
-                                id: v4(),
-                                code: tryFindModuleDocumentSnap.data().moduleCode,
-                                name: tryFindModuleDocumentSnap.data().moduleName,
-                                mc: tryFindModuleDocumentSnap.data().moduleMC,
-                                category: "P"
+                                moduleID: tryFindModuleDocumentSnap.data().moduleID,
+                                moduleCode: tryFindModuleDocumentSnap.data().moduleCode,
+                                moduleName: tryFindModuleDocumentSnap.data().moduleName,
+                                moduleMC: tryFindModuleDocumentSnap.data().moduleMC,
+                                moduleCategory: tryFindModuleDocumentSnap.data().moduleCategory
                             }
                             // push object with retrieved module details into the array of items
                             // for the semester
@@ -229,8 +246,8 @@ const ModulePlanner = () => {
                             moduleCount++;
                             console.log("module_" + moduleIndex + " exists, loaded");
 
-                            console.log("modules for this semester: " + modulesForThisSemester);
-                            console.log("static modules for this semester: " + [item1, item2]);
+                            console.log("modules for " + semesterLabel + " : " + modulesForThisSemester);
+                            console.log("static modules for " + semesterLabel + " : " + [item1, item2]);
                         }
                         // moduleIndex gets incremented regardless of whether the
                         // module document exists or not
@@ -256,9 +273,8 @@ const ModulePlanner = () => {
                 console.log(error.message);
             }
         }
-        loadSemesterModules();
+        // loadSemesterModules();
     }, []);
-
 
     const handleDragEnd = ({ destination, source }) => {
         console.log("from", source)
@@ -273,8 +289,8 @@ const ModulePlanner = () => {
         }
 
         // creating a copy of item before removing from state
-        const itemCopy = { ...state[source.droppableId].items[source.index] };
-        setState(prev => {
+        const itemCopy = { ...modulesBySemester[source.droppableId].items[source.index] };
+        setModulesBySemester(prev => {
             prev = { ...prev }
             // remove from previous items array
             prev[source.droppableId].items.splice(source.index, 1)
@@ -287,17 +303,18 @@ const ModulePlanner = () => {
     const addModule = (moduleCode, moduleName, moduleMC, yearSem) => {
         console.log("Module Added: " + moduleCode);
         console.log("Year and Semester: " + yearSem);
-        setState(prev => {
+        setModulesBySemester(prev => {
             return {
                 ...prev,
                 [yearSem]: {
                     title: yearSem,
                     items: [
                         {
-                            id: v4(),
-                            code: moduleCode,
-                            name: moduleName,
-                            mc: moduleMC
+                            moduleID: v4(),
+                            moduleCode: moduleCode,
+                            moduleName: moduleName,
+                            moduleMC: moduleMC,
+                            moduleCategory: "P"
                         },
                         ...prev[yearSem].items
                     ]
@@ -309,7 +326,7 @@ const ModulePlanner = () => {
     const deleteModule = (moduleID, moduleCode, yearSem) => {
         console.log("Module Deleted: " + moduleCode);
         console.log("Year and Semester: " + yearSem);
-        state(prev => {
+        setModulesBySemester(prev => {
             return {
                 ...prev,
                 [yearSem]: {
@@ -329,7 +346,7 @@ const ModulePlanner = () => {
                 <MainButton type="contained" main_color="blue.main" value="SAVE" />
             </Stack>
             <DragDropContext onDragEnd={handleDragEnd}>
-                {_.map(state, (data, key) => {
+                {_.map(modulesBySemester, (data, key) => {
                     return (
                         <>
                             <Box bgcolor="light_blue.light" padding="30px" borderRadius="30px" display="flex" flexDirection="column" gap="30px">
@@ -352,7 +369,7 @@ const ModulePlanner = () => {
                                             >
                                                 {data.items.map((el, index) => {
                                                     return (
-                                                        <Draggable key={el.id} index={index} draggableId={el.id}>
+                                                        <Draggable key={el.moduleID} index={index} draggableId={el.moduleID}>
                                                             {(provided) => {
                                                                 return (
                                                                     <div
@@ -361,10 +378,10 @@ const ModulePlanner = () => {
                                                                         {...provided.dragHandleProps}
                                                                     >
                                                                         <ModulePill
-                                                                            moduleID={el.id}
-                                                                            moduleCode={el.code}
-                                                                            moduleName={el.name}
-                                                                            moduleMC={el.mc}
+                                                                            moduleID={el.moduleID}
+                                                                            moduleCode={el.moduleCode}
+                                                                            moduleName={el.moduleName}
+                                                                            moduleMC={el.moduleMC}
                                                                             yearSem={data.title}
                                                                             onClick={deleteModule}
                                                                         />

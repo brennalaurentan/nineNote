@@ -14,6 +14,7 @@ import {
 import { auth, db } from '../others/firebase';
 import { getAuth } from 'firebase/auth';
 import { query, collection, setDoc, getDocs, doc } from 'firebase/firestore';
+import { v4 } from 'uuid';
 
 const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
   const [open, setOpen] = React.useState(false);
@@ -63,9 +64,11 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
 
         // create new collection with new module details
         await setDoc(doc(db, `users/${currentUserEmail}/modules/${yearSemCode}/module_${docNextIndex}`, 'moduleDetails'), {
+          moduleID: v4(),
           moduleCode: moduleCode,
           moduleName: moduleName,
-          moduleMC: moduleMC
+          moduleMC: moduleMC,
+          moduleCategory: "P"
         });
         
         // update numModules property (field) in firestore
