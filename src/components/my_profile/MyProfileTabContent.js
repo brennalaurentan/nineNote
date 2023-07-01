@@ -39,7 +39,7 @@ TabPanel.propTypes = {
     value: PropTypes.number.isRequired,
 };
 
-const MyProfileTabs = ({ value }) => {
+const MyProfileTabContent = ({ value }) => {
     return (
         <>
             {/* Tab 1 */}
@@ -93,4 +93,4 @@ const MyProfileTabs = ({ value }) => {
     )
 }
 
-export default MyProfileTabs
+export default MyProfileTabContent
