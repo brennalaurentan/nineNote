@@ -4,14 +4,27 @@
 import SemIndication from './SemIndication';
 
 // tools
-import { Typography, Stack, ListItemButton, ListItemIcon, ListItemText, Box, Tab } from '@mui/material';
+import { Typography, Stack, ListItemButton, ListItemIcon, ListItemText, Box } from '@mui/material';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import { useEffect, useState } from 'react';
 
-const ModuleListItem = ({ index, value, onSelect }) => {
+const ModuleListItem = ({ index, value, onSelect, moduleCode, moduleMC, moduleName, moduleSem }) => {
+    const [semesterArray, setSemesterArray] = useState([]);
+    let currentSemesterArray = [false, false, false, false];
 
-    // const handleListItemClick = (event, index) => {
-    //     handleChange(event, index);
-    // };
+    useEffect(() => {
+        moduleSem.map((sem, index) =>
+            sem.semester === 1
+                ? currentSemesterArray[0] = true
+                : sem.semester === 2
+                    ? currentSemesterArray[1] = true
+                    : sem.semester === 3
+                        ? currentSemesterArray[2] = true
+                        : currentSemesterArray[3] = true
+        )
+        setSemesterArray(currentSemesterArray);
+        console.log(semesterArray);
+    }, [])
 
     return (
         <Box width="42vw">
@@ -27,16 +40,16 @@ const ModuleListItem = ({ index, value, onSelect }) => {
                         <>
                             <Stack direction="row" display="flex" alignItems="center" justifyContent="space-between">
                                 <Stack direction="row" gap="16px">
-                                    <Typography variant="body_bold">Module Code</Typography>
-                                    <Typography variant="tag_bold" color="orange.main">X MCs</Typography>
+                                    <Typography variant="body_bold">{moduleCode}</Typography>
+                                    <Typography variant="tag_bold" color="orange.main">{moduleMC} MCs</Typography>
                                 </Stack>
-                                <SemIndication sem1={true} sem2={true} st1={false} st2={false} />
+                                <SemIndication sem1={semesterArray[0]} sem2={semesterArray[1]} st1={semesterArray[2]} st2={semesterArray[3]} />
                             </Stack>
                         </>
                     }
                     secondary={
                         <>
-                            <Typography variant="tag_thin" color="black.main">Module Name</Typography>
+                            <Typography variant="tag_thin" color="black.main">{moduleName}</Typography>
                         </>
                     }
                 />
