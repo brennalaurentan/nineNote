@@ -3,28 +3,33 @@ import '../index.css';
 
 // components / pages / images
 import MainNavbar from '../components/common/MainNavbar';
-import ModuleListItem from '../components/module_resource_directory/ModuleListItem';
-import ModuleResourceCard from '../components/module_resource_directory/ModuleResourceCard'
 import ModuleResourceTabSection from '../components/module_resource_directory/ModuleResourceTabSection';
 
 // tools
 import { Helmet } from 'react-helmet';
-import { Divider, Typography, List, ListItem, ListItemText, ListItemButton, ListItemIcon, Drawer, Toolbar, Box } from '@mui/material';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import React, { useState, useEffect } from 'react';
 
 const ModuleResourceDirectory = () => {
+  // get module data from nusmods api
+  const [moduleData, setModuleData] = useState([]);
+
+  useEffect(() => {
+    var request = new XMLHttpRequest();
+    request.open('GET', 'https://api.nusmods.com/v2/2023-2024/moduleInfo.json', true);
+    request.onload = function () {
+      var data = JSON.parse(this.response);
+      setModuleData(data.slice(-5));
+    }
+    request.send();
+  }, [])
+
   return (
     <>
       <Helmet>
         <title>nineNote | Module Resource Directory</title>
       </Helmet>
       <MainNavbar />
-      {/* <Stack direction="row" gap="64px">
-          <ModuleListItem />
-          <ModuleResourceCard />
-        </Stack> */}
-      <ModuleResourceTabSection />
+      <ModuleResourceTabSection moduleData={moduleData}/>
     </>
   )
 }
