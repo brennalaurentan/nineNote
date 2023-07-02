@@ -9,6 +9,7 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import { useEffect, useState } from 'react';
 
 const ModuleListItem = ({ index, value, onSelect, moduleCode, moduleMC, moduleName, moduleSem }) => {
+    // setting semester indication based on nusmods api semester data
     const [semesterArray, setSemesterArray] = useState([]);
     let currentSemesterArray = [false, false, false, false];
 
@@ -30,6 +31,14 @@ const ModuleListItem = ({ index, value, onSelect, moduleCode, moduleMC, moduleNa
             <ListItemButton
                 selected={value === index}
                 onClick={(event) => onSelect(event, index)}
+                sx={{
+                    "&.Mui-selected": {
+                        backgroundColor: "light_blue.light"
+                    },
+                    ":hover": {
+                        backgroundColor: "light_gray"
+                    }
+                }}
             >
                 <ListItemIcon>
                     <LibraryBooksIcon />
