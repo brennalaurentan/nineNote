@@ -39,7 +39,7 @@ const ModuleResourceTabSection = ({ moduleData }) => {
                         ))}
                     </Stack>
                 </Stack>
-                <ModuleResourceTabContent value={selectedIndex} />
+                <ModuleResourceTabContent value={selectedIndex} moduleData={moduleData}/>
             </Box>
         </>
     );

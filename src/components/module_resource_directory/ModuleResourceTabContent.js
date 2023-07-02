@@ -6,7 +6,7 @@ import ModuleResourceCard from './ModuleResourceCard'
 // tools
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Typography, Stack, Avatar } from '@mui/material';
+import { Box, Typography, Stack } from '@mui/material';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -34,24 +34,36 @@ TabPanel.propTypes = {
     value: PropTypes.number.isRequired,
 };
 
-const ModuleResourceTabContent = ({ value }) => {
+const ModuleResourceTabContent = ({ value, moduleData }) => {
     return (
         <>
-            {/* Tab 1 */}
-            <TabPanel value={value} index={0}>
+            {moduleData.map((module, index) => (
+                <TabPanel value={value} index={index}>
+                    <Stack gap="64px">
+                        <ModuleResourceCard 
+                            moduleCode={module.moduleCode}
+                            moduleMC={module.moduleCredit}
+                            moduleName={module.title}
+                            moduleFaculty={module.faculty}
+                            moduleDept={module.department}
+                            />
+                    </Stack>
+                </TabPanel>
+            ))}
+
+            {/* <TabPanel value={value} index={0}>
                 <Stack gap="64px">
                     <Typography>tab 1</Typography>
                     <ModuleResourceCard />
                 </Stack>
             </TabPanel>
 
-            {/* Tab 2 */}
             <TabPanel value={value} index={1}>
                 <Stack gap="64px">
                     <Typography>tab 2</Typography>
                     <ModuleResourceCard />
                 </Stack>
-            </TabPanel>
+            </TabPanel> */}
         </>
     )
 }

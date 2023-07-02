@@ -23,7 +23,6 @@ const ModuleListItem = ({ index, value, onSelect, moduleCode, moduleMC, moduleNa
                         : currentSemesterArray[3] = true
         )
         setSemesterArray(currentSemesterArray);
-        console.log(semesterArray);
     }, [])
 
     return (
