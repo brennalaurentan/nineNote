@@ -14,6 +14,7 @@ import { Helmet } from 'react-helmet';
 import { Stack } from '@mui/material';
 
 const GraduationProgressTracker = () => {
+  // edits to the variables below will be reflected in the progress rings
   let ccr = 8;
   let ccrTotal = 40;
   let pr = 24;
@@ -21,6 +22,7 @@ const GraduationProgressTracker = () => {
   let uer = 0;
   let uerTotal = 40;
 
+  // edits to the variables below will be reflected in the progress bar
   let totalNumerator = ccr + pr + uer;
   let totalDenominator = ccrTotal + prTotal + uerTotal;
 
