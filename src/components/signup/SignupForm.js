@@ -26,23 +26,7 @@ const static_matriculation_year = [
   {
     value: '3',
     label: 'AY21/22',
-  },
-  {
-    value: '4',
-    label: 'AY20/21',
-  },
-  {
-    value: '5',
-    label: 'AY19/20',
-  },
-  {
-    value: '6',
-    label: 'AY18/19',
-  },
-  {
-    value: '7',
-    label: 'AY17/18',
-  },
+  }
 ];
 
 const static_course = [
@@ -203,6 +187,8 @@ const SignupForm = () => {
       }));
       console.log(queryData);
       queryData.map(async (v, id) => {
+        // for testing: print all users in database
+        /*
         let docCount = 0;
         const querySnapshot = await getDocs(collection(db, `users`));
         
@@ -211,18 +197,23 @@ const SignupForm = () => {
           console.log(doc.id, " => ", doc.data());
           docCount = doc.data().numModules;
         });
+        */
 
+        // create fields under user's database profile in firebase
         await setDoc(doc(db, `users`, currentUserEmail), {
           email: currentUserEmail,
           matriculationYear: matriculationYear,
           course: course
         });
 
+        // create semester collections under user's database profile in firebase
         for (const semester of static_semesters) {
           setDoc(doc(db, `users/${currentUserEmail}/modules`, semester), {
             numModules: 0
           });
         }
+
+        // create
       })
     } catch (error) {
       console.log(error.message);
@@ -234,6 +225,9 @@ const SignupForm = () => {
     const matriculationYearCollectionRef = collection(db, "matriculationYear");
     async function loadMatriculationYearList() {
       try {
+        // code below reads all the matriculation years from database and
+        // displays each of them in the matriculation year dropdown list
+        /*
         const qSnapshot = getDocs(matriculationYearCollectionRef)
           .then((qSnapshot) => {
 
@@ -252,6 +246,8 @@ const SignupForm = () => {
             static_matriculation_year.forEach((item) => console.log(item));
             setMatriculationYearArray(matriculationYearArray);
           });
+        */
+        setMatriculationYearArray(static_matriculation_year);
       } catch (error) {
         console.log(error.message);
       }
@@ -261,9 +257,12 @@ const SignupForm = () => {
 
   useEffect(() => {
     let courseArray = [];
+    /*
     const courseCollectionRef = collection(db, "courseLibrary");
+    */
     async function loadCourseList() {
       try {
+        /*
         const qSnapshot = getDocs(courseCollectionRef)
           .then((qSnapshot) => {
 
@@ -292,7 +291,15 @@ const SignupForm = () => {
             courseArray.forEach((item) => console.log(item));
             console.log("staticCourse: " + static_course.toString());
             static_course.forEach((item) => console.log(item));
-          });
+        });
+        */
+        // code below adds a single 'Computer Science' course to the course dropdown
+        let newElement = {
+          "value": "SOC1",
+          "label": "Computer Science"
+        }
+        courseArray.push(newElement);
+        setCourseArray(courseArray); 
       } catch (error) {
         console.log(error.message);
       }
