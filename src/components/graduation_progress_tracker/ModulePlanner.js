@@ -38,6 +38,7 @@ const item2 = {
     moduleCategory: "P"
 }
 
+/*
 var request = new XMLHttpRequest();
 request.open('GET', 'https://api.nusmods.com/v2/2022-2023/moduleList.json', true);
 request.onload = function () {
@@ -67,6 +68,7 @@ request.onload = function () {
     });
 }
 request.send();
+*/
 
 const ModulePlanner = () => {
 
