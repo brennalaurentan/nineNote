@@ -56,7 +56,7 @@ const ModuleResourceTabSection = ({ moduleData }) => {
                     setSelectedModuleCode={setSelectedModuleCode}
                 />
             </Stack>
-            <ModuleResourceTabContent selectedModuleCode={selectedModuleCode} moduleData={moduleData}/>
+            <ModuleResourceTabContent selectedModuleCode={selectedModuleCode} moduleData={moduleData} />
         </Box>
     );
 }

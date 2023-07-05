@@ -17,11 +17,11 @@ const ModuleResourceCard = ({ moduleCode, moduleMC, moduleName, moduleFaculty, m
                     </Stack>
                     <Stack gap="8px">
                         <Typography variant="body_bold" color="light_blue.dark">Textbook & Notes</Typography>
-                        <Typography variant="body_thin">Textbook: Link to textbook (if any)</Typography>
+                        <Typography variant="body_thin">No Resources Available</Typography>
                     </Stack>
                     <Stack gap="8px">
                         <Typography variant="body_bold" color="light_blue.dark">Software Installation</Typography>
-                        <Typography variant="body_thin">Software: Link to download (if any)</Typography>
+                        <Typography variant="body_thin">No Instructions Available</Typography>
                     </Stack>
                 </Stack>
             </CardContent>
