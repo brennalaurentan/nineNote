@@ -9,17 +9,17 @@ import PropTypes from 'prop-types';
 import { Box, Typography, Stack } from '@mui/material';
 
 function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+    const { children, selectedModuleCode, moduleCode, ...other } = props;
 
     return (
         <div
             role="tabpanel"
-            hidden={value !== index}
-            id={`vertical-tabpanel-${index}`}
-            aria-labelledby={`vertical-tab-${index}`}
+            hidden={selectedModuleCode !== moduleCode}
+            id={`vertical-tabpanel-${moduleCode}`}
+            aria-labelledby={`vertical-tab-${moduleCode}`}
             {...other}
         >
-            {value === index && (
+            {selectedModuleCode === moduleCode && (
                 <Box sx={{ p: 5 }}>
                     <Typography>{children}</Typography>
                 </Box>
@@ -30,15 +30,15 @@ function TabPanel(props) {
 
 TabPanel.propTypes = {
     children: PropTypes.node,
-    index: PropTypes.number.isRequired,
-    value: PropTypes.number.isRequired,
+    moduleCode: PropTypes.string.isRequired,
+    selectedModuleCode: PropTypes.string.isRequired,
 };
 
-const ModuleResourceTabContent = ({ value, moduleData }) => {
+const ModuleResourceTabContent = ({ selectedModuleCode, moduleData }) => {
     return (
         <>
             {moduleData.map((module, index) => (
-                <TabPanel value={value} index={index}>
+                <TabPanel selectedModuleCode={selectedModuleCode} moduleCode={module.moduleCode}>
                     <Stack gap="64px">
                         <ModuleResourceCard 
                             moduleCode={module.moduleCode}
@@ -50,20 +50,6 @@ const ModuleResourceTabContent = ({ value, moduleData }) => {
                     </Stack>
                 </TabPanel>
             ))}
-
-            {/* <TabPanel value={value} index={0}>
-                <Stack gap="64px">
-                    <Typography>tab 1</Typography>
-                    <ModuleResourceCard />
-                </Stack>
-            </TabPanel>
-
-            <TabPanel value={value} index={1}>
-                <Stack gap="64px">
-                    <Typography>tab 2</Typography>
-                    <ModuleResourceCard />
-                </Stack>
-            </TabPanel> */}
         </>
     )
 }
