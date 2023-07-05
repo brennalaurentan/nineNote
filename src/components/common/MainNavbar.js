@@ -2,6 +2,7 @@
 
 // components / pages / images
 import ninenote_white from '../../graphics/ninenote_white.png'
+import profile_image from '../../graphics/profile_image.png';
 
 // tools
 import { Link, Avatar, AppBar, Toolbar, Typography, Stack, Box } from '@mui/material';
@@ -43,7 +44,8 @@ const MainNavbar = () => {
           <Link href="/module-resource-directory" underline="none" color="white.main">Module Resource Directory</Link>
           <Link href="/" underline="none" color="white.main" onClick={Logout} component="button">Logout</Link>
           <Link href="/my-profile">
-            <Avatar sx={{ bgcolor: "dark_gray.main", textDecoration: "none" }}>NN</Avatar>
+            {/* <Avatar sx={{ bgcolor: "dark_gray.main", textDecoration: "none" }}>NN</Avatar> */}
+            <img src={profile_image} alt="Logo" width="40px" />
           </Link>
         </Stack>
       </Toolbar>

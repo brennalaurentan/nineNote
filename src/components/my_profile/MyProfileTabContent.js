@@ -6,6 +6,7 @@ import PolytechnicRadioGroup from './PolytechnicRadioGroup';
 import ModuleExemptionTable from './ModuleExemptionTable'
 import MA1301ExemptionTable from './MA1301ExemptionTable'
 import AlertDisplay from './AlertDisplay'
+import profile_image from '../../graphics/profile_image.png';
 
 // tools
 import React from 'react';
@@ -46,14 +47,15 @@ const MyProfileTabContent = ({ value }) => {
             <TabPanel value={value} index={0}>
                 <Stack ml="188px" gap="64px">
                     <Stack direction="row" gap="64px" alignItems="center">
-                        <Avatar sx={{ bgcolor: "blue.light", textDecoration: "none", width: 150, height: 150 }}>
+                        {/* <Avatar sx={{ bgcolor: "blue.light", textDecoration: "none", width: 150, height: 150 }}>
                             <EditIcon sx={{ color: "blue.main" }} />
-                        </Avatar>
+                        </Avatar> */}
+                        <img src={profile_image} alt="Logo" width="150px" />
                         <Box>
                             <Typography variant="body_bold" color="blue.main">NAME</Typography>
                             <Stack direction="row" gap="16px" alignItems="center">
                                 <Typography variant="h2">nineNote User</Typography>
-                                <EditIcon sx={{ color: "blue.main" }} />
+                                {/* <EditIcon sx={{ color: "blue.main" }} /> */}
                             </Stack>
                         </Box>
                     </Stack>
@@ -73,20 +75,6 @@ const MyProfileTabContent = ({ value }) => {
                         <ModuleExemptionTable />
                         <MA1301ExemptionTable />
                     </Stack>
-                </Stack>
-            </TabPanel>
-
-            {/* Tab 3 */}
-            <TabPanel value={value} index={2}>
-                <Stack ml="188px" gap="64px">
-                    <Typography>hello</Typography>
-                </Stack>
-            </TabPanel>
-
-            {/* Tab 4 */}
-            <TabPanel value={value} index={3}>
-                <Stack ml="188px" gap="64px">
-                    <Typography>hello</Typography>
                 </Stack>
             </TabPanel>
         </>
