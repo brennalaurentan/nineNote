@@ -11,14 +11,19 @@ import { Box, Typography, Stack } from '@mui/material';
 
 
 const ModuleResourceTabSection = ({ moduleData }) => {
-    // handles selected index upon clicking module list item
-    const [selectedIndex, setSelectedIndex] = useState(0);
+    // handles displayed modules in selected page according to pagination
     const [displayedModules, setDisplayedModules] = useState(moduleData.slice(0, 10));
 
-    const handleModuleChange = (event, index) => {
-        setSelectedIndex(index);
+    // handles selected index upon clicking module list item
+    const [selectedModuleCode, setSelectedModuleCode] = useState(displayedModules[0]);
+
+    // updates selected module code when module item is clicked
+    const handleModuleChange = (event, moduleCode) => {
+        console.log(moduleCode);
+        setSelectedModuleCode(moduleCode);
     };
 
+    // filters data in selected page according to pagination
     async function filterModuleData(from, to) {
         return moduleData.slice(from, to);
     }
@@ -34,7 +39,7 @@ const ModuleResourceTabSection = ({ moduleData }) => {
                         <ModuleListItem
                             key={index}
                             index={index}
-                            value={selectedIndex}
+                            selectedModuleCode={selectedModuleCode}
                             onSelect={handleModuleChange}
                             moduleCode={module.moduleCode}
                             moduleMC={module.moduleCredit}
@@ -48,9 +53,10 @@ const ModuleResourceTabSection = ({ moduleData }) => {
                     totalModuleCount={moduleData.length}
                     filterModuleData={filterModuleData}
                     setDisplayedModules={setDisplayedModules}
+                    setSelectedModuleCode={setSelectedModuleCode}
                 />
             </Stack>
-            <ModuleResourceTabContent value={selectedIndex} moduleData={moduleData} />
+            <ModuleResourceTabContent selectedModuleCode={selectedModuleCode} moduleData={moduleData}/>
         </Box>
     );
 }

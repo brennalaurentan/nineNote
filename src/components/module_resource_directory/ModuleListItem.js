@@ -8,10 +8,11 @@ import { Typography, Stack, ListItemButton, ListItemIcon, ListItemText, Box } fr
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import { useEffect, useState } from 'react';
 
-const ModuleListItem = ({ index, value, onSelect, moduleCode, moduleMC, moduleName, moduleSem }) => {
-    // setting semester indication based on nusmods api semester data
+const ModuleListItem = ({ index, selectedModuleCode, onSelect, moduleCode, moduleMC, moduleName, moduleSem }) => {
+    // handles semester indication based on nusmods api semester data
     const [semesterArray, setSemesterArray] = useState([]);
 
+    // updates semester array to be displayed on user interface
     useEffect(() => {
         const currentSemesterArray = [false, false, false, false];
 
@@ -24,16 +25,14 @@ const ModuleListItem = ({ index, value, onSelect, moduleCode, moduleMC, moduleNa
                         ? currentSemesterArray[2] = true
                         : currentSemesterArray[3] = true
         )
-        // console.log(moduleSem);
-
         setSemesterArray(currentSemesterArray);
     }, [moduleSem])
 
     return (
         <Box width="42vw">
             <ListItemButton
-                selected={value === index}
-                onClick={(event) => onSelect(event, index)}
+                selected={selectedModuleCode === moduleCode}
+                onClick={(event) => onSelect(event, moduleCode)}
                 sx={{
                     "&.Mui-selected": {
                         backgroundColor: "light_blue.light"
