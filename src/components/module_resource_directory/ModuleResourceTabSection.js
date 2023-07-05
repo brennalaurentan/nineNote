@@ -6,14 +6,14 @@ import ModuleResourceTabContent from './ModuleResourceTabContent';
 import ModuleResourcePagination from './ModuleResourcePagination';
 
 // tools
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Box, Typography, Stack } from '@mui/material';
 
 
 const ModuleResourceTabSection = ({ moduleData }) => {
     // handles selected index upon clicking module list item
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const [displayedModules, setDisplayedModules] = useState(moduleData.slice(0,10));
+    const [displayedModules, setDisplayedModules] = useState(moduleData.slice(0, 10));
 
     const handleModuleChange = (event, index) => {
         setSelectedIndex(index);
