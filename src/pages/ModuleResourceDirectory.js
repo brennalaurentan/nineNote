@@ -32,7 +32,7 @@ const ModuleResourceDirectory = () => {
         <title>nineNote | Module Resource Directory</title>
       </Helmet>
       <MainNavbar />
-      <ModuleResourceTabSection moduleData={moduleData}/>
+      <ModuleResourceTabSection moduleData={moduleData} />
     </>
   )
 }

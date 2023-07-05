@@ -38,7 +38,7 @@ const ModuleResourceTabContent = ({ selectedModuleCode, moduleData }) => {
     return (
         <>
             {moduleData.map((module, index) => (
-                <TabPanel selectedModuleCode={selectedModuleCode} moduleCode={module.moduleCode}>
+                <TabPanel key={index} selectedModuleCode={selectedModuleCode} moduleCode={module.moduleCode}>
                     <Stack gap="64px">
                         <ModuleResourceCard 
                             moduleCode={module.moduleCode}

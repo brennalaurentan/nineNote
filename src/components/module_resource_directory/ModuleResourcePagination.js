@@ -21,7 +21,7 @@ const ModuleResourcePagination = ({ moduleData, totalModuleCount, filterModuleDa
             console.log("Filtered data for current page: ", response);
             setDisplayedModules(response);
         })
-    }, [pagination.to, pagination.from]);
+    }, [pagination.from, pagination.to]);
 
     // updates pagination from and to index and updates selected module code
     const handlePageChange = (event, page) => {

@@ -6,16 +6,16 @@ import ModuleResourceTabContent from './ModuleResourceTabContent';
 import ModuleResourcePagination from './ModuleResourcePagination';
 
 // tools
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Typography, Stack } from '@mui/material';
 
 
 const ModuleResourceTabSection = ({ moduleData }) => {
     // handles displayed modules in selected page according to pagination
-    const [displayedModules, setDisplayedModules] = useState(moduleData.slice(0, 10));
+    const [displayedModules, setDisplayedModules] = useState([]);
 
     // handles selected index upon clicking module list item
-    const [selectedModuleCode, setSelectedModuleCode] = useState(displayedModules[0]);
+    const [selectedModuleCode, setSelectedModuleCode] = useState('');
 
     // updates selected module code when module item is clicked
     const handleModuleChange = (event, moduleCode) => {
@@ -27,6 +27,14 @@ const ModuleResourceTabSection = ({ moduleData }) => {
     async function filterModuleData(from, to) {
         return moduleData.slice(from, to);
     }
+
+    // set default module display
+    useEffect(() => {
+        const defaultModules = moduleData.slice(0, 10);
+        const defaultModule = defaultModules[0]; // not sure why i cannot retrieve the value from moduleCode key
+        setDisplayedModules(defaultModules);
+        setSelectedModuleCode('ABM5001'); // it works like this, will look into replacing with variable
+    },[moduleData])
 
     return (
         <Box
