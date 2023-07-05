@@ -5,7 +5,10 @@ import FormField from '../common/FormField';
 import MainButton from '../common/MainButton';
 
 // tools
-import { Stack, Link } from '@mui/material';
+import { Stack, Link, Typography } from '@mui/material';
+import { auth } from '../others/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { useState } from 'react';
 
 const matriculation_year = [
   {
@@ -138,6 +141,13 @@ const course = [
 ];
 
 const BasicInfoForm = () => {
+  const [user, setUser] = useState({});
+  onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
+
+  // const [email, setEmail] = useState(user.email);
+
   return (
     <>
       <Stack gap="32px">
@@ -145,6 +155,7 @@ const BasicInfoForm = () => {
           <FormField
             field_name={"Email Address"}
             type={"email"}
+            defaultValue={user.email}
           // onChangeAction
           />
           <FormField
@@ -152,8 +163,8 @@ const BasicInfoForm = () => {
             type={"password"}
           // onChangeAction
           />
-          <FormField field_name={"Matriculation Year"} type={"dropdown"} values={matriculation_year} />
-          <FormField field_name={"Current/Prospective Course"} type={"dropdown"} values={course} />
+          <FormField field_name={"Matriculation Year"} type={"dropdown"} values={matriculation_year} defaultValue={user.email}/>
+          <FormField field_name={"Current/Prospective Course"} type={"dropdown"} values={course} defaultValue={user.email}/>
         </Stack>
         <Link>
           <MainButton
