@@ -11,9 +11,10 @@ import { useEffect, useState } from 'react';
 const ModuleListItem = ({ index, value, onSelect, moduleCode, moduleMC, moduleName, moduleSem }) => {
     // setting semester indication based on nusmods api semester data
     const [semesterArray, setSemesterArray] = useState([]);
-    let currentSemesterArray = [false, false, false, false];
 
     useEffect(() => {
+        const currentSemesterArray = [false, false, false, false];
+
         moduleSem.map((sem, index) =>
             sem.semester === 1
                 ? currentSemesterArray[0] = true
@@ -23,8 +24,10 @@ const ModuleListItem = ({ index, value, onSelect, moduleCode, moduleMC, moduleNa
                         ? currentSemesterArray[2] = true
                         : currentSemesterArray[3] = true
         )
+        // console.log(moduleSem);
+
         setSemesterArray(currentSemesterArray);
-    }, [])
+    }, [moduleSem])
 
     return (
         <Box width="42vw">
