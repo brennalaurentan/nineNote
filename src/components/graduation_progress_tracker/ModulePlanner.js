@@ -139,6 +139,27 @@ const ModulePlanner = () => {
         }
     })
 
+    // function which takes in a path and returns an array of the modules in 
+    // that path in the database
+    async function retrieveModuleList(path) {
+        const arrayOfModules = [];
+        const collectionRef = collection(db, path);
+        const querySnapshot = await getDocs(collectionRef);
+        querySnapshot.forEach((doc) => {
+            // each module in the database has the following details:
+            // moduleCode, moduleMC, moduleName
+            const newModule = {
+                "moduleCode": doc.data().moduleCode,
+                "moduleMC": doc.data().moduleMC,
+                "moduleName": doc.data().moduleName
+            }
+            arrayOfModules.push(newModule);
+        })
+        return arrayOfModules;
+    }
+    console.log("Testing retrieveModuleList function:");
+    console.log(retrieveModuleList(`graduationRequirements/computerScience/commonCurriculum/computingEthics/computingEthics`));
+
     const [ccrCreditsCompleted, setCCRCreditsCompleted] = useState();
     const [pCreditsCompleted, setPCreditsCompleted] = useState();
     const [ueCreditsCompleted, setUECreditsCompleted] = useState();
@@ -268,7 +289,7 @@ const ModulePlanner = () => {
                                 moduleCode: tryFindModuleDocumentSnap.data().moduleCode,
                                 moduleName: tryFindModuleDocumentSnap.data().moduleName,
                                 moduleMC: tryFindModuleDocumentSnap.data().moduleMC,
-                                moduleCategory: tryFindModuleDocumentSnap.data().moduleCategory
+                                //moduleCategory: tryFindModuleDocumentSnap.data().moduleCategory
                             }
                             // push object with retrieved module details into the array of items
                             // for the semester
@@ -294,8 +315,9 @@ const ModulePlanner = () => {
 
                     // add new object to main newState object
                     newState[semesterLabel] = newSemesterObject;
+                    setModulesBySemester(newState);
                 })
-                setModulesBySemester(newState);
+                
                 console.log("modules by semester: ");
                 console.log(modulesBySemester);
                 console.log("static modules by semester: ");
@@ -305,7 +327,7 @@ const ModulePlanner = () => {
                 console.log(error.message);
             }
         }
-        // loadSemesterModules();
+        loadSemesterModules();
     }, []);
 
     const handleDragEnd = ({ destination, source }) => {
