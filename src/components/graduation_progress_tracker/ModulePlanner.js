@@ -38,6 +38,50 @@ const item2 = {
     moduleCategory: "P"
 }
 
+const moduleGroupsArray = [
+    {   
+        groupName: "computingEthics",
+        collectionPath: '/graduationRequirements/computerScience/commonCurriculum/computingEthics/computingEthics'
+    },
+    {
+        groupName: "crossdisciplinaryEducation",
+        collectionPath: '/graduationRequirements/computerScience/commonCurriculum/crossdisciplinaryEducation'
+    },
+    {
+        groupName: "interdisciplinaryEducation",
+        collectionPath: '/graduationRequirements/computerScience/commonCurriculum/interdisciplinaryEducation'
+    },
+    {
+        groupName: "universityLevel",
+        collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel'
+    },
+    {
+        groupName: "algorithmsAndTheory",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/algorithmsAndTheory'
+    },
+    {
+        groupName: "artificialIntelligence",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/artificialIntelligence'
+    },
+    {
+        groupName: "computerGraphicsAndGames",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerGraphicsAndGames'
+    },
+    {
+        groupName: "computerSecurity",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerSecurity'
+    },
+    {
+        groupName: "databaseSystems",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/databaseSystems'
+    },
+    {
+        groupName: "multimediaInformationRetrieval",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/multimediaInformationRetrieval'
+    }
+
+];
+
 /*
 var request = new XMLHttpRequest();
 request.open('GET', 'https://api.nusmods.com/v2/2022-2023/moduleList.json', true);
@@ -158,15 +202,17 @@ const ModulePlanner = () => {
         return arrayOfModules;
     }
     console.log("Testing retrieveModuleList function:");
-    console.log(retrieveModuleList(`graduationRequirements/computerScience/commonCurriculum/computingEthics/computingEthics`));
-
-    const [ccrCreditsCompleted, setCCRCreditsCompleted] = useState();
-    const [pCreditsCompleted, setPCreditsCompleted] = useState();
-    const [ueCreditsCompleted, setUECreditsCompleted] = useState();
+    console.log(retrieveModuleList(`/graduationRequirements/computerScience/commonCurriculum/computingEthics/computingEthics`));
 
     const [modulesBySemester, setModulesBySemester] = useState({});
     let userSemesterCount = 0;
     let semesterModulesArray = [];
+
+    /*
+    useEffect(() => 
+        async function 
+    )
+    */
 
     useEffect(() => {
         async function loadSemesterModules() {
