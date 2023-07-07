@@ -16,11 +16,16 @@ import { collection, getDocs, getDoc, doc, onSnapshot, QuerySnapshot, setDoc } f
 import { db } from '../others/firebase';
 import { useEffect } from 'react';
 import { getAuth } from 'firebase/auth';
+import { setSelectionRange } from '@testing-library/user-event/dist/utils';
 
 const SemContainer = styled(Container)(({ theme }) => ({
     display: "flex",
     flexWrap: "wrap"
 }));
+
+const auth = getAuth();
+const user = auth.currentUser;
+const currentUserEmail = user.email;
 
 const item1 = {
     moduleID: v4(),
@@ -45,39 +50,43 @@ const moduleGroupsArray = [
     },
     {
         groupName: "crossdisciplinaryEducation",
-        collectionPath: '/graduationRequirements/computerScience/commonCurriculum/crossdisciplinaryEducation'
+        collectionPath: '/graduationRequirements/computerScience/commonCurriculum/crossdisciplinaryEducation/crossdisciplinaryEducation'
     },
     {
         groupName: "interdisciplinaryEducation",
-        collectionPath: '/graduationRequirements/computerScience/commonCurriculum/interdisciplinaryEducation'
+        collectionPath: '/graduationRequirements/computerScience/commonCurriculum/interdisciplinaryEducation/interdisciplinaryEducation'
     },
     {
         groupName: "universityLevel",
-        collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel'
+        collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/universityLevel'
     },
     {
-        groupName: "algorithmsAndTheory",
-        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/algorithmsAndTheory'
+        groupName: "algorithmsAndTheory_primaries",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/algorithmsAndTheory/primaries'
     },
     {
-        groupName: "artificialIntelligence",
-        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/artificialIntelligence'
+        groupName: "artificialIntelligence_primaries",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/artificialIntelligence/primaries'
     },
     {
-        groupName: "computerGraphicsAndGames",
-        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerGraphicsAndGames'
+        groupName: "computerGraphicsAndGames_primaries",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerGraphicsAndGames/primaries'
     },
     {
-        groupName: "computerSecurity",
-        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerSecurity'
+        groupName: "computerSecurity_primaries",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerSecurity/primaries'
     },
     {
-        groupName: "databaseSystems",
-        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/databaseSystems'
+        groupName: "databaseSystems_primaries",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/databaseSystems/primaries'
     },
     {
-        groupName: "multimediaInformationRetrieval",
-        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/multimediaInformationRetrieval'
+        groupName: "multimediaInformationRetrieval_primaries",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/multimediaInformationRetrieval/primaries'
+    },
+    {
+        groupName: "networkingAndDistributedSystems_primaries",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/networkingAndDistributedSystems/primaries'
     }
 
 ];
@@ -204,23 +213,49 @@ const ModulePlanner = () => {
     console.log("Testing retrieveModuleList function:");
     console.log(retrieveModuleList(`/graduationRequirements/computerScience/commonCurriculum/computingEthics/computingEthics`));
 
+    // function which takes in an array of objects, each object representing one module collection in the database
+    // each object has 2 properties: groupName and collectionPath
+    function retrieveAllModules(arrayOfModuleGroups) {
+        let arrayOfAllModules = [];
+        let arrayOfModules = [];
+        (arrayOfModuleGroups).forEach(courseCollection => {
+            // retrieve modules in an array
+            arrayOfModules = retrieveModuleList(courseCollection.collectionPath);
+            // add arrayOfModules to arrayOfAllModules
+            arrayOfAllModules = arrayOfAllModules.concat(arrayOfModules);
+        });
+        return arrayOfAllModules;
+    }
+    let testArray = retrieveAllModules(moduleGroupsArray);
+    console.log(testArray);
+
     const [modulesBySemester, setModulesBySemester] = useState({});
     let userSemesterCount = 0;
     let semesterModulesArray = [];
 
-    /*
-    useEffect(() => 
-        async function 
-    )
-    */
+    async function updateCreditCount(moduleCategory, path, creditsToAdd) {
+        try {
+            // obtain current credit count
+            const querySnapshot = await getDocs(path);
+            let currentCreditCount = 0;
+            querySnapshot.forEach((doc) => {
+                currentCreditCount = doc.data().creditsCompleted;
+            })
+            // calculate new credit count
+            const newCreditCount = currentCreditCount + creditsToAdd;
+            // update credit count with new credit count
+            await setDoc(doc(db, path, moduleCategory), {
+                creditsCompleted: newCreditCount
+            });
+        }
+        catch (error) {
+            console.log(error.message);
+        }
+    }
 
     useEffect(() => {
         async function loadSemesterModules() {
             try {
-                const auth = getAuth();
-                const user = auth.currentUser;
-                const currentUserEmail = user.email;
-
                 const semestersCollectionRef = collection(db, `users/${user.email}/modules`);
                 const allSemestersSnapshot = await getDocs(semestersCollectionRef);
 
