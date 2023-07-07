@@ -319,10 +319,10 @@ const ModulePlanner = () => {
     // function which updates the credit count in the database,
     // given the module category, path in database, and number of credits to add
     useEffect(() => {
-        async function updateCreditCount(moduleCategory, path, creditsToAdd) {
+        async function updateCreditCount(moduleCategory, collectionPath, creditsToAdd) {
             try {
                 // obtain current credit count
-                const querySnapshot = await getDocs(collection(db, path));
+                const querySnapshot = await getDocs(collection(db, collectionPath));
                 let currentCreditCount = 0;
                 let creditsToMeet = 0;
                 querySnapshot.forEach((doc) => {
@@ -332,7 +332,7 @@ const ModulePlanner = () => {
                 // calculate new credit count
                 const newCreditCount = (currentCreditCount + creditsToAdd).toString();
                 // update credit count with new credit count
-                await setDoc(doc(db, path, moduleCategory), {
+                await setDoc(doc(db, collectionPath, moduleCategory), {
                     creditsCompleted: newCreditCount,
                     creditsToMeet: creditsToMeet
                 });
@@ -341,12 +341,41 @@ const ModulePlanner = () => {
                 console.log(error.message);
             }
         }
-        // line below for testing
-        updateCreditCount("foundation", '/users/dummy@gmail.com/gradProgress/programme/foundation', 2);
+        // line below updates the credit count field in the specified category in the specified field
+        //updateCreditCount("foundation", '/users/dummy@gmail.com/gradProgress/programme/foundation', 2);
     }, [])
 
-    function updateCompletedModulesArray(moduleCategory, path, moduleCode) {
+    async function updateCompletedModulesArray(moduleCategory, collectionPath, moduleCode) {
         try {
+            let currentCreditsCompleted = "";
+            let currentCreditsToMeet = "";
+            let currentModulesTakenArray = [];
+            // obtain current modules completed array (for the specified group)
+            const querySnapshot = await getDocs(collection(db, collectionPath));
+            // wait but how do you obtain the correct specified group...
+            // can cycle through the documents but don't know how to 'identify the correct one'
+            // since moduleCat is a QuerySnapshot and not a string name...
+            // able to setDoc (since the moduleCategory and collectionPath is definite / given)
+            // but for getDocs, if there's more than one document in the collection, what condition
+            // to set in order to go into the loop when it's the right document?
+
+            /*
+            querySnapshot.forEach((moduleCat) => {
+                // condition below does not work. need to find a new way
+                if (moduleCat === moduleCategory) {
+                    currentCreditsCompleted = moduleCat.data().creditsCompleted;
+                    currentCreditsToMeet = moduleCat.data().creditsToMeet;
+                    currentModulesTakenArray = moduleCat.data().modulesTaken;
+                }
+            });
+            currentModulesTakenArray.push(moduleCode);
+            setDoc(doc(db, collectionPath, moduleCategory), {
+                creditsCompleted: currentCreditsCompleted,
+                creditsToMeet: currentCreditsToMeet,
+                modulesTaken: currentModulesTakenArray
+            });
+            console.log("updated modules taken array");
+            */
 
         }
         catch (error) {
