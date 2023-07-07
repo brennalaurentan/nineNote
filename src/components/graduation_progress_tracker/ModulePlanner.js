@@ -23,10 +23,6 @@ const SemContainer = styled(Container)(({ theme }) => ({
     flexWrap: "wrap"
 }));
 
-const auth = getAuth();
-const user = auth.currentUser;
-const currentUserEmail = user.email;
-
 const item1 = {
     moduleID: v4(),
     moduleCode: "CS1231S",
@@ -265,6 +261,10 @@ const ModulePlanner = () => {
     useEffect(() => {
         async function loadSemesterModules() {
             try {
+                const auth = getAuth();
+                const user = auth.currentUser;
+                const currentUserEmail = user.email;
+
                 const semestersCollectionRef = collection(db, `users/${user.email}/modules`);
                 const allSemestersSnapshot = await getDocs(semestersCollectionRef);
 
