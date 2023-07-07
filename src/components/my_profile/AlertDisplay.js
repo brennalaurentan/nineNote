@@ -12,10 +12,10 @@ const AlertDisplay = () => {
             <Alert icon={<EmojiObjectsOutlinedIcon fontSize="inherit" />} severity="warning">
                 <AlertTitle>
                     <Typography variant="tag_bold">
-                        Already know which modules to take?
+                        Already know which modules you are exempted from?
                     </Typography>
                 </AlertTitle>
-                You may select your exempted modules manually in the Graduation Progress Tracker!
+                You may select your exempted modules in the Graduation Progress Tracker!
             </Alert>
         </Box>
 

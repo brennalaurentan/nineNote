@@ -38,7 +38,7 @@ const MainNavbar = () => {
         </Box>
         <Stack direction="row" gap="64px" display="flex" alignItems="center">
           <Typography variant="tag_thin">Welcome, {user.email}</Typography>
-          <Link href="/" underline="none" color="white.main">Login</Link>
+          {/* <Link href="/" underline="none" color="white.main">Login</Link> */}
           <Link href="/graduation-progress-tracker" underline="none" color="white.main">Graduation Progress Tracker</Link>
           <Link href="/module-recommender" underline="none" color="white.main">Module Recommender</Link>
           <Link href="/module-resource-directory" underline="none" color="white.main">Module Resource Directory</Link>
