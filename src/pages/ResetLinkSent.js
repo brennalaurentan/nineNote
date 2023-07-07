@@ -3,12 +3,12 @@ import '../index.css';
 
 // components / pages / images
 import Layout from '../components/others/Layout';
-import ResetPasswordForm from '../components/reset_password/ResetPasswordForm';
+import ConfirmationForm from '../components/reset_link_sent/ConfirmationForm';
 
 // tools
 import { Helmet } from 'react-helmet';
 
-const ResetPassword = () => {
+const ResetLinkSent = () => {
     return (
         <>
             <Helmet>
@@ -16,10 +16,10 @@ const ResetPassword = () => {
             </Helmet>
 
             <Layout>
-                <ResetPasswordForm />
+                <ConfirmationForm />
             </Layout>
         </>
     )
 }
 
-export default ResetPassword
+export default ResetLinkSent
