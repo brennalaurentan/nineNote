@@ -23,32 +23,38 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
       moduleCode: 'CS1101S',
       moduleName: 'Programming Methodology I',
       moduleMC: '4',
+      moduleCategory: 'foundation'
     },
     {
       moduleCode: 'CS1231S',
       moduleName: 'Discrete Structures',
       moduleMC: '5',
+      moduleCategory: 'foundation'
     },
     {
       moduleCode: 'GEA1000',
       moduleName: 'Quantitative Reasoning with Data',
       moduleMC: '6',
+      moduleCategory: 'dataLiteracy'
     },
     {
       moduleCode: 'MA1521',
       moduleName: 'Calculus for Computing',
       moduleMC: '7',
+      moduleCategory: 'mathematicsAndSciences'
     },
   ];
 
   const moduleCodeList = moduleList.map(module => module.moduleCode);
   const moduleNameList = moduleList.map(module => module.moduleName);
   const moduleMCList = moduleList.map(module => module.moduleMC);
+  const moduleCategoryList = moduleList.map(module => module.moduleCategory);
 
   const [open, setOpen] = React.useState(false);
   const [moduleCode, setModuleCode] = React.useState("");
   const [moduleName, setModuleName] = React.useState("");
   const [moduleMC, setModuleMC] = React.useState(0);
+  const [moduleCategory, setModuleCategory] = React.useState("");
   const yearSemCode = yearSem.replace(/ /g, '');
 
   const handleClickOpen = () => {
@@ -65,6 +71,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
   const handleAdd = async () => {
     setOpen(false);
     onSubmit(moduleCode, moduleName, moduleMC, yearSem);
+
     try {
       const auth = getAuth();
       const user = auth.currentUser;
@@ -99,7 +106,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
           moduleCode: moduleCode,
           moduleName: moduleName,
           moduleMC: moduleMC,
-          moduleCategory: "P"
+          moduleCategory: moduleCategory
         });
 
         // update numModules property (field) in firestore
@@ -148,6 +155,9 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
                   const correspondingModuleMC = moduleMCList[moduleCodeList.indexOf(newValue)];
                   setModuleMC(correspondingModuleMC);
                   console.log(correspondingModuleMC);
+                  const correspondingModuleCategory = moduleCategoryList[moduleCodeList.indexOf(newValue)];
+                  setModuleCategory(correspondingModuleCategory);
+                  console.log(correspondingModuleCategory);
                 }}
                 renderInput={(params) => <TextField {...params} label="Module Code" />}
                 onInputChange={(event, inputValue) => {
@@ -170,6 +180,9 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
                   const correspondingModuleMC = moduleMCList[moduleNameList.indexOf(newValue)];
                   setModuleMC(correspondingModuleMC);
                   console.log(correspondingModuleMC);
+                  const correspondingModuleCategory = moduleCategoryList[moduleNameList.indexOf(newValue)];
+                  setModuleCategory(correspondingModuleCategory);
+                  console.log(correspondingModuleCategory);
                 }}
                 renderInput={(params) => <TextField {...params} label="Module Name" />}
                 onInputChange={(event, inputValue) => {
