@@ -71,7 +71,7 @@ const LoginForm = () => {
             />
           </Link>
           <SnackBar type="error" error={loginError} text="Incorrect credentials. Please try again."/>
-          <Link underline="none">
+          <Link href="/reset-password" underline="none">
             <Typography variant="tag_thin" display="flex" justifyContent="flex-end">Forgot your password?</Typography>
           </Link>
         </Stack>
