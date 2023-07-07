@@ -12,7 +12,7 @@ import { Stack, Typography, Box, Container } from '@mui/material';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import _ from "lodash";
 import { v4 } from 'uuid';
-import { collection, getDocs, getDoc, doc, onSnapshot, QuerySnapshot, setDoc } from 'firebase/firestore';
+import { collection, getDocs, getDoc, doc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../others/firebase';
 import { useEffect } from 'react';
 import { getAuth } from 'firebase/auth';
@@ -53,38 +53,125 @@ const moduleGroupsArray = [
         collectionPath: '/graduationRequirements/computerScience/commonCurriculum/interdisciplinaryEducation/interdisciplinaryEducation'
     },
     {
-        groupName: "universityLevel",
-        collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/universityLevel'
+        groupName: "communitiesAndEngagement",
+        collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/communitiesAndEngagement'
+    },
+    {
+        groupName: "critiqueAndExpression",
+        collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/critiqueAndExpression'
+    },
+    {
+        groupName: "culturesAndConnections",
+        collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/culturesAndConnections'
+    },
+    {
+        groupName: "dataLiteracy",
+        collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/dataLiteracy'
+    },
+    {
+        groupName: "digitalLiteracy",
+        collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/digitalLiteracy'
+    },
+    {
+        groupName: "singaporeStudies",
+        collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/singaporeStudies'
+    },
+    {
+        groupName: "algorithmsAndTheory_electives",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/algorithmsAndTheory/electives'
     },
     {
         groupName: "algorithmsAndTheory_primaries",
         collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/algorithmsAndTheory/primaries'
     },
     {
+        groupName: "artificialIntelligence_electives",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/artificialIntelligence/electives'
+    },
+    {
         groupName: "artificialIntelligence_primaries",
         collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/artificialIntelligence/primaries'
+    },
+    {
+        groupName: "computerGraphicsAndGames_electives",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerGraphicsAndGames/electives'
     },
     {
         groupName: "computerGraphicsAndGames_primaries",
         collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerGraphicsAndGames/primaries'
     },
     {
+        groupName: "computerSecurity_electives",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerSecurity/electives'
+    },
+    {
         groupName: "computerSecurity_primaries",
         collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerSecurity/primaries'
+    },
+    {
+        groupName: "databaseSystems_electives",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/databaseSystems/electives'
     },
     {
         groupName: "databaseSystems_primaries",
         collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/databaseSystems/primaries'
     },
     {
+        groupName: "multimediaInformationRetrieval_electives",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/multimediaInformationRetrieval/primaries'
+    },
+    {
         groupName: "multimediaInformationRetrieval_primaries",
         collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/multimediaInformationRetrieval/primaries'
     },
     {
+        groupName: "networkingAndDistributedSystems_electives",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/networkingAndDistributedSystems/primaries'
+    },
+    {
         groupName: "networkingAndDistributedSystems_primaries",
         collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/networkingAndDistributedSystems/primaries'
+    },
+    {
+        groupName: "focusAreas_others",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/others/others'
+    },
+    {
+        groupName: "parallelComputing_electives",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/parallelComputing/electives'
+    },
+    {
+        groupName: "parallelComputing_primaries",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/parallelComputing/primaries'
+    },
+    {
+        groupName: "programmingLanguages_electives",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/programmingLanguages/electives'
+    },
+    {
+        groupName: "programmingLanguages_primaries",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/programmingLanguages/primaries'
+    },
+    {
+        groupName: "softwareEngineering_electives",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/softwareEngineering/electives'
+    },
+    {
+        groupName: "softwareEngineering_primaries",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/softwareEngineering/primaries'
+    },
+    {
+        groupName: "industryExperience",
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/industryExperience'
+    },
+    {
+        groupName: "mathematicsAndSciences",
+        collectionPath: '/graduationRequirements/computerScience/programme/mathematicsAndSciences/mathematicsAndSciences'
+    },
+    {
+        groupName: "foundation",
+        collectionPath: '/graduationRequirements/computerScience/programme/foundation/foundation'
     }
-
 ];
 
 /*
@@ -120,6 +207,48 @@ request.send();
 */
 
 const ModulePlanner = () => {
+
+    // function to mass update documents in the database bc I want to add stuff...
+    useEffect(() => {
+        async function addModuleCategories(categoryName, collectionPath) {
+            // collectionPath contains one or more documents
+            // to each document in the collection, we want to add the field 'moduleCategory: categoryName'
+            // all documents have the same format, with each document having the following fields:
+            // moduleCode, moduleName, moduleMC
+            // at the end, the document should have the following fields:
+            // moduleCode, moduleName, moduleMC, moduleCategory
+            try {
+                let currentModuleCode = "";
+                let currentModuleName = "";
+                let currentModuleMC = "";
+
+                // read collection
+                const querySnapshot = await getDocs(collection(db, collectionPath));
+                // cycle through each of the documents in the collection
+                let moduleIndexCounter = 1;
+                querySnapshot.forEach((module) => {
+                    currentModuleCode = module.data().moduleCode;
+                    currentModuleName = module.data().moduleName;
+                    currentModuleMC = module.data().moduleMC;
+
+                    // update module document with existing fields, and the new field
+                    setDoc(doc(db, collectionPath, `module_${moduleIndexCounter}`), {
+                        moduleCode: currentModuleCode,
+                        moduleName: currentModuleName,
+                        moduleMC: currentModuleMC,
+                        moduleCategory: categoryName
+                    });
+                    console.log(`module_${moduleIndexCounter}` + " done");
+                    moduleIndexCounter++;
+                })
+            }
+            catch (error) {
+                console.log(error.message);
+            }
+        }
+        // modify the line below to add the moduleCategory field to all modules in the collection
+        addModuleCategories("mathematicsAndSciences", '/graduationRequirements/computerScience/programme/mathematicsAndSciences/mathematicsAndSciences');
+    }, []);
 
     const [state, setState] = useState({
         "Y1 S1": {
@@ -206,8 +335,8 @@ const ModulePlanner = () => {
         })
         return arrayOfModules;
     }
-    console.log("Testing retrieveModuleList function:");
-    console.log(retrieveModuleList(`/graduationRequirements/computerScience/commonCurriculum/computingEthics/computingEthics`));
+    //console.log("Testing retrieveModuleList function:");
+    //console.log(retrieveModuleList(`/graduationRequirements/computerScience/commonCurriculum/computingEthics/computingEthics`));
 
     // function which takes in an array of objects, each object representing one module collection in the database
     // each object has 2 properties: groupName and collectionPath
@@ -222,8 +351,8 @@ const ModulePlanner = () => {
         });
         return arrayOfAllModules;
     }
-    let testArray = retrieveAllModules(moduleGroupsArray);
-    console.log(testArray);
+    //let testArray = retrieveAllModules(moduleGroupsArray);
+    //console.log(testArray);
 
     const [modulesBySemester, setModulesBySemester] = useState({});
     let userSemesterCount = 0;
@@ -237,7 +366,7 @@ const ModulePlanner = () => {
                 // obtain current credit count
                 const querySnapshot = await getDocs(collection(db, path));
                 let currentCreditCount = 0;
-                const creditsToMeet = 0;
+                let creditsToMeet = 0;
                 querySnapshot.forEach((doc) => {
                     currentCreditCount = parseInt(doc.data().creditsCompleted);
                     creditsToMeet = doc.data().creditsToMeet;
@@ -257,6 +386,15 @@ const ModulePlanner = () => {
         // line below for testing
         updateCreditCount("foundation", '/users/dummy@gmail.com/gradProgress/programme/foundation', 2);
     }, [])
+
+    function updateCompletedModulesArray(moduleCategory, path, moduleCode) {
+        try {
+
+        }
+        catch (error) {
+            console.log(error.message);
+        }
+    }
 
     useEffect(() => {
         async function loadSemesterModules() {
