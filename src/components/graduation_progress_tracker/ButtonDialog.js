@@ -9,7 +9,7 @@ import * as React from 'react';
 import {
   Typography, Dialog, DialogActions,
   DialogContent, DialogContentText, DialogTitle,
-  Stack
+  Stack, Autocomplete, TextField
 } from '@mui/material'
 import { auth, db } from '../others/firebase';
 import { getAuth } from 'firebase/auth';
@@ -17,20 +17,51 @@ import { query, collection, setDoc, getDocs, doc } from 'firebase/firestore';
 import { v4 } from 'uuid';
 
 const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
+  // for testing
+  const moduleList = [
+    {
+      moduleCode: 'CS1101S',
+      moduleName: 'Programming Methodology I',
+      moduleMC: '4',
+    },
+    {
+      moduleCode: 'CS1231S',
+      moduleName: 'Discrete Structures',
+      moduleMC: '5',
+    },
+    {
+      moduleCode: 'GEA1000',
+      moduleName: 'Quantitative Reasoning with Data',
+      moduleMC: '6',
+    },
+    {
+      moduleCode: 'MA1521',
+      moduleName: 'Calculus for Computing',
+      moduleMC: '7',
+    },
+  ];
+
+  const moduleCodeList = moduleList.map(module => module.moduleCode);
+  const moduleNameList = moduleList.map(module => module.moduleName);
+  const moduleMCList = moduleList.map(module => module.moduleMC);
+
   const [open, setOpen] = React.useState(false);
   const [moduleCode, setModuleCode] = React.useState("");
   const [moduleName, setModuleName] = React.useState("");
-  const [moduleMC, setModuleMC] = React.useState();
+  const [moduleMC, setModuleMC] = React.useState(0);
   const yearSemCode = yearSem.replace(/ /g, '');
-  
+
   const handleClickOpen = () => {
     setOpen(true);
   };
-  
+
   const handleClose = () => {
+    setModuleCode("");
+    setModuleName("");
+    setModuleMC(0);
     setOpen(false);
   };
-  
+
   const handleAdd = async () => {
     setOpen(false);
     onSubmit(moduleCode, moduleName, moduleMC, yearSem);
@@ -58,7 +89,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
             docCount = doc.data().numModules;
           }
         });
-        
+
         // obtain index of next module to add
         const docNextIndex = docCount + 1;
 
@@ -70,11 +101,18 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
           moduleMC: moduleMC,
           moduleCategory: "P"
         });
-        
+
         // update numModules property (field) in firestore
         await setDoc(doc(db, `users/${currentUserEmail}/modules`, yearSemCode), {
           numModules: docNextIndex
         });
+
+        // // updated prpgress rings
+        // moduleGroupsArray.forEach((moduleGroup) => {
+        //   if (moduleCategory = moduleGroup.moduleCategory) {
+
+        //   }
+        // })
       })
     } catch (error) {
       console.log(error.message);
@@ -94,29 +132,57 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
               <Typography variant="body_thin" color="black.main">{text}</Typography>
             </DialogContentText>
             <Stack gap="16px" marginTop="16px">
-              <FormField
-                field_name={"Module Code"}
-                type={"module"}
-                onChangeAction={(event) => {
-                  setModuleCode(event.target.value);
-                  console.log("live module code update: " + moduleCode);
+              {/* module code autocomplete */}
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={moduleCodeList}
+                fullWidth
+                defaultValue=""
+                value={moduleCode}
+                onChange={(event, newValue) => {
+                  setModuleCode(newValue);
+                  const correspondingModuleName = moduleNameList[moduleCodeList.indexOf(newValue)];
+                  setModuleName(correspondingModuleName);
+                  console.log(correspondingModuleName);
+                  const correspondingModuleMC = moduleMCList[moduleCodeList.indexOf(newValue)];
+                  setModuleMC(correspondingModuleMC);
+                  console.log(correspondingModuleMC);
+                }}
+                renderInput={(params) => <TextField {...params} label="Module Code" />}
+                onInputChange={(event, inputValue) => {
+                  console.log("live module code update: " + inputValue);
                 }}
               />
-              <FormField
-                field_name={"Module Name"}
-                type={"module"}
-                onChangeAction={(event) => {
-                  setModuleName(event.target.value);
-                  console.log("live module name update: " + moduleName);
+              {/* module name autocomplete */}
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={moduleNameList}
+                fullWidth
+                defaultValue=""
+                value={moduleName}
+                onChange={(event, newValue) => {
+                  setModuleName(newValue);
+                  const correspondingModuleCode = moduleCodeList[moduleNameList.indexOf(newValue)];
+                  setModuleCode(correspondingModuleCode);
+                  console.log(correspondingModuleCode);
+                  const correspondingModuleMC = moduleMCList[moduleNameList.indexOf(newValue)];
+                  setModuleMC(correspondingModuleMC);
+                  console.log(correspondingModuleMC);
+                }}
+                renderInput={(params) => <TextField {...params} label="Module Name" />}
+                onInputChange={(event, inputValue) => {
+                  console.log("live module name update: " + inputValue);
                 }}
               />
-              <FormField
-                field_name={"Number of MCs"}
-                type={"module"}
-                onChangeAction={(event) => {
-                  setModuleMC(event.target.value);
-                  console.log("live module MC update: " + moduleMC);
-                }}
+              {/* module mc disabled text field */}
+              <TextField
+                disabled
+                id="outlined-disabled"
+                label="Module MC"
+                defaultValue={0}
+                value={moduleMC}
               />
             </Stack>
           </DialogContent>
