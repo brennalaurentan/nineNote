@@ -126,7 +126,7 @@ const moduleGroupsArray = [
     },
     {
         groupName: "networkingAndDistributedSystems_electives",
-        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/networkingAndDistributedSystems/primaries'
+        collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/networkingAndDistributedSystems/electives'
     },
     {
         groupName: "networkingAndDistributedSystems_primaries",
@@ -207,49 +207,7 @@ request.send();
 */
 
 const ModulePlanner = () => {
-
-    // function to mass update documents in the database bc I want to add stuff...
-    useEffect(() => {
-        async function addModuleCategories(categoryName, collectionPath) {
-            // collectionPath contains one or more documents
-            // to each document in the collection, we want to add the field 'moduleCategory: categoryName'
-            // all documents have the same format, with each document having the following fields:
-            // moduleCode, moduleName, moduleMC
-            // at the end, the document should have the following fields:
-            // moduleCode, moduleName, moduleMC, moduleCategory
-            try {
-                let currentModuleCode = "";
-                let currentModuleName = "";
-                let currentModuleMC = "";
-
-                // read collection
-                const querySnapshot = await getDocs(collection(db, collectionPath));
-                // cycle through each of the documents in the collection
-                let moduleIndexCounter = 1;
-                querySnapshot.forEach((module) => {
-                    currentModuleCode = module.data().moduleCode;
-                    currentModuleName = module.data().moduleName;
-                    currentModuleMC = module.data().moduleMC;
-
-                    // update module document with existing fields, and the new field
-                    setDoc(doc(db, collectionPath, `module_${moduleIndexCounter}`), {
-                        moduleCode: currentModuleCode,
-                        moduleName: currentModuleName,
-                        moduleMC: currentModuleMC,
-                        moduleCategory: categoryName
-                    });
-                    console.log(`module_${moduleIndexCounter}` + " done");
-                    moduleIndexCounter++;
-                })
-            }
-            catch (error) {
-                console.log(error.message);
-            }
-        }
-        // modify the line below to add the moduleCategory field to all modules in the collection
-        addModuleCategories("mathematicsAndSciences", '/graduationRequirements/computerScience/programme/mathematicsAndSciences/mathematicsAndSciences');
-    }, []);
-
+    
     const [state, setState] = useState({
         "Y1 S1": {
             title: "Y1 S1",
@@ -556,6 +514,56 @@ const ModulePlanner = () => {
             }
         }
         loadSemesterModules();
+    }, []);
+
+    // function to mass update module documents in the database
+    useEffect(() => {
+        async function addModuleCategories(categoryName, collectionPath) {
+            // collectionPath contains one or more documents
+            // to each document in the collection, we want to add the field 'moduleCategory: categoryName'
+            // all documents have the same format, with each document having the following fields:
+            // moduleCode, moduleName, moduleMC
+            // at the end, the document should have the following fields:
+            // moduleCode, moduleName, moduleMC, moduleCategory
+            try {
+                let currentModuleCode = "";
+                let currentModuleName = "";
+                let currentModuleMC = "";
+
+                // read collection
+                const querySnapshot = await getDocs(collection(db, collectionPath));
+                // cycle through each of the documents in the collection
+                let moduleIndexCounter = 1;
+                querySnapshot.forEach((module) => {
+                    // keep track of the following existing fields 
+                    // (we don't want to change these fields)
+                    currentModuleCode = module.data().moduleCode;
+                    currentModuleName = module.data().moduleName;
+                    currentModuleMC = module.data().moduleMC;
+
+                    // update module document with existing fields, and the new field
+                    setDoc(doc(db, collectionPath, `module_${moduleIndexCounter}`), {
+                        moduleCode: currentModuleCode,
+                        moduleName: currentModuleName,
+                        moduleMC: currentModuleMC,
+                        moduleCategory: categoryName
+                    });
+                    console.log(categoryName + ": " + `module_${moduleIndexCounter}` + " done");
+                    moduleIndexCounter++;
+                })
+            }
+            catch (error) {
+                console.log(error.message);
+            }
+        }
+        // modify the line below to add the moduleCategory field to all modules in the specified collection
+        //addModuleCategories("programmingLanguages_electives", '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/programmingLanguages/electives');
+        /*
+        // un-comment the block below to make modifications to all module groups in the specified array
+        moduleGroupsArray.forEach((moduleGroup) => {
+            addModuleCategories(moduleGroup.groupName, moduleGroup.collectionPath);
+        });
+        */
     }, []);
 
     const handleDragEnd = ({ destination, source }) => {
