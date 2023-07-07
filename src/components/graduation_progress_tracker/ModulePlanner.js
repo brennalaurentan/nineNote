@@ -277,9 +277,9 @@ const ModulePlanner = () => {
 
     // function which takes in a path and returns an array of the modules in 
     // that path in the database
-    async function retrieveModuleList(path) {
+    async function retrieveModulesFromCollectionPath(collectionPath) {
         const arrayOfModules = [];
-        const collectionRef = collection(db, path);
+        const collectionRef = collection(db, collectionPath);
         const querySnapshot = await getDocs(collectionRef);
         querySnapshot.forEach((doc) => {
             // each module in the database has the following details:
@@ -294,7 +294,7 @@ const ModulePlanner = () => {
         return arrayOfModules;
     }
     //console.log("Testing retrieveModuleList function:");
-    //console.log(retrieveModuleList(`/graduationRequirements/computerScience/commonCurriculum/computingEthics/computingEthics`));
+    //console.log(retrieveModulesFromCollectionPath(`/graduationRequirements/computerScience/commonCurriculum/computingEthics/computingEthics`));
 
     // function which takes in an array of objects, each object representing one module collection in the database
     // each object has 2 properties: groupName and collectionPath
@@ -303,7 +303,7 @@ const ModulePlanner = () => {
         let arrayOfModules = [];
         (arrayOfModuleGroups).forEach(courseCollection => {
             // retrieve modules in an array
-            arrayOfModules = retrieveModuleList(courseCollection.collectionPath);
+            arrayOfModules = retrieveModulesFromCollectionPath(courseCollection.collectionPath);
             // add arrayOfModules to arrayOfAllModules
             arrayOfAllModules = arrayOfAllModules.concat(arrayOfModules);
         });
@@ -315,35 +315,6 @@ const ModulePlanner = () => {
     const [modulesBySemester, setModulesBySemester] = useState({});
     let userSemesterCount = 0;
     let semesterModulesArray = [];
-
-    // function which updates the credit count in the database,
-    // given the module category, path in database, and number of credits to add
-    useEffect(() => {
-        async function updateCreditCount(moduleCategory, collectionPath, creditsToAdd) {
-            try {
-                // obtain current credit count
-                const querySnapshot = await getDocs(collection(db, collectionPath));
-                let currentCreditCount = 0;
-                let creditsToMeet = 0;
-                querySnapshot.forEach((doc) => {
-                    currentCreditCount = parseInt(doc.data().creditsCompleted);
-                    creditsToMeet = doc.data().creditsToMeet;
-                })
-                // calculate new credit count
-                const newCreditCount = (currentCreditCount + creditsToAdd).toString();
-                // update credit count with new credit count
-                await setDoc(doc(db, collectionPath, moduleCategory), {
-                    creditsCompleted: newCreditCount,
-                    creditsToMeet: creditsToMeet
-                });
-            }
-            catch (error) {
-                console.log(error.message);
-            }
-        }
-        // line below updates the credit count field in the specified category in the specified field
-        //updateCreditCount("foundation", '/users/dummy@gmail.com/gradProgress/programme/foundation', 2);
-    }, [])
 
     async function updateCompletedModulesArray(moduleCategory, collectionPath, moduleCode) {
         try {
