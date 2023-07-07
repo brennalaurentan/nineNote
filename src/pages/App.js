@@ -6,6 +6,7 @@ import '../styles/App.css';
 import CustomisedTheme from '../components/others/CustomisedTheme'
 import Login from './Login';
 import Signup from './Signup';
+import ResetPassword from './ResetPassword';
 import GraduationProgressTracker from './GraduationProgressTracker';
 import ModuleRecommender from './ModuleRecommender';
 import ModuleResourceDirectory from './ModuleResourceDirectory';
@@ -24,6 +25,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/graduation-progress-tracker" element={<GraduationProgressTracker />} />
           <Route path="/module-recommender" element={<ModuleRecommender />} />
           <Route path="/module-resource-directory" element={<ModuleResourceDirectory />} />
