@@ -207,6 +207,10 @@ request.send();
 */
 
 const ModulePlanner = () => {
+
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const currentUserEmail = user.email;
     
     const [state, setState] = useState({
         "Y1 S1": {
@@ -275,8 +279,12 @@ const ModulePlanner = () => {
         }
     })
 
+    const [modulesBySemester, setModulesBySemester] = useState({});
+    let userSemesterCount = 0;
+    let semesterModulesArray = [];
+
     // function which takes in a path and returns an array of the modules in 
-    // that path in the database
+    // that path in the database (graduation requirement modules, to obtain module details)
     async function retrieveModulesFromCollectionPath(collectionPath) {
         const arrayOfModules = [];
         const collectionRef = collection(db, collectionPath);
@@ -312,9 +320,25 @@ const ModulePlanner = () => {
     //let testArray = retrieveAllModules(moduleGroupsArray);
     //console.log(testArray);
 
-    const [modulesBySemester, setModulesBySemester] = useState({});
-    let userSemesterCount = 0;
-    let semesterModulesArray = [];
+    function retrieveGradProgressCollectionPath(userEmail, moduleCategory) {
+        try {
+            let gradProgressCollectionPath = "";
+            moduleGroupsArray.forEach((moduleGroup) => {
+                if (moduleGroup === moduleCategory) {
+                    gradProgressCollectionPath = moduleGroup.collectionPath;
+                }
+            });
+            // replace ! in the path obtained with the user's email to get the correct collection path
+            gradProgressCollectionPath = gradProgressCollectionPath.replace(/!/g, userEmail);
+            // note though, that in order to access the fields, you need to access the document within the collection
+            // which would be (collectionPath)/(moduleCategory). so idk what you gna do with just the collection path lol
+            return gradProgressCollectionPath;
+        }
+        catch (error) {
+            console.log(error.message);
+        }
+    }
+    retrieveGradProgressCollectionPath("gorilla@gmail.com", "foundation");
 
     async function updateCompletedModulesArray(moduleCategory, collectionPath, moduleCode) {
         try {
@@ -466,9 +490,9 @@ const ModulePlanner = () => {
                         console.log("moduleCount is " + moduleCount + ", moduleIndex is " + moduleIndex);
                         // if module_x document exists
                         if (tryFindModuleDocumentSnap.exists()) {
-                            console.log("module_" + moduleIndex + " moduleCode is: " + tryFindModuleDocumentSnap.data().moduleCode);
-                            console.log("module_" + moduleIndex + " moduleName is: " + tryFindModuleDocumentSnap.data().moduleName);
-                            console.log("module_" + moduleIndex + " moduleMC is: " + tryFindModuleDocumentSnap.data().moduleMC);
+                            // console.log("module_" + moduleIndex + " moduleCode is: " + tryFindModuleDocumentSnap.data().moduleCode);
+                            // console.log("module_" + moduleIndex + " moduleName is: " + tryFindModuleDocumentSnap.data().moduleName);
+                            // console.log("module_" + moduleIndex + " moduleMC is: " + tryFindModuleDocumentSnap.data().moduleMC);
                             // obtain fields in moduleDetails since the module document exists
                             const newItem = {
                                 moduleID: tryFindModuleDocumentSnap.data().moduleID,
