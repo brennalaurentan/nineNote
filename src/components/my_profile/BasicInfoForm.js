@@ -158,13 +158,24 @@ const BasicInfoForm = () => {
             defaultValue={user.email}
           // onChangeAction
           />
-          <FormField
+          {/* <FormField
             field_name={"Password"}
             type={"password"}
           // onChangeAction
-          />
-          <FormField field_name={"Matriculation Year"} type={"dropdown"} values={matriculation_year} defaultValue={user.email}/>
-          <FormField field_name={"Current/Prospective Course"} type={"dropdown"} values={course} defaultValue={user.email}/>
+          /> */}
+
+          <Stack display="flex" flexDirection="row" alignItems="center" gap="10px">
+            <Typography variant="body_bold">Password: </Typography>
+            <Link href="/reset-password">
+              <MainButton
+                type="text"
+                value="RESET PASSWORD"
+              />
+            </Link>
+          </Stack>
+
+          <FormField field_name={"Matriculation Year"} type={"dropdown"} values={matriculation_year} defaultValue={user.email} />
+          <FormField field_name={"Current/Prospective Course"} type={"dropdown"} values={course} defaultValue={user.email} />
         </Stack>
         <Link>
           <MainButton

@@ -3,9 +3,9 @@
 // components / pages / images
 import BasicInfoForm from './BasicInfoForm';
 import PolytechnicRadioGroup from './PolytechnicRadioGroup';
-import ModuleExemptionTable from './ModuleExemptionTable'
-import MA1301ExemptionTable from './MA1301ExemptionTable'
-import AlertDisplay from './AlertDisplay'
+import ModuleExemptionTable from './ModuleExemptionTable';
+import MA1301ExemptionTable from './MA1301ExemptionTable';
+import AlertDisplay from './AlertDisplay';
 import profile_image from '../../graphics/profile_image.png';
 
 // tools
@@ -65,16 +65,17 @@ const MyProfileTabContent = ({ value }) => {
 
             {/* Tab 2 */}
             <TabPanel value={value} index={1}>
-                <Stack ml="188px" gap="16px">
-                    <Stack direction="row" gap="100px">
-                        <Typography variant="h3">Additional Certifications for Exemptions</Typography>
+                <Stack ml="188px" gap="64px">
+                    <Stack direction="row" gap="100px" alignItems="center">
+                        <Stack gap="16px" width="500px">
+                            <Typography variant="h3">Additional Certifications for Exemptions</Typography>
+                            <Typography variant="body_thin" flexWrap="wrap">If you are unsure of which modules you are exempted from, you may refer to the tables below.</Typography>
+                        </Stack>
                         <AlertDisplay />
                     </Stack>
-                    <Stack gap="64px">
-                        <PolytechnicRadioGroup />
-                        <ModuleExemptionTable />
-                        <MA1301ExemptionTable />
-                    </Stack>
+                    {/* <PolytechnicRadioGroup /> */}
+                    <ModuleExemptionTable />
+                    <MA1301ExemptionTable />
                 </Stack>
             </TabPanel>
         </>

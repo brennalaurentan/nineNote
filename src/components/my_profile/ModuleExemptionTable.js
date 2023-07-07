@@ -101,7 +101,7 @@ function EnhancedTableHead(props) {
                         </TableSortLabel>
                     </TableCell>
                 ))}
-                <TableCell padding="checkbox">
+                {/* <TableCell padding="checkbox">
                     <Checkbox
                         color="primary"
                         indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -111,7 +111,7 @@ function EnhancedTableHead(props) {
                             'aria-label': 'select all',
                         }}
                     />
-                </TableCell>
+                </TableCell> */}
             </TableRow>
         </TableHead>
     );
@@ -222,7 +222,7 @@ const ModuleExemptionTable = () => {
                                         aria-checked={isItemSelected}
                                         tabIndex={-1}
                                         key={row.name}
-                                        selected={isItemSelected}
+                                        // selected={isItemSelected}
                                         sx={{ cursor: 'pointer' }}
                                     >
                                         <TableCell
@@ -233,7 +233,7 @@ const ModuleExemptionTable = () => {
                                             {row.name}
                                         </TableCell>
                                         <TableCell align="left">{row.exempted_mods}</TableCell>
-                                        <TableCell padding="checkbox">
+                                        {/* <TableCell padding="checkbox">
                                             <Checkbox
                                                 color="primary"
                                                 checked={isItemSelected}
@@ -241,7 +241,7 @@ const ModuleExemptionTable = () => {
                                                     'aria-labelledby': labelId,
                                                 }}
                                             />
-                                        </TableCell>
+                                        </TableCell> */}
                                     </TableRow>
                                 );
                             })}
