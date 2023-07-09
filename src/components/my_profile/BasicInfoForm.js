@@ -5,7 +5,7 @@ import FormField from '../common/FormField';
 import MainButton from '../common/MainButton';
 
 // tools
-import { Stack, Link, Typography } from '@mui/material';
+import { Stack, Link, Typography, MenuItem, TextField } from '@mui/material';
 import { auth } from '../others/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useState } from 'react';
@@ -146,42 +146,69 @@ const BasicInfoForm = () => {
     setUser(currentUser);
   });
 
-  // const [email, setEmail] = useState(user.email);
+  const saveChanges = () => {
+    console.log("changes saved!");
+  }
+
+  // update data retrieval from static to firebase
+  const [currentMatriculationYear, setCurrentMatriculationYear] = useState('AY19/20'); // update with firebase current user state
+  const matriculationYearLabelList = matriculation_year.map(year => year.label);
+  const [currentCourse, setCurrentCourse] = useState('Computer Science'); // update with firebase current user state
+  const courseLabelList = course.map(course => course.label);
+  const courseValueList = course.map(course => course.value);
 
   return (
     <>
-      <Stack gap="32px">
-        <Stack gap="16px" width="400px">
-          <FormField
-            field_name={"Email Address"}
-            type={"email"}
-            defaultValue={user.email}
-          // onChangeAction
-          />
-          {/* <FormField
-            field_name={"Password"}
-            type={"password"}
-          // onChangeAction
-          /> */}
+      <Stack gap="32px" width="400px">
 
-          <Stack display="flex" flexDirection="row" alignItems="center" gap="10px">
-            <Typography variant="body_bold">Password: </Typography>
-            <Link href="/reset-password">
-              <MainButton
-                type="text"
-                value="RESET PASSWORD"
-              />
-            </Link>
-          </Stack>
-
-          <FormField field_name={"Matriculation Year"} type={"dropdown"} values={matriculation_year} defaultValue={user.email} />
-          <FormField field_name={"Current/Prospective Course"} type={"dropdown"} values={course} defaultValue={user.email} />
+        {/* email */}
+        <Stack direction="row" gap="8px">
+          <Typography variant="body_bold">Email Address: </Typography>
+          <Typography variant="body_thin">{user.email}</Typography>
         </Stack>
+
+        {/* password */}
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Stack direction="row" gap="8px">
+            <Typography variant="body_bold">Password: </Typography>
+            <Typography variant="body_thin">Hidden</Typography>
+          </Stack>
+          <Link href="/reset-password">
+            <MainButton
+              type="text"
+              value="CHANGE PASSWORD"
+            />
+          </Link>
+        </Stack>
+
+        {/* matriculation year */}
+        <FormField
+          field_name={"Matriculation Year"}
+          type={"dropdown"}
+          values={matriculation_year}
+          defaultValue={matriculationYearLabelList.indexOf(currentMatriculationYear) + 1}
+          onChangeAction={(event) => {
+            // amend once update with dropdown field values retrieval from firebase
+            console.log(matriculationYearLabelList.indexOf(currentMatriculationYear));
+          }}
+        />
+
+        {/* current/prospective course */}
+        <FormField
+          field_name={"Current/Prospective Course"}
+          type={"dropdown"}
+          values={course}
+          defaultValue={courseValueList[courseLabelList.indexOf(currentCourse)]}
+          onChangeAction={(event) => {
+            // amend once update with dropdown field values retrieval from firebase
+            console.log(courseValueList[courseLabelList.indexOf(currentCourse)]);
+          }}
+        />
         <Link>
           <MainButton
             type="contained"
             value="SAVE CHANGES"
-          // onClickAction
+            onClickAction={saveChanges}
           />
         </Link>
       </Stack>

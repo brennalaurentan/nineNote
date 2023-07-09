@@ -31,13 +31,14 @@ const password_field = (field_name, onChangeAction) => <TextField
   sx={{ width: ["300px", "400px"] }}
 />
 
-const dropdown_field = (field_name, values, onChangeAction) =>
+const dropdown_field = (field_name, values, onChangeAction, defaultValue) =>
   <TextField
     id="outlined-select-currency"
     select
     label={field_name}
     onChange={onChangeAction}
     sx={{ width: ["300px", "400px"] }}
+    value={defaultValue}
   >
     {values.map((option) => (
       <MenuItem key={option.value} value={option.value}>
@@ -54,7 +55,7 @@ const FormField = ({ field_name, type, values, onChangeAction, defaultValue }) =
       ? password_field(field_name, onChangeAction)
       : type === "email"
         ? email_field(field_name, onChangeAction, defaultValue)
-        : dropdown_field(field_name, values, onChangeAction);
+        : dropdown_field(field_name, values, onChangeAction, defaultValue);
 }
 
 export default FormField
