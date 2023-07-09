@@ -4,6 +4,7 @@
 import FormField from '../common/FormField';
 import MainButton from '../common/MainButton';
 import ninenote_blue from '../../graphics/ninenote_blue.png';
+import CheckWarning from '../signup/CheckWarning';
 
 // tools
 import { Stack, Link, Typography, Box } from '@mui/material';
@@ -323,6 +324,7 @@ const SignupForm = () => {
               <Typography variant="tag_thin">Log in</Typography>
             </Link>
           </Stack>
+          <CheckWarning/>
           <FormField
             field_name={"Email Address"}
             type={"email"}

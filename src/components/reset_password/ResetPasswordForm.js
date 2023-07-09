@@ -62,12 +62,6 @@ const ResetPasswordForm = () => {
                             onClickAction={ResetPassword}
                         />
                     </Stack>
-                    <Stack direction="row" gap="4px" alignItems="center" justifyContent="center">
-                        <Typography variant="tag_thin">New user?</Typography>
-                        <Link href="/signup" underline="none">
-                            <Typography variant="tag_thin">Create an account</Typography>
-                        </Link>
-                    </Stack>
                 </Stack>
             </Grid>
         </Grid>

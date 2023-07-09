@@ -19,13 +19,14 @@ function createData(name, exempted_mods) {
     };
 }
 
-const rows = [
-    createData('Financial Informatics', 'IS1108, CP3200'),
-    createData('Business Administration', 'IS1108, CS2101'),
-    createData('Games Design and Development', 'CS2101, IS1108'),
-    createData('Music and Audio Technology', 'IS1108'),
-    createData('Aerospace Electronics', 'CS2101'),
-];
+// const rows = [
+//     createData('Financial Informatics', 'IS1108, CP3200'),
+//     createData('Business Administration', 'IS1108, CS2101'),
+//     createData('Games Design and Development', 'CS2101, IS1108'),
+//     createData('Music and Audio Technology', 'IS1108'),
+//     createData('Aerospace Electronics', 'CS2101'),
+//     createData('test', 'test'),
+// ];
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -126,7 +127,7 @@ EnhancedTableHead.propTypes = {
     rowCount: PropTypes.number.isRequired,
 };
 
-const ModuleExemptionTable = () => {
+const ModuleExemptionTable = ({rows, poly}) => {
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('name');
     const [selected, setSelected] = React.useState([]);
@@ -193,7 +194,7 @@ const ModuleExemptionTable = () => {
 
     return (
         <Stack gap="8px" sx={{ width: '100%' }}>
-            <Typography variant="body_bold" color="blue.dark">Modules Exempted for Computer Science</Typography>
+            <Typography variant="body_bold" color="blue.dark">Modules Exempted for Diplomas from {poly}</Typography>
             <Paper sx={{ width: '100%', mb: 2 }}>
                 <TableContainer>
                     <Table
