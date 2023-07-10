@@ -12,7 +12,7 @@ const ModuleResourceCard = ({ moduleCode, moduleMC, moduleName, moduleFaculty, m
                 <Stack gap="32px">
                     <Stack gap="8px">
                         <Typography variant="h2">{moduleCode}</Typography>
-                        <Typography variant="h3">{moduleName}</Typography>
+                        <Typography variant="h4">{moduleName}</Typography>
                         <Typography variant="tag_thin">{moduleDept} • {moduleFaculty} • {moduleMC} MCs</Typography>
                     </Stack>
                     <Stack gap="8px">
