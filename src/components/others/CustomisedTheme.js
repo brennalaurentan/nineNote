@@ -9,8 +9,8 @@ let CustomisedTheme = createTheme({
       main: '#EF725D',
     },
     yellow: {
-      main: '#F6C155',
-      light: '#FDF3DD',
+      main: '#F4CC7B',
+      light: '#FFF6E5',
       dark: '#4F4023',
 
     },
@@ -70,6 +70,12 @@ let CustomisedTheme = createTheme({
       fontFamily: "Inter",
     },
     h3: {
+      fontSize: "26px",
+      fontWeight: "600",
+      fontFamily: "Inter",
+
+    },
+    h4: {
       fontSize: "22px",
       fontWeight: "600",
       fontFamily: "Inter",

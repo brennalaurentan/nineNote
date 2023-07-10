@@ -165,7 +165,7 @@ const MyProfileTabContent = ({ value }) => {
                         <Box>
                             <Typography variant="body_bold" color="blue.main">NAME</Typography>
                             <Stack direction="row" gap="16px" alignItems="center">
-                                <Typography variant="h2">nineNote User</Typography>
+                                <Typography variant="h3">nineNote User</Typography>
                             </Stack>
                         </Box>
                     </Stack>
@@ -178,7 +178,7 @@ const MyProfileTabContent = ({ value }) => {
                 <Stack ml="188px" gap="64px">
                     <Stack direction="row" gap="100px" alignItems="center">
                         <Stack gap="16px" width="500px">
-                            <Typography variant="h3">Additional Certifications for Exemptions</Typography>
+                            <Typography variant="h4">Additional Certifications for Exemptions</Typography>
                             <Typography variant="body_thin" flexWrap="wrap">
                                 If you are unsure of which modules you are exempted from,
                                 you may refer to the tables below.
@@ -205,14 +205,12 @@ const MyProfileTabContent = ({ value }) => {
                         <Typography variant="body_thin">You may change your target course under <b>Basic Information</b> in <b>My Profile</b>!</Typography>
                     </Stack>
                     {exemptedModulesData.map((poly, index) => (
-                        <>
-                            <ModuleExemptionTable
-                                key={index}
-                                index={index}
-                                rows={poly.data}
-                                poly={poly.polytechnic}
-                            />
-                        </>
+                        <ModuleExemptionTable
+                            key={index}
+                            index={index}
+                            rows={poly.data}
+                            poly={poly.polytechnic}
+                        />
                     ))}
                 </Stack>
             </TabPanel>
