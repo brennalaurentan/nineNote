@@ -15,9 +15,11 @@ const AlertDisplay = () => {
                         Important
                     </Typography>
                 </AlertTitle>
-                Please double check your credentials before proceeding to create your account.
-                You can only change your <b>password</b>, <b>matriculation year</b> and <b>course</b> once 
-                your account is created.
+                <Typography variant="tag_thin">
+                    Please double check your credentials before proceeding to create your account.
+                    You can only change your <b>password</b>, <b>matriculation year</b> and <b>course</b> once
+                    your account is created.
+                </Typography>
             </Alert>
         </Box>
 
