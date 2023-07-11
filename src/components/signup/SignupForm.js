@@ -159,7 +159,308 @@ const static_semesters = [
   "Y4ST2"
 ]
 
+const userCreditTrackerPathArray = [
+  {   
+    groupName: "computingEthics",
+    collectionPath: '/users/!/gradProgress/commonCurriculum/computingEthics'
+  },
+  {
+      groupName: "crossdisciplinaryEducation",
+      collectionPath: '/users/!/gradProgress/commonCurriculum/crossdisciplinaryEducation'
+  },
+  {
+      groupName: "interdisciplinaryEducation",
+      collectionPath: '/users/!/gradProgress/commonCurriculum/interdisciplinaryEducation'
+  },
+  {
+      groupName: "communitiesAndEngagement",
+      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
+  },
+  {
+      groupName: "critiqueAndExpression",
+      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
+  },
+  {
+      groupName: "culturesAndConnections",
+      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
+  },
+  {
+      groupName: "dataLiteracy",
+      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
+  },
+  {
+      groupName: "digitalLiteracy",
+      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
+  },
+  {
+      groupName: "singaporeStudies",
+      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
+  },
+  {
+      groupName: "algorithmsAndTheory_electives",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+      groupName: "algorithmsAndTheory_primaries",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+      groupName: "artificialIntelligence_electives",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+      groupName: "artificialIntelligence_primaries",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+      groupName: "computerGraphicsAndGames_electives",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+      groupName: "computerGraphicsAndGames_primaries",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+      groupName: "computerSecurity_electives",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+      groupName: "computerSecurity_primaries",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+      groupName: "databaseSystems_electives",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+      groupName: "databaseSystems_primaries",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+      groupName: "multimediaInformationRetrieval_electives",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+      groupName: "multimediaInformationRetrieval_primaries",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+      groupName: "networkingAndDistributedSystems_electives",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+      groupName: "networkingAndDistributedSystems_primaries",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+      groupName: "focusAreas_others",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+      groupName: "parallelComputing_electives",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+      groupName: "parallelComputing_primaries",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+      groupName: "programmingLanguages_electives",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+      groupName: "programmingLanguages_primaries",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+      groupName: "softwareEngineering_electives",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+      groupName: "softwareEngineering_primaries",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+      groupName: "industryExperience",
+      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth'
+  },
+  {
+      groupName: "mathematicsAndSciences",
+      collectionPath: '/users/!/gradProgress/programme/mathematicsAndSciences'
+  },
+  {
+      groupName: "foundation",
+      collectionPath: '/users/!/gradProgress/programme/foundation'
+  }
+]
 
+const moduleGroupsArray = [
+  {   
+      groupName: "computingEthics",
+      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/computingEthics/computingEthics'
+  },
+  {
+      groupName: "crossdisciplinaryEducation",
+      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/crossdisciplinaryEducation/crossdisciplinaryEducation'
+  },
+  {
+      groupName: "interdisciplinaryEducation",
+      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/interdisciplinaryEducation/interdisciplinaryEducation'
+  },
+  {
+      groupName: "communitiesAndEngagement",
+      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/communitiesAndEngagement'
+  },
+  {
+      groupName: "critiqueAndExpression",
+      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/critiqueAndExpression'
+  },
+  {
+      groupName: "culturesAndConnections",
+      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/culturesAndConnections'
+  },
+  {
+      groupName: "dataLiteracy",
+      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/dataLiteracy'
+  },
+  {
+      groupName: "digitalLiteracy",
+      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/digitalLiteracy'
+  },
+  {
+      groupName: "singaporeStudies",
+      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/singaporeStudies'
+  },
+  {
+      groupName: "algorithmsAndTheory_electives",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/algorithmsAndTheory/electives'
+  },
+  {
+      groupName: "algorithmsAndTheory_primaries",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/algorithmsAndTheory/primaries'
+  },
+  {
+      groupName: "artificialIntelligence_electives",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/artificialIntelligence/electives'
+  },
+  {
+      groupName: "artificialIntelligence_primaries",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/artificialIntelligence/primaries'
+  },
+  {
+      groupName: "computerGraphicsAndGames_electives",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerGraphicsAndGames/electives'
+  },
+  {
+      groupName: "computerGraphicsAndGames_primaries",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerGraphicsAndGames/primaries'
+  },
+  {
+      groupName: "computerSecurity_electives",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerSecurity/electives'
+  },
+  {
+      groupName: "computerSecurity_primaries",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerSecurity/primaries'
+  },
+  {
+      groupName: "databaseSystems_electives",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/databaseSystems/electives'
+  },
+  {
+      groupName: "databaseSystems_primaries",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/databaseSystems/primaries'
+  },
+  {
+      groupName: "multimediaInformationRetrieval_electives",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/multimediaInformationRetrieval/primaries'
+  },
+  {
+      groupName: "multimediaInformationRetrieval_primaries",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/multimediaInformationRetrieval/primaries'
+  },
+  {
+      groupName: "networkingAndDistributedSystems_electives",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/networkingAndDistributedSystems/electives'
+  },
+  {
+      groupName: "networkingAndDistributedSystems_primaries",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/networkingAndDistributedSystems/primaries'
+  },
+  {
+      groupName: "focusAreas_others",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/others/others'
+  },
+  {
+      groupName: "parallelComputing_electives",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/parallelComputing/electives'
+  },
+  {
+      groupName: "parallelComputing_primaries",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/parallelComputing/primaries'
+  },
+  {
+      groupName: "programmingLanguages_electives",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/programmingLanguages/electives'
+  },
+  {
+      groupName: "programmingLanguages_primaries",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/programmingLanguages/primaries'
+  },
+  {
+      groupName: "softwareEngineering_electives",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/softwareEngineering/electives'
+  },
+  {
+      groupName: "softwareEngineering_primaries",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/softwareEngineering/primaries'
+  },
+  {
+      groupName: "industryExperience",
+      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/industryExperience'
+  },
+  {
+      groupName: "mathematicsAndSciences",
+      collectionPath: '/graduationRequirements/computerScience/programme/mathematicsAndSciences/mathematicsAndSciences'
+  },
+  {
+      groupName: "foundation",
+      collectionPath: '/graduationRequirements/computerScience/programme/foundation/foundation'
+  }
+];
+
+// function to retrieve the path to the collection which stores the module group tracker for
+// a particular specified user
+// the path to the collection returned, contains fields called 'creditsCompleted' and 'creditsToMeet'
+function retrieveUserModuleCreditTrackerPath(userEmail, moduleGroupName) {
+  let returnPath = "";
+  userCreditTrackerPathArray.forEach((moduleGroup) => {
+    if (moduleGroup.groupName === moduleGroupName) {
+      returnPath = moduleGroup.collectionPath;
+    }
+  })
+  returnPath = returnPath.replace(/!/g, userEmail);
+  return returnPath;
+}
+
+// function which takes in a path and returns an array of the modules in 
+// that path in the database (graduation requirement modules, to obtain module details)
+async function retrieveModulesFromCollectionPath(collectionPath) {
+  const arrayOfModules = [];
+  const collectionRef = collection(db, collectionPath);
+  const querySnapshot = await getDocs(collectionRef);
+  querySnapshot.forEach((doc) => {
+      // each module in the database has the following details:
+      // moduleCode, moduleMC, moduleName
+      const newModule = {
+          "moduleCode": doc.data().moduleCode,
+          "moduleMC": doc.data().moduleMC,
+          "moduleName": doc.data().moduleName
+      }
+      arrayOfModules.push(newModule);
+  })
+  return arrayOfModules;
+}
 
 const SignupForm = () => {
 
@@ -180,42 +481,119 @@ const SignupForm = () => {
       console.log(user);
       const currentUserEmail = registerEmail;
 
-      const q = query(collection(db, 'users'));
-      const querySnapshot = await getDocs(q);
-      const queryData = querySnapshot.docs.map((detail) => ({
-        ...detail.data(),
-        id: detail.id,
-      }));
-      console.log(queryData);
-      queryData.map(async (v, id) => {
-        // for testing: print all users in database
-        /*
-        let docCount = 0;
-        const querySnapshot = await getDocs(collection(db, `users`));
-        
-        querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, " => ", doc.data());
-          docCount = doc.data().numModules;
-        });
-        */
+      // create fields under user's database profile in firebase
+      await setDoc(doc(db, `users`, currentUserEmail), {
+        email: currentUserEmail,
+        matriculationYear: matriculationYear,
+        course: course
+      });
 
-        // create fields under user's database profile in firebase
-        await setDoc(doc(db, `users`, currentUserEmail), {
-          email: currentUserEmail,
-          matriculationYear: matriculationYear,
-          course: course
+      // create semester collections under user's database profile in firebase
+      for (const semester of static_semesters) {
+        setDoc(doc(db, `users/${currentUserEmail}/modules`, semester), {
+          numModules: 0
+        });
+      }
+
+      // retrieve number of credits required from each module group (graduation requirements)
+      // from firebase
+      let commonCurriculumRequirement = 0;
+      let programmeRequirement = 0;
+      let unrestrictedElectiveRequirement = 0;
+      async function setGradReqMaingroupCreditsToMeet() {
+        // common curriculum
+        const commonCurriculumReqSnapshot = await getDocs(collection(db, "/graduationRequirements/computerScience/commonCurriculum"));
+        commonCurriculumReqSnapshot.forEach((commonCurriculumSubgroup) => {
+          commonCurriculumRequirement += parseInt(commonCurriculumSubgroup.data().creditsToMeet);
+        });
+        // create fields in user's document
+        setDoc(doc(db, `users/${currentUserEmail}/gradProgress/`, "commonCurriculum"), {
+          computingEthics_fulfilment: false,
+          crossDisciplinaryEducation_fulfilment: false,
+          interdisciplinaryEducation_fulfilment: false,
+          overall_fulfilment: false,
+          universityLevel_fulfilment: false,
+          creditsCompleted: 0,
+          creditsToMeet: commonCurriculumRequirement
         });
 
-        // create semester collections under user's database profile in firebase
-        for (const semester of static_semesters) {
-          setDoc(doc(db, `users/${currentUserEmail}/modules`, semester), {
-            numModules: 0
+        // programme
+        const programmeReqSnapshot = await getDocs(collection(db, "/graduationRequirements/computerScience/programme"));
+        programmeReqSnapshot.forEach((programmeSubgroup) => {
+          programmeRequirement += parseInt(programmeSubgroup.data().creditsToMeet);
+        });
+        // create fields in user's document
+        setDoc(doc(db, `users/${currentUserEmail}/gradProgress/`, "programme"), {
+          breadthAndDepth_fulfilment: false,
+          foundation_fulfilment: false,
+          overall_fulfilment: false,
+          creditsCompleted: 0,
+          creditsToMeet: programmeRequirement
+        });
+
+        // unrestricted electives
+        const unrestrictedElectiveReqSnapshot = await getDocs(collection(db, "/graduationRequirements/computerScience/unrestrictedElectives"));
+        unrestrictedElectiveReqSnapshot.forEach((unrestrictedElectiveSubgroup) => {
+          unrestrictedElectiveRequirement += parseInt(unrestrictedElectiveSubgroup.data().creditsToMeet);
+        });
+        // create fields in user's document
+        setDoc(doc(db, `users/${currentUserEmail}/gradProgress/`, "unrestrictedElectives"), {
+          overall_fulfilment: false,
+          creditsCompleted: 0,
+          creditsToMeet: unrestrictedElectiveRequirement
+        });
+      }
+      setGradReqMaingroupCreditsToMeet();
+
+      // create fields to track user's credit progress in each of the module groups
+      let moduleGroupIndex = 0; // moduleGroupIndex for both userCreditTrackerPathArray and moduleGroupsArray is the same
+      userCreditTrackerPathArray.forEach((userModuleGroup) => {
+        let pathToCollection = retrieveUserModuleCreditTrackerPath(currentUserEmail, userModuleGroup.groupName);
+        let setCreditsToMeet = 0;
+        // if moduleGroup is a focusArea primary, set the following default credit requirements
+        if (pathToCollection.includes("focusArea") && userModuleGroup.groupName.includes("primaries")) {
+          setCreditsToMeet = 12;
+          setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
+            creditsToMeet: setCreditsToMeet,
+            creditsCompleted: "0",
+            uncontributingCreditsCompleted: "0", // credits beyond any 2x random & 1x 4k+ mod
+            modulesTaken: []
           });
         }
-
-        // create
-      })
+        // if moduleGroup is a focusArea elective, set the following default credit requirements
+        else if (pathToCollection.includes("focusArea") && userModuleGroup.groupName.includes("electives")) {
+          setCreditsToMeet = 0;
+          setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
+            creditsToMeet: setCreditsToMeet,
+            creditsCompleted: "0",
+            modulesTaken: []
+          });
+        }
+        // non-focusArea, fetch & set credit requirements from graduationProgress document in database
+        else {
+          const pathToGradReqCollection = moduleGroupsArray[moduleGroupIndex].collectionPath;
+          const splitPathArray = pathToGradReqCollection.split("/");
+          const pathToGradReqField = splitPathArray[0] + "/" + splitPathArray[1] + "/" + splitPathArray[2] + "/" + splitPathArray[3];
+          console.log("Module Group: " + userModuleGroup.groupName + ", Path: " + pathToGradReqField);
+          console.log("User: " + currentUserEmail + ", Path: " + pathToCollection);
+          async function getGradReqSubgroupCreditsToMeet() {
+            const gradReqForModuleSnapshot = await getDocs(collection(db, pathToGradReqField));
+            // cycle through all non-focusArea subgroups in the array
+            gradReqForModuleSnapshot.forEach((subGroupDoc) => {
+              if (subGroupDoc.id === userModuleGroup.groupName) {
+                setCreditsToMeet = subGroupDoc.data().creditsToMeet;
+                setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
+                  creditsToMeet: setCreditsToMeet,
+                  creditsCompleted: "0",
+                  modulesTaken: []
+                });
+              }
+            });
+          }
+          getGradReqSubgroupCreditsToMeet();
+        }
+        moduleGroupIndex++;
+      });      
     } catch (error) {
       console.log(error.message);
     };
