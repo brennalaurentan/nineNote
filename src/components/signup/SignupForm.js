@@ -7,7 +7,7 @@ import ninenote_blue from '../../graphics/ninenote_blue.png';
 import CheckWarning from '../signup/CheckWarning';
 
 // tools
-import { Stack, Link, Typography, Box } from '@mui/material';
+import { Stack, Link, Typography, Box, Snackbar, Alert } from '@mui/material';
 import { useEffect, useState } from "react";
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { auth, db } from '../others/firebase';
@@ -129,17 +129,6 @@ const static_course = [
   },
 ];
 
-const static_certifications = [
-  {
-    value: '1',
-    label: 'Polytechnic Diploma and equivalent',
-  },
-  {
-    value: '2',
-    label: 'Diploma Plus and equivalent',
-  },
-];
-
 const static_semesters = [
   "Y1S1",
   "Y1S2",
@@ -159,311 +148,10 @@ const static_semesters = [
   "Y4ST2"
 ]
 
-const userCreditTrackerPathArray = [
-  {   
-    groupName: "computingEthics",
-    collectionPath: '/users/!/gradProgress/commonCurriculum/computingEthics'
-  },
-  {
-      groupName: "crossdisciplinaryEducation",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/crossdisciplinaryEducation'
-  },
-  {
-      groupName: "interdisciplinaryEducation",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/interdisciplinaryEducation'
-  },
-  {
-      groupName: "communitiesAndEngagement",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
-  },
-  {
-      groupName: "critiqueAndExpression",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
-  },
-  {
-      groupName: "culturesAndConnections",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
-  },
-  {
-      groupName: "dataLiteracy",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
-  },
-  {
-      groupName: "digitalLiteracy",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
-  },
-  {
-      groupName: "singaporeStudies",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
-  },
-  {
-      groupName: "algorithmsAndTheory_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
-  },
-  {
-      groupName: "algorithmsAndTheory_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
-  },
-  {
-      groupName: "artificialIntelligence_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
-  },
-  {
-      groupName: "artificialIntelligence_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
-  },
-  {
-      groupName: "computerGraphicsAndGames_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
-  },
-  {
-      groupName: "computerGraphicsAndGames_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
-  },
-  {
-      groupName: "computerSecurity_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
-  },
-  {
-      groupName: "computerSecurity_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
-  },
-  {
-      groupName: "databaseSystems_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
-  },
-  {
-      groupName: "databaseSystems_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
-  },
-  {
-      groupName: "multimediaInformationRetrieval_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
-  },
-  {
-      groupName: "multimediaInformationRetrieval_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
-  },
-  {
-      groupName: "networkingAndDistributedSystems_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
-  },
-  {
-      groupName: "networkingAndDistributedSystems_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
-  },
-  {
-      groupName: "focusAreas_others",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
-  },
-  {
-      groupName: "parallelComputing_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
-  },
-  {
-      groupName: "parallelComputing_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
-  },
-  {
-      groupName: "programmingLanguages_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
-  },
-  {
-      groupName: "programmingLanguages_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
-  },
-  {
-      groupName: "softwareEngineering_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
-  },
-  {
-      groupName: "softwareEngineering_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
-  },
-  {
-      groupName: "industryExperience",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth'
-  },
-  {
-      groupName: "mathematicsAndSciences",
-      collectionPath: '/users/!/gradProgress/programme/mathematicsAndSciences'
-  },
-  {
-      groupName: "foundation",
-      collectionPath: '/users/!/gradProgress/programme/foundation'
-  }
-]
 
-const moduleGroupsArray = [
-  {   
-      groupName: "computingEthics",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/computingEthics/computingEthics'
-  },
-  {
-      groupName: "crossdisciplinaryEducation",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/crossdisciplinaryEducation/crossdisciplinaryEducation'
-  },
-  {
-      groupName: "interdisciplinaryEducation",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/interdisciplinaryEducation/interdisciplinaryEducation'
-  },
-  {
-      groupName: "communitiesAndEngagement",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/communitiesAndEngagement'
-  },
-  {
-      groupName: "critiqueAndExpression",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/critiqueAndExpression'
-  },
-  {
-      groupName: "culturesAndConnections",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/culturesAndConnections'
-  },
-  {
-      groupName: "dataLiteracy",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/dataLiteracy'
-  },
-  {
-      groupName: "digitalLiteracy",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/digitalLiteracy'
-  },
-  {
-      groupName: "singaporeStudies",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/singaporeStudies'
-  },
-  {
-      groupName: "algorithmsAndTheory_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/algorithmsAndTheory/electives'
-  },
-  {
-      groupName: "algorithmsAndTheory_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/algorithmsAndTheory/primaries'
-  },
-  {
-      groupName: "artificialIntelligence_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/artificialIntelligence/electives'
-  },
-  {
-      groupName: "artificialIntelligence_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/artificialIntelligence/primaries'
-  },
-  {
-      groupName: "computerGraphicsAndGames_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerGraphicsAndGames/electives'
-  },
-  {
-      groupName: "computerGraphicsAndGames_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerGraphicsAndGames/primaries'
-  },
-  {
-      groupName: "computerSecurity_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerSecurity/electives'
-  },
-  {
-      groupName: "computerSecurity_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerSecurity/primaries'
-  },
-  {
-      groupName: "databaseSystems_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/databaseSystems/electives'
-  },
-  {
-      groupName: "databaseSystems_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/databaseSystems/primaries'
-  },
-  {
-      groupName: "multimediaInformationRetrieval_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/multimediaInformationRetrieval/primaries'
-  },
-  {
-      groupName: "multimediaInformationRetrieval_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/multimediaInformationRetrieval/primaries'
-  },
-  {
-      groupName: "networkingAndDistributedSystems_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/networkingAndDistributedSystems/electives'
-  },
-  {
-      groupName: "networkingAndDistributedSystems_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/networkingAndDistributedSystems/primaries'
-  },
-  {
-      groupName: "focusAreas_others",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/others/others'
-  },
-  {
-      groupName: "parallelComputing_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/parallelComputing/electives'
-  },
-  {
-      groupName: "parallelComputing_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/parallelComputing/primaries'
-  },
-  {
-      groupName: "programmingLanguages_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/programmingLanguages/electives'
-  },
-  {
-      groupName: "programmingLanguages_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/programmingLanguages/primaries'
-  },
-  {
-      groupName: "softwareEngineering_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/softwareEngineering/electives'
-  },
-  {
-      groupName: "softwareEngineering_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/softwareEngineering/primaries'
-  },
-  {
-      groupName: "industryExperience",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/industryExperience'
-  },
-  {
-      groupName: "mathematicsAndSciences",
-      collectionPath: '/graduationRequirements/computerScience/programme/mathematicsAndSciences/mathematicsAndSciences'
-  },
-  {
-      groupName: "foundation",
-      collectionPath: '/graduationRequirements/computerScience/programme/foundation/foundation'
-  }
-];
-
-// function to retrieve the path to the collection which stores the module group tracker for
-// a particular specified user
-// the path to the collection returned, contains fields called 'creditsCompleted' and 'creditsToMeet'
-function retrieveUserModuleCreditTrackerPath(userEmail, moduleGroupName) {
-  let returnPath = "";
-  userCreditTrackerPathArray.forEach((moduleGroup) => {
-    if (moduleGroup.groupName === moduleGroupName) {
-      returnPath = moduleGroup.collectionPath;
-    }
-  })
-  returnPath = returnPath.replace(/!/g, userEmail);
-  return returnPath;
-}
-
-// function which takes in a path and returns an array of the modules in 
-// that path in the database (graduation requirement modules, to obtain module details)
-async function retrieveModulesFromCollectionPath(collectionPath) {
-  const arrayOfModules = [];
-  const collectionRef = collection(db, collectionPath);
-  const querySnapshot = await getDocs(collectionRef);
-  querySnapshot.forEach((doc) => {
-      // each module in the database has the following details:
-      // moduleCode, moduleMC, moduleName
-      const newModule = {
-          "moduleCode": doc.data().moduleCode,
-          "moduleMC": doc.data().moduleMC,
-          "moduleName": doc.data().moduleName
-      }
-      arrayOfModules.push(newModule);
-  })
-  return arrayOfModules;
-}
 
 const SignupForm = () => {
-
+  const navigate = useNavigate();
   const [registerEmail, setRegisterEmail] = useState(null);
   const [registerPassword, setRegisterPassword] = useState(null);
   const [matriculationYear, setMatriculationYear] = useState("");
@@ -471,7 +159,26 @@ const SignupForm = () => {
   const [course, setCourse] = useState("");
   const [courseArray, setCourseArray] = useState([]);
 
-  const navigate = useNavigate();
+  // snackbar states
+  const [openAdminRestrictedOpSnackBar, setOpenAdminRestrictedOpSnackBar] = useState(false);
+  const [openInvalidEmailSnackBar, setOpenInvalidEmailSnackBar] = useState(false);
+  const [openMissingEmailSnackBar, setOpenMissingEmailSnackBar] = useState(false);
+  const [openMissingPasswordSnackBar, setOpenMissingPasswordSnackBar] = useState(false);
+  const [openWeakPasswordSnackBar, setOpenWeakPasswordSnackBar] = useState(false);
+  const [openEmailInUseSnackBar, setOpenEmailInUseSnackBar] = useState(false);
+
+  const handleCloseSnackBar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenAdminRestrictedOpSnackBar(false);
+    setOpenInvalidEmailSnackBar(false);
+    setOpenMissingEmailSnackBar(false);
+    setOpenMissingPasswordSnackBar(false);
+    setOpenWeakPasswordSnackBar(false);
+    setOpenEmailInUseSnackBar(false);
+  };
+
   async function Register() {
     try {
       console.log(registerEmail);
@@ -595,7 +302,26 @@ const SignupForm = () => {
         moduleGroupIndex++;
       });      
     } catch (error) {
-      console.log(error.message);
+      console.log(error.message)
+      if (error.code === "auth/admin-restricted-operation") {
+        setOpenAdminRestrictedOpSnackBar(true);
+        console.log("admin restricted operation!");
+      } else if (error.code === "auth/invalid-email") {
+        setOpenInvalidEmailSnackBar(true);
+        console.log("invalid email!");
+      } else if (error.code === "auth/missing-email") {
+        setOpenMissingEmailSnackBar(true);
+        console.log("missing email!");
+      } else if (error.code === "auth/missing-password") {
+        setOpenMissingPasswordSnackBar(true);
+        console.log("missing password!");
+      } else if (error.code === "auth/weak-password") {
+        setOpenWeakPasswordSnackBar(true);
+        console.log("weak password!");
+      } else if (error.code === "auth/email-already-in-use") {
+        setOpenEmailInUseSnackBar(true);
+        console.log("email already in use!");
+      }
     };
   }
 
@@ -678,7 +404,7 @@ const SignupForm = () => {
           "label": "Computer Science"
         }
         courseArray.push(newElement);
-        setCourseArray(courseArray); 
+        setCourseArray(courseArray);
       } catch (error) {
         console.log(error.message);
       }
@@ -691,67 +417,65 @@ const SignupForm = () => {
   return (
     <>
       <Stack gap="24px">
-        <Stack gap="24px">
-          <Box width={["15vw", "5vw"]}>
-            <img src={ninenote_blue} alt="Logo" width="100%" />
-          </Box>
-          <Typography variant="h2">Sign Up</Typography>
-          <Stack direction="row" gap="4px" alignItems="center">
-            <Typography variant="tag_thin">Already have an account?</Typography>
-            <Link href="/" underline="none">
-              <Typography variant="tag_thin">Log in</Typography>
-            </Link>
-          </Stack>
-          <CheckWarning/>
-          <FormField
-            field_name={"Email Address"}
-            type={"email"}
-            onChangeAction={(event, value) => {
-              setRegisterEmail(event.target.value);
-              console.log("live email update: " + registerEmail);
-            }}
-          />
-          <FormField
-            field_name={"Password"}
-            type={"password"}
-            onChangeAction={(event) => {
-              setRegisterPassword(event.target.value);
-              console.log("live password update: " + registerPassword);
-            }}
-          />
-          <FormField
-            field_name={"Matriculation Year"}
-            type={"dropdown"}
-            values={matriculationYearArray}
-            onChangeAction={(event) => {
-              let selectedMatriculationYearLabel = "";
-              for (const matriculationYear of matriculationYearArray) {
-                if (matriculationYear.value === event.target.value) {
-                  console.log("matriculation year label: " + matriculationYear.label);
-                  selectedMatriculationYearLabel = matriculationYear.label;
-                }
-              }
-              console.log("selected matriculation year label: " + selectedMatriculationYearLabel);
-              setMatriculationYear(selectedMatriculationYearLabel);
-              console.log("live matriculationyear update: " + matriculationYear);
-            }} />
-          <FormField
-            field_name={"Current/Prospective Course"}
-            type={"dropdown"}
-            values={courseArray}
-            onChangeAction={(event) => {
-              let selectedCourseLabel = "";
-              for (const course of courseArray) {
-                if (course.value === event.target.value) {
-                  console.log("course label: " + course.label);
-                  selectedCourseLabel = course.label;
-                }
-              }
-              console.log("selected course label: " + selectedCourseLabel);
-              setCourse(selectedCourseLabel);
-              console.log("live course update: " + course);
-            }} />
+        <Box width={["15vw", "5vw"]}>
+          <img src={ninenote_blue} alt="Logo" width="100%" />
+        </Box>
+        <Typography variant="h2">Sign Up</Typography>
+        <Stack direction="row" gap="4px" alignItems="center">
+          <Typography variant="tag_thin">Already have an account?</Typography>
+          <Link href="/" underline="none">
+            <Typography variant="tag_thin">Log in</Typography>
+          </Link>
         </Stack>
+        <CheckWarning />
+        <FormField
+          field_name={"Email Address"}
+          type={"email"}
+          onChangeAction={(event, value) => {
+            setRegisterEmail(event.target.value);
+            console.log("live email update: " + registerEmail);
+          }}
+        />
+        <FormField
+          field_name={"Password"}
+          type={"password"}
+          onChangeAction={(event) => {
+            setRegisterPassword(event.target.value);
+            console.log("live password update: " + registerPassword);
+          }}
+        />
+        <FormField
+          field_name={"Matriculation Year"}
+          type={"dropdown"}
+          values={matriculationYearArray}
+          onChangeAction={(event) => {
+            let selectedMatriculationYearLabel = "";
+            for (const matriculationYear of matriculationYearArray) {
+              if (matriculationYear.value === event.target.value) {
+                console.log("matriculation year label: " + matriculationYear.label);
+                selectedMatriculationYearLabel = matriculationYear.label;
+              }
+            }
+            console.log("selected matriculation year label: " + selectedMatriculationYearLabel);
+            setMatriculationYear(selectedMatriculationYearLabel);
+            console.log("live matriculationyear update: " + matriculationYear);
+          }} />
+        <FormField
+          field_name={"Current/Prospective Course"}
+          type={"dropdown"}
+          values={courseArray}
+          onChangeAction={(event) => {
+            let selectedCourseLabel = "";
+            for (const course of courseArray) {
+              if (course.value === event.target.value) {
+                console.log("course label: " + course.label);
+                selectedCourseLabel = course.label;
+              }
+            }
+            console.log("selected course label: " + selectedCourseLabel);
+            setCourse(selectedCourseLabel);
+            console.log("live course update: " + course);
+          }} />
         <Link>
           <MainButton
             type="contained"
@@ -761,6 +485,91 @@ const SignupForm = () => {
           />
         </Link>
       </Stack>
+
+      {/* ERROR SNACKBARS */}
+      {/* snackbar displays only when there is no email and password input */}
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openAdminRestrictedOpSnackBar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackBar}
+      >
+        <Alert severity="error" sx={{ width: "100%" }}>
+          <Typography variant="tag_thin">
+            Invalid credentials. Please enter your email address and password.
+          </Typography>
+        </Alert>
+      </Snackbar>
+
+      {/* snackbar displays only when email is invalid */}
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openInvalidEmailSnackBar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackBar}
+      >
+        <Alert severity="error" sx={{ width: "100%" }}>
+          <Typography variant="tag_thin">
+            Invalid email address. Please try again.
+          </Typography>
+        </Alert>
+      </Snackbar>
+
+      {/* snackbar displays only when email is missing */}
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openMissingEmailSnackBar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackBar}
+      >
+        <Alert severity="error" sx={{ width: "100%" }}>
+          <Typography variant="tag_thin">
+            Missing email address. Please enter your email address.
+          </Typography>
+        </Alert>
+      </Snackbar>
+
+      {/* snackbar displays only when password is missing */}
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openMissingPasswordSnackBar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackBar}
+      >
+        <Alert severity="error" sx={{ width: "100%" }}>
+          <Typography variant="tag_thin">
+            Missing password. Please enter your password.
+          </Typography>
+        </Alert>
+      </Snackbar>
+
+      {/* snackbar displays only when password is weak */}
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openWeakPasswordSnackBar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackBar}
+      >
+        <Alert severity="error" sx={{ width: "100%" }}>
+          <Typography variant="tag_thin">
+            Weak password. Please enter a new password.
+          </Typography>
+        </Alert>
+      </Snackbar>
+
+      {/* snackbar displays only when email is already in use */}
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openEmailInUseSnackBar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackBar}
+      >
+        <Alert severity="error" sx={{ width: "100%" }}>
+          <Typography variant="tag_thin">
+            Email already in use. Please enter a different email.
+          </Typography>
+        </Alert>
+      </Snackbar>
     </>
   )
 }

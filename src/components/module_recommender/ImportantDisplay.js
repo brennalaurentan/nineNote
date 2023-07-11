@@ -11,13 +11,13 @@ const AlertDisplay = () => {
         <Box display="flex">
             <Alert icon={<PriorityHighIcon fontSize="inherit" />} severity="info">
                 <AlertTitle>
-                    <Typography variant="body_bold">Important</Typography>
+                    <Typography variant="tag_bold">Important</Typography>
                 </AlertTitle>
                 <Stack gap="16px">
-                    <Typography variant="body_thin">
+                    <Typography variant="tag_thin">
                         Adding any of these modules to your module planner <b>does not guarantee</b> you a spot in the module.
                     </Typography>
-                    <Typography variant="body_thin">
+                    <Typography variant="tag_thin">
                         You will still have to register for the module via <a href="https://www.nus.edu.sg/coursereg/">CourseReg@EduRec</a> as
                         per normal.
                     </Typography>

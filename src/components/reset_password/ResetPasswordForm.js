@@ -6,21 +6,30 @@ import ninenote_blue from '../../graphics/ninenote_blue.png';
 
 // tools
 import { useState } from 'react';
-import { Grid, Box, Typography, TextField, Stack, Link } from '@mui/material';
+import { auth } from '../others/firebase';
+import { Grid, Box, Typography, TextField, Stack, Snackbar, Alert } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
-import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { sendPasswordResetEmail } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 
 const ResetPasswordForm = () => {
     const navigate = useNavigate();
     const [resetEmail, setResetEmail] = useState(null);
+    const [openSnackBar, setOpenSnackBar] = useState(false);
+
+    const handleCloseSnackBar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSnackBar(false);
+    };
 
     async function ResetPassword() {
         try {
-            const auth = getAuth();
-            sendPasswordResetEmail(auth, resetEmail);
+            await sendPasswordResetEmail(auth, resetEmail);
             navigate('/reset-link-sent');
         } catch (error) {
+            setOpenSnackBar(true);
             console.log(error.message);
         };
     }
@@ -61,6 +70,20 @@ const ResetPasswordForm = () => {
                             value="CONTINUE"
                             onClickAction={ResetPassword}
                         />
+
+                        {/* snackbar displays only when there is an error */}
+                        <Snackbar
+                            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                            open={openSnackBar}
+                            autoHideDuration={3000}
+                            onClose={handleCloseSnackBar}
+                        >
+                            <Alert severity="error" sx={{ width: "100%" }}>
+                                <Typography variant="tag_thin">
+                                    User not found in database. Please try again.
+                                </Typography>
+                            </Alert>
+                        </Snackbar>
                     </Stack>
                 </Stack>
             </Grid>
