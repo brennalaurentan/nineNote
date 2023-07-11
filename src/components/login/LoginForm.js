@@ -20,6 +20,7 @@ const LoginForm = () => {
   // snackbar states
   const [openUserNotFoundSnackBar, setOpenUserNotFoundSnackBar] = useState(false);
   const [openInvalidEmailSnackBar, setOpenInvalidEmailSnackBar] = useState(false);
+  const [openMissingEmailSnackBar, setOpenMissingEmailSnackBar] = useState(false);
   const [openMissingPasswordSnackBar, setOpenMissingPasswordSnackBar] = useState(false);
   const [openWrongPasswordSnackBar, setOpenWrongPasswordSnackBar] = useState(false);
 
@@ -29,6 +30,7 @@ const LoginForm = () => {
     }
     setOpenUserNotFoundSnackBar(false);
     setOpenInvalidEmailSnackBar(false);
+    setOpenMissingEmailSnackBar(false);
     setOpenMissingPasswordSnackBar(false);
     setOpenWrongPasswordSnackBar(false);
   };
@@ -41,12 +43,16 @@ const LoginForm = () => {
       navigate('/graduation-progress-tracker');
       console.log(user);
     } catch (error) {
+      console.log(error.message);
       if (error.code === "auth/user-not-found") {
         setOpenUserNotFoundSnackBar(true);
         console.log("user not found!");
       } else if (error.code === "auth/invalid-email") {
         setOpenInvalidEmailSnackBar(true);
         console.log("invalid email!");
+      } else if (error.code === "auth/missing-email") {
+        setOpenMissingEmailSnackBar(true);
+        console.log("missing email!");
       } else if (error.code === "auth/missing-password") {
         setOpenMissingPasswordSnackBar(true);
         console.log("missing password!");
@@ -126,7 +132,21 @@ const LoginForm = () => {
       >
         <Alert severity="error" sx={{ width: "100%" }}>
           <Typography variant="tag_thin">
-            Invalid email. Please try again.
+            Invalid email address. Please try again.
+          </Typography>
+        </Alert>
+      </Snackbar>
+
+      {/* snackbar displays only when email is missing */}
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openMissingEmailSnackBar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackBar}
+      >
+        <Alert severity="error" sx={{ width: "100%" }}>
+          <Typography variant="tag_thin">
+            Missing email address. Please enter your email address.
           </Typography>
         </Alert>
       </Snackbar>
@@ -140,7 +160,7 @@ const LoginForm = () => {
       >
         <Alert severity="error" sx={{ width: "100%" }}>
           <Typography variant="tag_thin">
-            Missing password. Please try again.
+            Missing password. Please enter your password.
           </Typography>
         </Alert>
       </Snackbar>
