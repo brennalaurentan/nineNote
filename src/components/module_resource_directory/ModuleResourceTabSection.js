@@ -11,6 +11,9 @@ import { Box, Typography, Stack, TextField } from '@mui/material';
 
 
 const ModuleResourceTabSection = ({ moduleData }) => {
+    // handles text displayed when filtered modules is empty
+    const [showModules, setShowModules] = useState('none');
+
     // handles displayed modules in selected page according to pagination
     const [displayedModules, setDisplayedModules] = useState([]);
 
@@ -21,7 +24,8 @@ const ModuleResourceTabSection = ({ moduleData }) => {
     const [filteredModules, setFilteredModules] = useState(moduleData);
     const [filteredModulesCount, setFilteredModulesCount] = useState(filteredModules.length);
 
-    const [page, setPage] = useState(1);
+    // handles selected page according to pagination and upon search input
+    const [activePage, setActivePage] = useState(1);
 
     // updates selected module code when module item is clicked
     const handleModuleChange = (event, moduleCode) => {
@@ -51,20 +55,31 @@ const ModuleResourceTabSection = ({ moduleData }) => {
         const filterBySearch = moduleData.filter((module) => {
             return module.moduleCode.toLowerCase().includes(searchWord);
         })
-        const defaultModules = filterBySearch.slice(0, 10);
-        const defaultModuleCode = defaultModules[0].moduleCode;
+        console.log(filterBySearch);
+        const filterBySearchCount = filterBySearch.length;
+
         setFilteredModules(filterBySearch);
-        setFilteredModulesCount(filterBySearch.length);
-        setDisplayedModules(defaultModules);
-        setSelectedModuleCode(defaultModuleCode);
-        setPage(1);
+        if (filterBySearchCount !== 0) {
+            const defaultModules = filterBySearch.slice(0, 10);
+            const defaultModuleCode = defaultModules[0].moduleCode;
+            setShowModules('none')
+            setFilteredModulesCount(filterBySearchCount);
+            setDisplayedModules(defaultModules);
+            setSelectedModuleCode(defaultModuleCode);
+            setActivePage(1);
+        } else {
+            setShowModules('flex')
+            setFilteredModulesCount(0);
+            setDisplayedModules([]);
+            console.log("no modules to be displayed!")
+        }
     }
 
     return (
         <Box
             sx={{ display: 'flex', justifyContent: "space-between", height: 400, padding: "56px" }}
         >
-            <Stack gap="16px">
+            <Stack gap="16px" width="42vw">
                 <Typography variant="h3">All Modules</Typography>
                 <TextField
                     id="filled-search"
@@ -85,10 +100,11 @@ const ModuleResourceTabSection = ({ moduleData }) => {
                             moduleSem={module.semesterData}
                         />
                     ))}
+                    <Typography variant="body_thin" justifyContent="center" padding="40px" display={showModules}>No modules to be displayed.</Typography>
                 </Stack>
                 <ModuleResourcePagination
-                    page={page}
-                    setPage={setPage}
+                    activePage={activePage}
+                    setActivePage={setActivePage}
                     moduleData={filteredModules}
                     totalModuleCount={filteredModulesCount}
                     splitModuleData={splitModuleData}
@@ -96,7 +112,7 @@ const ModuleResourceTabSection = ({ moduleData }) => {
                     setSelectedModuleCode={setSelectedModuleCode}
                 />
             </Stack>
-            <ModuleResourceTabContent selectedModuleCode={selectedModuleCode} moduleData={moduleData} />
+            <ModuleResourceTabContent selectedModuleCode={selectedModuleCode} moduleData={filteredModules} />
         </Box>
     );
 }
