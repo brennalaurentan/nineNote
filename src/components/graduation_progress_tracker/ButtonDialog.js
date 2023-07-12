@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import { auth, db } from '../others/firebase';
 import { getAuth } from 'firebase/auth';
-import { query, collection, setDoc, getDocs, doc } from 'firebase/firestore';
+import { query, collection, setDoc, getDocs, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { v4 } from 'uuid';
 
 const moduleGroupsArray = [
@@ -313,6 +313,48 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
       moduleMC: '7',
       moduleCategory: 'mathematicsAndSciences'
     },
+    {
+      moduleCode: 'FF0001',
+      moduleName: 'Sample Foundation Module 1',
+      moduleMC: '8',
+      moduleCategory: 'foundation'
+    },
+    {
+      moduleCode: 'FF0002',
+      moduleName: 'Sample Foundation Module 2',
+      moduleMC: '9',
+      moduleCategory: 'foundation'
+    },
+    {
+      moduleCode: 'FF0003',
+      moduleName: 'Sample Foundation Module 3',
+      moduleMC: '10',
+      moduleCategory: 'foundation'
+    },
+    {
+      moduleCode: 'FF0004',
+      moduleName: 'Sample Foundation Module 4',
+      moduleMC: '11',
+      moduleCategory: 'foundation'
+    },
+    {
+      moduleCode: 'FF0005',
+      moduleName: 'Sample Foundation Module 5',
+      moduleMC: '12',
+      moduleCategory: 'foundation'
+    },
+    {
+      moduleCode: 'FF0006',
+      moduleName: 'Sample Foundation Module 6',
+      moduleMC: '13',
+      moduleCategory: 'foundation'
+    },
+    {
+      moduleCode: 'FF0007',
+      moduleName: 'Sample Foundation Module 7',
+      moduleMC: '14',
+      moduleCategory: 'foundation'
+    },
   ];
 
   const moduleCodeList = moduleList.map(module => module.moduleCode);
@@ -325,6 +367,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
   const [moduleName, setModuleName] = React.useState("");
   const [moduleMC, setModuleMC] = React.useState(0);
   const [moduleCategory, setModuleCategory] = React.useState("");
+  const [currentUserEmail, setCurrentUserEmail] = React.useState("");
   const yearSemCode = yearSem.replace(/ /g, '');
 
   // function to retrieve the path to the collection which stores the module group tracker for
@@ -379,6 +422,73 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
     return moduleCollectionPath;
   }
 
+  async function checkAndSetCommonCurriculumOverallFulfilment() {
+    const querySnapshot = await getDocs(collection(db, `users/${currentUserEmail}/gradProgress`));
+    querySnapshot.forEach((group) => {
+      // groups are: commonCurriculum, programme, unrestrictedElectives. We want commonCurriculum
+      if (group.id === "commonCurriculum") {
+        if (group.data().computingEthics.fulfilment === true) {
+          if (group.data().crossdisciplinaryEducation_fulfilment === true) {
+            if (group.data().interdisciplinaryEducation_fulfilment === true) {
+              if (group.data().universityLevel_fulfilment === true) {
+                updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "commonCurriculum"), {
+                  overall_fulfilment: true
+                })
+                return true;
+              }
+            }
+          }
+        }
+      }
+      updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "commonCurriculum"), {
+        overall_fulfilment: false
+      })
+      return false;
+    })
+  }
+
+  async function checkAndSetProgrammeOverallFulfilment() {
+    const querySnapshot = await getDocs(collection(db, `users/${currentUserEmail}/gradProgress`));
+    querySnapshot.forEach((group) => {
+      // groups are: commonCurriculum, programme, unrestrictedElectives. We want programme
+      if (group.id === "programme") {
+        if (group.data().breadthAndDepth_fulfilment === true) {
+          if (group.data().foundation_fulfilment === true) {
+            if (group.data().mathematicsAndSciences_fulfilment === true) {
+              updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "programme"), {
+                overall_fulfilment: true
+              })
+              return true;
+            }
+          }
+        }
+      }
+      updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "programme"), {
+        overall_fulfilment: false
+      })
+      return false;
+    })
+  }
+
+  async function checkAndSetUnrestrictedElectivesOverallFulfilment() {
+    const querySnapshot = await getDocs(collection(db, `users/${currentUserEmail}/gradProgress`));
+    querySnapshot.forEach((group) => {
+      // groups are: commonCurriculum, programme, unrestrictedElectives. We want unrestrictedElectives
+      if (group.id === "unrestrictedElectives") {
+        if (group.data().breadthAndDepth_fulfilment === true) {
+          updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "unrestrictedElectives"), {
+            overall_fulfilment: true
+          })
+          return true;
+        }
+      }
+      updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "unrestrictedElectives"), {
+        overall_fulfilment: false
+      })
+      return false;
+    })
+  }
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -398,96 +508,201 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
       const auth = getAuth();
       const user = auth.currentUser;
       const currentUserEmail = user.email;
+      setCurrentUserEmail(user.email);
 
-      const userModulesBySemesterSnapshot = await getDocs(collection(db, `users/${currentUserEmail}/modules/`));
-      let docCount = 0;
-      userModulesBySemesterSnapshot.forEach((semesterDoc) => {
-        if (semesterDoc.id === yearSemCode) {
-          docCount = semesterDoc.data().numModules;
-        }
-      })
-
-      // obtain index of next module to add
-      const docNextIndex = docCount + 1;
-
-      // create new collection with new module details
-      await setDoc(doc(db, `users/${currentUserEmail}/modules/${yearSemCode}/module_${docNextIndex}`, 'moduleDetails'), {
-        moduleID: v4(),
-        moduleCode: moduleCode,
-        moduleName: moduleName,
-        moduleMC: moduleMC,
-        moduleCategory: moduleCategory
-      });
-
-      // update numModules property (field) in firestore
-      await setDoc(doc(db, `users/${currentUserEmail}/modules`, yearSemCode), {
-        numModules: docNextIndex
-      });
-
-      // retrieve necessary info pertaining to current progress of the added module's module group
-      let moduleGroupCreditsCompleted = 0;
-      let moduleGroupCreditsToMeet = 0;
-      let moduleGroupModulesTaken = [];
-      let newModuleGroupCreditsCompleted = 0;
-      let newModuleGroupModulesTaken = [];
-      async function retrieveUserModuleGroupProgress() {
-        const userModuleCollectionPath = retrieveUserModuleCreditTrackerPath(currentUserEmail, moduleCategory);
-        const userModuleCollectionPathSnapshot = await getDocs(collection(db, userModuleCollectionPath));
-        console.log("Accessing path: " + userModuleCollectionPath);
-        userModuleCollectionPathSnapshot.forEach((moduleGroupInCollection) => {
-            if (moduleGroupInCollection.id === moduleCategory) {
-              console.log("cat names match. they are: " + moduleGroupInCollection.id + " and " + moduleCategory);
-              moduleGroupCreditsCompleted = moduleGroupInCollection.data().creditsCompleted;
-              moduleGroupCreditsToMeet = moduleGroupInCollection.data().creditsToMeet;
-              moduleGroupModulesTaken = moduleGroupInCollection.data().modulesTaken;
-            }
-        });
-      }
-      retrieveUserModuleGroupProgress();
-
-      // check if module already exists on user's profile
-      console.log("Modules in group taken so far: " + moduleGroupModulesTaken.toString());
-
-      // if module has already been taken before, do not add it to the array and do not add to credit count (prevent double-counting)
-      if (moduleGroupModulesTaken.includes(moduleCode)) {
-
-      }
-      else {
-        newModuleGroupModulesTaken = moduleGroupModulesTaken.push(moduleCode);
-        newModuleGroupCreditsCompleted = moduleGroupCreditsCompleted + moduleMC;
-        
-        // update the fields in the document
-        const userModuleCollectionPath = retrieveUserModuleCreditTrackerPath(currentUserEmail, moduleCategory);
-        await setDoc(doc(db, userModuleCollectionPath, moduleCategory), {
-          creditsCompleted: moduleGroupCreditsCompleted,
-          creditsToMeet: moduleGroupCreditsToMeet,
-          modulesTaken: moduleGroupModulesTaken
+      async function moduleAlreadyTaken() {
+        let returnBool = false;
+        const userModulesCollectionPath = "users/" + currentUserEmail + "/modules";
+        const userModulesCollection = collection(db, userModulesCollectionPath);
+        const userModulesQuerySnapshot = await getDocs(userModulesCollection);
+        let totalNumModules = 0;
+        userModulesQuerySnapshot.forEach((semDoc) => {
+          if (module.id === "allModules") {
+            totalNumModules = semDoc.data().numModules;
+          }
         })
-
-        // if an objective was met by adding this module
-        if ((moduleGroupCreditsCompleted < moduleGroupCreditsToMeet) && (newModuleGroupCreditsCompleted >= moduleGroupCreditsToMeet)) {
-
-        }
+        const userAllModulesCollectionPath = "users/" + currentUserEmail + "/modules/allModules/allModules"
+        const userAllModulesCollection = collection(db, userAllModulesCollectionPath);
+        const userAllModulesQuerySnapshot = await getDocs(userAllModulesCollection);
+        userAllModulesQuerySnapshot.forEach((moduleDoc) => {
+          // module found in user's 'allModules' collection with the same module code, 
+          // means they've taken the module before
+          console.log("module taken: " + moduleDoc.data().moduleCode);
+          console.log("checking against module: " + moduleCode);
+          if (moduleDoc.data().moduleCode === moduleCode) {
+            console.log("returnBool set to true - module taken before");
+            returnBool = true;
+          }
+        })
+        // no module found in user's 'allModules' collection with the same module code,
+        // means they haven't taken the module before
+        return returnBool;
       }
 
+      if (await moduleAlreadyTaken() === false) {
 
-      // retrieve path to collection containing all modules you can take to satisfy the
-      // specified module group
-      //let moduleGroupCollectionPath = retrieveModuleGroupCollectionPath(moduleCategory);
+        // retrieve number of modules taken for the semester
+        const userModulesBySemesterSnapshot = await getDocs(collection(db, `users/${currentUserEmail}/modules/`));
+        let docCount = 0;
+        userModulesBySemesterSnapshot.forEach((semesterDoc) => {
+          if (semesterDoc.id === yearSemCode) {
+            docCount = semesterDoc.data().numModules;
+          }
+        })
+  
+        // obtain index of next module to add (to name the collection e.g module_1, module_2 etc)
+        const docNextIndex = docCount + 1;
+  
+        // create new collection in semester with new module details
+        await setDoc(doc(db, `users/${currentUserEmail}/modules/${yearSemCode}/module_${docNextIndex}`, 'moduleDetails'), {
+          moduleID: v4(),
+          moduleCode: moduleCode,
+          moduleName: moduleName,
+          moduleMC: moduleMC,
+          moduleCategory: moduleCategory
+        });
 
-      // retrieve path to collection containing fields which tracks the user's credit progress for that module group
-      //let userModuleCreditTrackerPath = retrieveUserModuleCreditTrackerPath(currentUserEmail, moduleCategory);
-      //console.log("path obtained is: " + userModuleCreditTrackerPath);
+        // update numModules property (field) in firestore
+        await setDoc(doc(db, `users/${currentUserEmail}/modules`, yearSemCode), {
+          numModules: docNextIndex
+        });
+  
+        // create new document in 'allModules' with new module details
+        await setDoc(doc(db, `users/${currentUserEmail}/modules/allModules/allModules`, moduleCode), {
+          moduleID: v4(),
+          moduleCode: moduleCode,
+          moduleName: moduleName,
+          moduleMC: moduleMC,
+          moduleCategory: moduleCategory
+        })
+  
+        // retrieve necessary info pertaining to current progress of the added module's module group
+        let moduleGroupCreditsCompleted = 0;
+        let moduleGroupCreditsToMeet = 0;
+        //let moduleGroupModulesTaken = [];
+        let newModuleGroupCreditsCompleted = 0;
+        //let newModuleGroupModulesTaken = [];
+        async function retrieveUserModuleGroupProgress() {
+          const userModuleCollectionPath = retrieveUserModuleCreditTrackerPath(currentUserEmail, moduleCategory);
+          const userModuleCollectionPathSnapshot = await getDocs(collection(db, userModuleCollectionPath));
+          console.log("Accessing path: " + userModuleCollectionPath);
+          userModuleCollectionPathSnapshot.forEach((moduleGroupInCollection) => {
+              if (moduleGroupInCollection.id === moduleCategory) {
+                console.log("cat names match. they are: " + moduleGroupInCollection.id + " and " + moduleCategory);
+                moduleGroupCreditsCompleted = parseInt(moduleGroupInCollection.data().creditsCompleted);
+                moduleGroupCreditsToMeet = parseInt(moduleGroupInCollection.data().creditsToMeet);
+                //moduleGroupModulesTaken = moduleGroupInCollection.data().modulesTaken;
+                console.log(moduleGroupInCollection.data());
+              }
+          });
+        }
+        await retrieveUserModuleGroupProgress();
+  
+        //newModuleGroupModulesTaken = moduleGroupModulesTaken.push(moduleCode);
+        newModuleGroupCreditsCompleted = parseInt(moduleGroupCreditsCompleted) + parseInt(moduleMC);
+        
+        // update the fields in the document for the module subgroup
+        const userModuleCollectionPath = retrieveUserModuleCreditTrackerPath(currentUserEmail, moduleCategory);
+        console.log("[update fields in document for module subgroup] moduleCategory is " + moduleCategory + ", path is " + userModuleCollectionPath);
+        //console.log("newModuleGroupModulesTaken: " + newModuleGroupModulesTaken);
+        await setDoc(doc(db, userModuleCollectionPath, moduleCategory), {
+          creditsCompleted: newModuleGroupCreditsCompleted,
+          creditsToMeet: moduleGroupCreditsToMeet,
+          //modulesTaken: newModuleGroupModulesTaken
+        })
+  
+        // if an objective was met by adding this module (module group objective met)
+        if ((moduleGroupCreditsCompleted < moduleGroupCreditsToMeet) && (newModuleGroupCreditsCompleted >= moduleGroupCreditsToMeet)) {
+          // update the fields in the main group
+          if (userModuleCollectionPath.includes("commonCurriculum")) {
+            if (userModuleCollectionPath.includes("universityLevel")) {
+              // update the fulfilment in the subgroup itself as well
+              await setDoc(doc(db, userModuleCollectionPath, moduleCategory), {
+                creditsCompleted: moduleGroupCreditsCompleted,
+                creditsToMeet: moduleGroupCreditsToMeet,
+                //modulesTaken: moduleGroupModulesTaken,
+                uLSubgroup_fulfilment: true
+              })
 
-      // add to credit count in user's database profile
-      //updateCreditCount(moduleCategory, userModuleCreditTrackerPath, moduleMC);
+              // check other universityLevel subgroups to see if it's the last one
+              async function checkUniversityLevelFulfilment() {
+                const collectionPath = retrieveUserModuleCreditTrackerPath(currentUserEmail, "communitiesAndEngagement");
+                const collectionRef = collection(db, collectionPath);
+                const querySnapshot = await getDocs(collectionRef);
+                querySnapshot.forEach((uLSubgroup) => {
+                  if (uLSubgroup.data().uLSubgroup_fulfilment === false) {
+                    return false;
+                  }
+                });
+                return true;
+              }
+              // if all universityLevel subgroups have been satisfied
+              if (await checkUniversityLevelFulfilment() === true) {
+                // set universityLevel_fulfilment to true
+                updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "commonCurriculum"), {
+                  universityLevel_fulfilment: true
+                })
+              }
+            }
+            // if not universityLevel (computingEthics, crossDisciplinaryEducation, interdisciplinaryEducation)
+            else {
+              // set computingEthics_fulfilment / crossDisciplinaryEducation_fulfilment / interdisciplinaryEducation_fulfilment to true
+              if (moduleCategory === "computingEthics") {
+                updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "commonCurriculum"), {
+                  computingEthics_fulfilment: true
+                })
+              }
+              else if (moduleCategory === "crossDisciplinaryEducation") {
+                updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "commonCurriculum"), {
+                  crossdisciplinaryEducation_fulfilment: true
+                })
+              }
+              else {
+                updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "commonCurriculum"), {
+                  interdisciplinaryEducation_fulfilment: true
+                })
+              }
+              checkAndSetCommonCurriculumOverallFulfilment();
+            }
+          // for programme requirement modules
+          } else if (userModuleCollectionPath.includes("programme")) {
+            // is a focusArea, meaning a focusArea was cleared
+            if (userModuleCollectionPath.includes("focusArea")) {
 
-      // update progress rings and progress bar
-      // moduleGroupsArray.forEach((moduleGroup) => {
-      //   if (moduleCategory = moduleGroup.moduleCategory) {
+            }
+            // is industryExperience, meaning industryExperience requirement was cleared
+            else {
 
-      //   }
-      // })
+            }
+          // for unrestrictedElective requirement modules
+          } else {
+
+          }
+        }
+  
+  
+        // retrieve path to collection containing all modules you can take to satisfy the
+        // specified module group
+        //let moduleGroupCollectionPath = retrieveModuleGroupCollectionPath(moduleCategory);
+  
+        // retrieve path to collection containing fields which tracks the user's credit progress for that module group
+        //let userModuleCreditTrackerPath = retrieveUserModuleCreditTrackerPath(currentUserEmail, moduleCategory);
+        //console.log("path obtained is: " + userModuleCreditTrackerPath);
+  
+        // add to credit count in user's database profile
+        //updateCreditCount(moduleCategory, userModuleCreditTrackerPath, moduleMC);
+  
+        // update progress rings and progress bar
+        // moduleGroupsArray.forEach((moduleGroup) => {
+        //   if (moduleCategory = moduleGroup.moduleCategory) {
+  
+        //   }
+        // })
+      }
+      // module taken before
+      else {
+        console.log("module already taken!");
+      }
     } catch (error) {
       console.log(error.message);
     }
