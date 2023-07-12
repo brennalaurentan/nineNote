@@ -7,15 +7,25 @@ import ModuleResourcePagination from './ModuleResourcePagination';
 
 // tools
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Stack } from '@mui/material';
+import { Box, Typography, Stack, TextField } from '@mui/material';
 
 
 const ModuleResourceTabSection = ({ moduleData }) => {
+    // handles text displayed when filtered modules is empty
+    const [showModules, setShowModules] = useState('none');
+
     // handles displayed modules in selected page according to pagination
     const [displayedModules, setDisplayedModules] = useState([]);
 
     // handles selected index upon clicking module list item
     const [selectedModuleCode, setSelectedModuleCode] = useState('');
+
+    // handles filtered modules upon search input
+    const [filteredModules, setFilteredModules] = useState(moduleData);
+    const [filteredModulesCount, setFilteredModulesCount] = useState(filteredModules.length);
+
+    // handles selected page according to pagination and upon search input
+    const [activePage, setActivePage] = useState(1);
 
     // updates selected module code when module item is clicked
     const handleModuleChange = (event, moduleCode) => {
@@ -23,25 +33,60 @@ const ModuleResourceTabSection = ({ moduleData }) => {
         setSelectedModuleCode(moduleCode);
     };
 
-    // filters data in selected page according to pagination
-    async function filterModuleData(from, to) {
-        return moduleData.slice(from, to);
+    // split data in selected page according to pagination
+    async function splitModuleData(from, to) {
+        return filteredModules.slice(from, to);
     }
 
     // set default module display
     useEffect(() => {
         const defaultModules = moduleData.slice(0, 10);
-        const defaultModule = defaultModules[0]; // not sure why i cannot retrieve the value from moduleCode key
+        setFilteredModules(moduleData);
+        setFilteredModulesCount(moduleData.length);
         setDisplayedModules(defaultModules);
-        setSelectedModuleCode('ABM5001'); // it works like this, will look into replacing with variable
-    },[moduleData])
+        setSelectedModuleCode('ABM5001');
+    }, [moduleData])
+
+
+    // updates module data upon search input
+    const handleSearchFilter = (event) => {
+        console.log(event.target.value);
+        const searchWord = event.target.value;
+        const filterBySearch = moduleData.filter((module) => {
+            return module.moduleCode.toLowerCase().includes(searchWord);
+        })
+        console.log(filterBySearch);
+        const filterBySearchCount = filterBySearch.length;
+
+        setFilteredModules(filterBySearch);
+        if (filterBySearchCount !== 0) {
+            const defaultModules = filterBySearch.slice(0, 10);
+            const defaultModuleCode = defaultModules[0].moduleCode;
+            setShowModules('none')
+            setFilteredModulesCount(filterBySearchCount);
+            setDisplayedModules(defaultModules);
+            setSelectedModuleCode(defaultModuleCode);
+            setActivePage(1);
+        } else {
+            setShowModules('flex')
+            setFilteredModulesCount(0);
+            setDisplayedModules([]);
+            console.log("no modules to be displayed!")
+        }
+    }
 
     return (
         <Box
             sx={{ display: 'flex', justifyContent: "space-between", height: 400, padding: "56px" }}
         >
-            <Stack gap="16px">
+            <Stack gap="16px" width="42vw">
                 <Typography variant="h3">All Modules</Typography>
+                <TextField
+                    id="filled-search"
+                    label="Module Code"
+                    type="search"
+                    onChange={handleSearchFilter}
+                />
                 <Stack gap="0px">
                     {displayedModules.map((module, index) => (
                         <ModuleListItem
@@ -55,16 +100,19 @@ const ModuleResourceTabSection = ({ moduleData }) => {
                             moduleSem={module.semesterData}
                         />
                     ))}
+                    <Typography variant="body_thin" justifyContent="center" padding="40px" display={showModules}>No modules to be displayed.</Typography>
                 </Stack>
                 <ModuleResourcePagination
-                    moduleData={moduleData}
-                    totalModuleCount={moduleData.length}
-                    filterModuleData={filterModuleData}
+                    activePage={activePage}
+                    setActivePage={setActivePage}
+                    moduleData={filteredModules}
+                    totalModuleCount={filteredModulesCount}
+                    splitModuleData={splitModuleData}
                     setDisplayedModules={setDisplayedModules}
                     setSelectedModuleCode={setSelectedModuleCode}
                 />
             </Stack>
-            <ModuleResourceTabContent selectedModuleCode={selectedModuleCode} moduleData={moduleData} />
+            <ModuleResourceTabContent selectedModuleCode={selectedModuleCode} moduleData={filteredModules} />
         </Box>
     );
 }
