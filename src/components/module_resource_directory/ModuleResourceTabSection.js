@@ -52,9 +52,13 @@ const ModuleResourceTabSection = ({ moduleData }) => {
     const handleSearchFilter = (event) => {
         console.log(event.target.value);
         const searchWord = event.target.value;
-        const filterBySearch = moduleData.filter((module) => {
+        const filterBySearchCode = moduleData.filter((module) => {
             return module.moduleCode.toLowerCase().includes(searchWord);
         })
+        const filterBySearchName = moduleData.filter((module) => {
+            return module.title.toLowerCase().includes(searchWord);
+        })
+        const filterBySearch = filterBySearchCode.concat(filterBySearchName);
         console.log(filterBySearch);
         const filterBySearchCount = filterBySearch.length;
 
@@ -83,7 +87,7 @@ const ModuleResourceTabSection = ({ moduleData }) => {
                 <Typography variant="h3">All Modules</Typography>
                 <TextField
                     id="filled-search"
-                    label="Module Code"
+                    label="Module Code or Module Name"
                     type="search"
                     onChange={handleSearchFilter}
                 />
