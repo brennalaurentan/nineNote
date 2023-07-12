@@ -208,9 +208,9 @@ request.send();
 
 const ModulePlanner = () => {
 
-    const auth = getAuth();
-    const user = auth.currentUser;
-    const currentUserEmail = user.email;
+    // const auth = getAuth();
+    // const user = auth.currentUser;
+    // const currentUserEmail = user.email;
     
     const [state, setState] = useState({
         "Y1 S1": {
