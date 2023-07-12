@@ -418,8 +418,6 @@ const static_semesters = [
   "Y4ST2"
 ]
 
-
-
 const SignupForm = () => {
   const navigate = useNavigate();
   const [registerEmail, setRegisterEmail] = useState(null);
@@ -536,6 +534,7 @@ const SignupForm = () => {
         setDoc(doc(db, `users/${currentUserEmail}/gradProgress/`, "programme"), {
           breadthAndDepth_fulfilment: false,
           foundation_fulfilment: false,
+          mathematicsAndSciences_fulfilment: false,
           overall_fulfilment: false,
           creditsCompleted: 0,
           creditsToMeet: programmeRequirement
@@ -561,7 +560,7 @@ const SignupForm = () => {
         let pathToCollection = retrieveUserModuleCreditTrackerPath(currentUserEmail, userModuleGroup.groupName);
         let setCreditsToMeet = 0;
         // if moduleGroup is a focusArea primary, set the following default credit requirements
-        if (pathToCollection.includes("focusArea") && userModuleGroup.groupName.includes("primaries")) {
+        if (pathToCollection.includes("focusAreas") && userModuleGroup.groupName.includes("primaries")) {
           setCreditsToMeet = 12;
           setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
             creditsToMeet: setCreditsToMeet,
@@ -571,13 +570,40 @@ const SignupForm = () => {
           });
         }
         // if moduleGroup is a focusArea elective, set the following default credit requirements
-        else if (pathToCollection.includes("focusArea") && userModuleGroup.groupName.includes("electives")) {
+        else if (pathToCollection.includes("focusAreas") && userModuleGroup.groupName.includes("electives")) {
           setCreditsToMeet = 0;
           setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
             creditsToMeet: setCreditsToMeet,
             creditsCompleted: "0",
             modulesTaken: []
           });
+        }
+        // if moduleGroup is focusAreas_others
+        else if (pathToCollection.includes("focusAreas")) {
+          setCreditsToMeet = 0;
+          setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
+            creditsToMeet: 0,
+            creditsCompleted: 0,
+            modulesTaken: []
+          });
+        }
+        // if moduleGroup is industryExperience
+        else if (userModuleGroup.groupName.includes("industryExperience")) {
+          setCreditsToMeet = 6;
+          setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
+            creditsToMeet: setCreditsToMeet,
+            creditsCompleted: 0,
+            modulesTaken: []
+          })
+        }
+        // if moduleGroup is any of the universityLevel subgroups
+        else if (pathToCollection.includes("universityLevel")) {
+          setCreditsToMeet = 4;
+          setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
+            creditsToMeet: setCreditsToMeet,
+            creditsCompleted: 0,
+            modulesTaken: []
+          })
         }
         // non-focusArea, fetch & set credit requirements from graduationProgress document in database
         else {
@@ -591,6 +617,7 @@ const SignupForm = () => {
             // cycle through all non-focusArea subgroups in the array
             gradReqForModuleSnapshot.forEach((subGroupDoc) => {
               if (subGroupDoc.id === userModuleGroup.groupName) {
+                console.log("subGroupDoc.id is " + subGroupDoc.id + ", userModuleGroup.groupName is " + userModuleGroup.groupName);
                 setCreditsToMeet = subGroupDoc.data().creditsToMeet;
                 setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
                   creditsToMeet: setCreditsToMeet,
