@@ -298,7 +298,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
     {
       moduleCode: 'CS1231S',
       moduleName: 'Discrete Structures',
-      moduleMC: '5',
+      moduleMC: '4',
       moduleCategory: 'foundation'
     },
     {
@@ -316,43 +316,43 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
     {
       moduleCode: 'FF0001',
       moduleName: 'Sample Foundation Module 1',
-      moduleMC: '8',
+      moduleMC: '4',
       moduleCategory: 'foundation'
     },
     {
       moduleCode: 'FF0002',
       moduleName: 'Sample Foundation Module 2',
-      moduleMC: '9',
+      moduleMC: '4',
       moduleCategory: 'foundation'
     },
     {
       moduleCode: 'FF0003',
       moduleName: 'Sample Foundation Module 3',
-      moduleMC: '10',
+      moduleMC: '4',
       moduleCategory: 'foundation'
     },
     {
       moduleCode: 'FF0004',
       moduleName: 'Sample Foundation Module 4',
-      moduleMC: '11',
+      moduleMC: '4',
       moduleCategory: 'foundation'
     },
     {
       moduleCode: 'FF0005',
       moduleName: 'Sample Foundation Module 5',
-      moduleMC: '12',
+      moduleMC: '4',
       moduleCategory: 'foundation'
     },
     {
       moduleCode: 'FF0006',
       moduleName: 'Sample Foundation Module 6',
-      moduleMC: '13',
+      moduleMC: '4',
       moduleCategory: 'foundation'
     },
     {
       moduleCode: 'FF0007',
       moduleName: 'Sample Foundation Module 7',
-      moduleMC: '14',
+      moduleMC: '4',
       moduleCategory: 'foundation'
     },
   ];
@@ -592,7 +592,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
                 moduleGroupCreditsCompleted = parseInt(moduleGroupInCollection.data().creditsCompleted);
                 moduleGroupCreditsToMeet = parseInt(moduleGroupInCollection.data().creditsToMeet);
                 //moduleGroupModulesTaken = moduleGroupInCollection.data().modulesTaken;
-                console.log(moduleGroupInCollection.data());
+                //console.log(moduleGroupInCollection.data());
               }
           });
         }
