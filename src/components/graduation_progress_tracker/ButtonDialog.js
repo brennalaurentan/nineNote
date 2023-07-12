@@ -327,15 +327,6 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
   const [moduleCategory, setModuleCategory] = React.useState("");
   const yearSemCode = yearSem.replace(/ /g, '');
 
-  /*
-  // function to retrieve the path to the collection which stores all the modules
-  // you can take to fulfil a specified module category/group
-  function retrieveModuleGroupLogCollectionPath(moduleCategory, userEmail) {
-    try {
-
-    }
-  }*/
-
   // function to retrieve the path to the collection which stores the module group tracker for
   // a particular specified user
   // the path to the collection returned, contains fields called 'creditsCompleted' and 'creditsToMeet'
@@ -433,21 +424,65 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
         numModules: docNextIndex
       });
 
+      // retrieve necessary info pertaining to current progress of the added module's module group
+      let moduleGroupCreditsCompleted = 0;
+      let moduleGroupCreditsToMeet = 0;
+      let moduleGroupModulesTaken = [];
+      let newModuleGroupCreditsCompleted = 0;
+      let newModuleGroupModulesTaken = [];
+      async function retrieveUserModuleGroupProgress() {
+        const userModuleCollectionPath = retrieveUserModuleCreditTrackerPath(currentUserEmail, moduleCategory);
+        const userModuleCollectionPathSnapshot = await getDocs(collection(db, userModuleCollectionPath));
+        console.log("Accessing path: " + userModuleCollectionPath);
+        userModuleCollectionPathSnapshot.forEach((moduleGroupInCollection) => {
+            if (moduleGroupInCollection.id === moduleCategory) {
+              console.log("cat names match. they are: " + moduleGroupInCollection.id + " and " + moduleCategory);
+              moduleGroupCreditsCompleted = moduleGroupInCollection.data().creditsCompleted;
+              moduleGroupCreditsToMeet = moduleGroupInCollection.data().creditsToMeet;
+              moduleGroupModulesTaken = moduleGroupInCollection.data().modulesTaken;
+            }
+        });
+      }
+      retrieveUserModuleGroupProgress();
+
       // check if module already exists on user's profile
-      let modulesTakenForGroup = [];
+      console.log("Modules in group taken so far: " + moduleGroupModulesTaken.toString());
+
+      // if module has already been taken before, do not add it to the array and do not add to credit count (prevent double-counting)
+      if (moduleGroupModulesTaken.includes(moduleCode)) {
+
+      }
+      else {
+        newModuleGroupModulesTaken = moduleGroupModulesTaken.push(moduleCode);
+        newModuleGroupCreditsCompleted = moduleGroupCreditsCompleted + moduleMC;
+        
+        // update the fields in the document
+        const userModuleCollectionPath = retrieveUserModuleCreditTrackerPath(currentUserEmail, moduleCategory);
+        await setDoc(doc(db, userModuleCollectionPath, moduleCategory), {
+          creditsCompleted: moduleGroupCreditsCompleted,
+          creditsToMeet: moduleGroupCreditsToMeet,
+          modulesTaken: moduleGroupModulesTaken
+        })
+
+        // if an objective was met by adding this module
+        if ((moduleGroupCreditsCompleted < moduleGroupCreditsToMeet) && (newModuleGroupCreditsCompleted >= moduleGroupCreditsToMeet)) {
+
+        }
+      }
+
 
       // retrieve path to collection containing all modules you can take to satisfy the
       // specified module group
-      let moduleGroupCollectionPath = retrieveModuleGroupCollectionPath(moduleCategory);
+      //let moduleGroupCollectionPath = retrieveModuleGroupCollectionPath(moduleCategory);
 
       // retrieve path to collection containing fields which tracks the user's credit progress for that module group
-      let userModuleCreditTrackerPath = retrieveUserModuleCreditTrackerPath(currentUserEmail, moduleCategory);
-      console.log("path obtained is: " + userModuleCreditTrackerPath);
+      //let userModuleCreditTrackerPath = retrieveUserModuleCreditTrackerPath(currentUserEmail, moduleCategory);
+      //console.log("path obtained is: " + userModuleCreditTrackerPath);
 
       // add to credit count in user's database profile
       //updateCreditCount(moduleCategory, userModuleCreditTrackerPath, moduleMC);
 
-      // // updated progress rings
+      // update progress rings and progress bar
       // moduleGroupsArray.forEach((moduleGroup) => {
       //   if (moduleCategory = moduleGroup.moduleCategory) {
 
