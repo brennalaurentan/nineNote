@@ -8,7 +8,7 @@ import { Pagination } from '@mui/material';
 
 const pageModuleCount = 10;
 
-const ModuleResourcePagination = ({ moduleData, totalModuleCount, filterModuleData, setDisplayedModules,setSelectedModuleCode }) => {
+const ModuleResourcePagination = ({ activePage, setActivePage, moduleData, totalModuleCount, splitModuleData, setDisplayedModules,setSelectedModuleCode }) => {
     // handles index of modules in entire module data
     const [pagination, setPagination] = useState({
         from: 0,
@@ -17,7 +17,7 @@ const ModuleResourcePagination = ({ moduleData, totalModuleCount, filterModuleDa
 
     // executes module filtering and updates displayed modules
     useEffect(() => {
-        filterModuleData(pagination.from, pagination.to).then(response => {
+        splitModuleData(pagination.from, pagination.to).then(response => {
             console.log("Filtered data for current page: ", response);
             setDisplayedModules(response);
         })
@@ -28,6 +28,7 @@ const ModuleResourcePagination = ({ moduleData, totalModuleCount, filterModuleDa
         const from = (page - 1) * pageModuleCount;
         const to = (page - 1) * pageModuleCount + pageModuleCount;
         setPagination({ from: from, to: to })
+        setActivePage(page);
         console.log("First module code displayed: ", moduleData[from].moduleCode);
         setSelectedModuleCode(moduleData[from].moduleCode);
     }
@@ -36,6 +37,7 @@ const ModuleResourcePagination = ({ moduleData, totalModuleCount, filterModuleDa
         <Pagination
             sx={{ bgcolor: "white.main", justifyContent: "center" }}
             count={Math.ceil(totalModuleCount / pageModuleCount)}
+            page={activePage}
             onChange={handlePageChange}
         />
     )
