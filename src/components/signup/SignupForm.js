@@ -575,7 +575,7 @@ const SignupForm = () => {
             creditsToMeet: setCreditsToMeet,
             creditsCompleted: "0",
             uncontributingCreditsCompleted: "0", // credits beyond any 2x random & 1x 4k+ mod
-            modulesTaken: []
+            //modulesTaken: []
           });
         }
         // if moduleGroup is a focusArea elective, set the following default credit requirements
@@ -584,7 +584,7 @@ const SignupForm = () => {
           setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
             creditsToMeet: setCreditsToMeet,
             creditsCompleted: "0",
-            modulesTaken: []
+            //modulesTaken: []
           });
         }
         // if moduleGroup is focusAreas_others
@@ -593,7 +593,7 @@ const SignupForm = () => {
           setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
             creditsToMeet: 0,
             creditsCompleted: 0,
-            modulesTaken: []
+            //modulesTaken: []
           });
         }
         // if moduleGroup is industryExperience
@@ -602,7 +602,7 @@ const SignupForm = () => {
           setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
             creditsToMeet: setCreditsToMeet,
             creditsCompleted: 0,
-            modulesTaken: []
+            //modulesTaken: []
           })
         }
         // if moduleGroup is any of the universityLevel subgroups
@@ -611,7 +611,7 @@ const SignupForm = () => {
           setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
             creditsToMeet: setCreditsToMeet,
             creditsCompleted: 0,
-            modulesTaken: [],
+            //modulesTaken: [],
             uLSubgroup_fulfilment: false
           })
         }
@@ -632,7 +632,7 @@ const SignupForm = () => {
                 setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
                   creditsToMeet: setCreditsToMeet,
                   creditsCompleted: "0",
-                  modulesTaken: []
+                  //modulesTaken: []
                 });
               }
             });
