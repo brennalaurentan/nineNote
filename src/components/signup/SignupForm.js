@@ -469,11 +469,12 @@ const SignupForm = () => {
     const querySnapshot = await getDocs(collectionRef);
     querySnapshot.forEach((doc) => {
         // each module in the database has the following details:
-        // moduleCode, moduleMC, moduleName
+        // moduleCode, moduleMC, moduleName, moduleCategory
         const newModule = {
             "moduleCode": doc.data().moduleCode,
             "moduleMC": doc.data().moduleMC,
-            "moduleName": doc.data().moduleName
+            "moduleName": doc.data().moduleName,
+            "moduleCategory": doc.data().moduleCategory
         }
         arrayOfModules.push(newModule);
     })
@@ -554,6 +555,14 @@ const SignupForm = () => {
       }
       setGradReqMaingroupCreditsToMeet();
 
+      async function setGradReqSpecialgroupFulfilment() {
+        // focusArea
+        setDoc(doc(db, `users/${currentUserEmail}/gradProgress/programme/breadthAndDepth`, "focusAreas"), {
+          focusAreas_fulfilment: false
+        });
+      }
+      setGradReqSpecialgroupFulfilment();
+
       // create fields to track user's credit progress in each of the module groups
       let moduleGroupIndex = 0; // moduleGroupIndex for both userCreditTrackerPathArray and moduleGroupsArray is the same
       userCreditTrackerPathArray.forEach((userModuleGroup) => {
@@ -602,7 +611,8 @@ const SignupForm = () => {
           setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
             creditsToMeet: setCreditsToMeet,
             creditsCompleted: 0,
-            modulesTaken: []
+            modulesTaken: [],
+            uLSubgroup_fulfilment: false
           })
         }
         // non-focusArea, fetch & set credit requirements from graduationProgress document in database
