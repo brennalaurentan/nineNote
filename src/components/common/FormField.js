@@ -32,7 +32,7 @@ const password_field = (field_name, onChangeAction) => <TextField
 
 const dropdown_field = (field_name, values, onChangeAction, value) =>
   <TextField
-    id="outlined-select-currency"
+    id="outlined-select"
     select
     label={field_name}
     onChange={onChangeAction}
