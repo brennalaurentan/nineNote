@@ -3,13 +3,16 @@
 // components / pages / images
 import RecommendedModulePill from '../module_recommender/RecommendedModulePill';
 import InformationDesc from './InformationDesc';
+import RecommendedModules from './RecommendedModules';
 
 // tools
-import React from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import _ from "lodash";
 import { Box, Typography, Stack } from '@mui/material';
-import RecommendedModules from './RecommendedModules';
+import { getDoc, getDocs, doc, collection } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth, db } from '../others/firebase';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -37,97 +40,141 @@ TabPanel.propTypes = {
     value: PropTypes.number.isRequired,
 };
 
-const item1 = {
-    moduleCode: "CS1231S",
-    moduleName: "Discrete Structures",
-    moduleMC: "4",
-    moduleCategory: "P",
-    moduleStats: "80% of students took this module last year.",
-}
-
-const item2 = {
-    moduleCode: "CS1101S",
-    moduleName: "Programming Methodology I",
-    moduleMC: "4",
-    moduleCategory: "P",
-    moduleStats: "90% of students took this module last year.",
-}
-
-const item3 = {
-    moduleCode: "IS1108",
-    moduleName: "Digital Ethics and Data Privacy",
-    moduleMC: "4",
-    moduleCategory: "P",
-    moduleStats: "70% of students took this module last year.",
-}
-
-const item4 = {
-    moduleCode: "CS2030S",
-    moduleName: "Programming Methodology II",
-    moduleMC: "4",
-    moduleCategory: "P",
-    moduleStats: "70% of students took this module last year.",
-}
-
-const item5 = {
-    moduleCode: "CS2040S",
-    moduleName: "Data Structures and Algorithms",
-    moduleMC: "4",
-    moduleCategory: "P",
-    moduleStats: "65% of students took this module last year.",
-}
-
-const item6 = {
-    moduleCode: "MA2001",
-    moduleName: "Linear Algebra",
-    moduleMC: "4",
-    moduleCategory: "P",
-    moduleStats: "60% of students took this module last year.",
-}
-
 const MyProfileTabContent = ({ value }) => {
-    const year1 = {
+    const [recommendedModulesBySemester, setRecommendedModulesBySemester] = useState({
         "Y1 S1": {
             title: "Y1 S1",
-            items: [item1, item2, item3]
+            items: []
         },
         "Y1 S2": {
             title: "Y1 S2",
-            items: [item4, item5, item6]
+            items: []
         },
-    }
-
-    const year2 = {
         "Y2 S1": {
             title: "Y2 S1",
-            items: [item1, item2, item3]
+            items: []
         },
         "Y2 S2": {
             title: "Y2 S2",
-            items: [item4, item5, item6]
+            items: []
         },
-    }
-
-    const year3 = {
         "Y3 S1": {
             title: "Y3 S1",
-            items: [item1, item2, item3]
+            items: []
         },
         "Y3 S2": {
             title: "Y3 S2",
-            items: [item4, item5, item6]
+            items: []
         },
-    }
-
-    const year4 = {
         "Y4 S1": {
             title: "Y4 S1",
-            items: [item1, item2, item3]
+            items: []
         },
         "Y4 S2": {
             title: "Y4 S2",
-            items: [item4, item5, item6]
+            items: []
         },
+    });
+
+    // function to retrieve recommended modules from firebase and update state
+    useEffect(() => {
+        async function retrieveRecommendedModules() {
+            const semestersDocumentRef = collection(db, `recommendedModules`);
+            const allSemestersDocumentSnapshot = await getDocs(semestersDocumentRef);
+            try {
+                let recommendedModulesForAllSemesters = {
+                    "Y1 S1": {
+                        title: "Y1 S1",
+                        items: []
+                    },
+                    "Y1 S2": {
+                        title: "Y1 S2",
+                        items: []
+                    },
+                    "Y2 S1": {
+                        title: "Y2 S1",
+                        items: []
+                    },
+                    "Y2 S2": {
+                        title: "Y2 S2",
+                        items: []
+                    },
+                    "Y3 S1": {
+                        title: "Y3 S1",
+                        items: []
+                    },
+                    "Y3 S2": {
+                        title: "Y3 S2",
+                        items: []
+                    },
+                    "Y4 S1": {
+                        title: "Y4 S1",
+                        items: []
+                    },
+                    "Y4 S2": {
+                        title: "Y4 S2",
+                        items: []
+                    },
+                };
+                allSemestersDocumentSnapshot.forEach(async semester => {
+                    const semesterLabel = semester.id.replace(/^(.{2})(.*)$/, "$1 $2");
+
+                    let modulesForThisSemester = [];
+                    let moduleIndex = 1;
+
+                    while (moduleIndex <= 3) {
+                        const moduleDetailsRef = doc(db, `recommendedModules/${semester.id}/module_${moduleIndex}`, "moduleDetails");
+                        const moduleDetailsSnap = await getDoc(moduleDetailsRef);
+                        const cohortStatisticsRef = doc(db, `recommendedModules/${semester.id}/module_${moduleIndex}`, "cohortStatistics");
+                        const cohortStatisticsSnap = await getDoc(cohortStatisticsRef);
+
+                        const enrollmentDecimal = cohortStatisticsSnap.data().cohortTaken / cohortStatisticsSnap.data().cohortSize * 100;
+                        const enrollmentPercentage = Math.round(enrollmentDecimal * 10) / 10;
+
+                        const newItem = {
+                            moduleCode: moduleDetailsSnap.data().moduleCode,
+                            moduleName: moduleDetailsSnap.data().moduleName,
+                            moduleMC: moduleDetailsSnap.data().moduleMC,
+                            moduleStats: enrollmentPercentage + "% of students took this module last year.",
+                        }
+                        modulesForThisSemester.push(newItem);
+                        moduleIndex++;
+                    }
+
+                    const newSemesterObject = {
+                        title: semesterLabel,
+                        items: modulesForThisSemester
+                    };
+                    recommendedModulesForAllSemesters[semesterLabel] = newSemesterObject;
+                    setRecommendedModulesBySemester(recommendedModulesForAllSemesters)
+                })
+                console.log("all recommended modules: ", recommendedModulesForAllSemesters);
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
+        retrieveRecommendedModules();
+    }, [])
+
+    // restructured data from retrieved recommended modules from firebase
+    const year1 = {
+        "Y1 S1": recommendedModulesBySemester['Y1 S1'],
+        "Y1 S2": recommendedModulesBySemester['Y1 S2'],
+    }
+
+    const year2 = {
+        "Y2 S1": recommendedModulesBySemester['Y2 S1'],
+        "Y2 S2": recommendedModulesBySemester['Y2 S2'],
+    }
+
+    const year3 = {
+        "Y2 S1": recommendedModulesBySemester['Y3 S1'],
+        "Y3 S2": recommendedModulesBySemester['Y3 S2'],
+    }
+
+    const year4 = {
+        "Y4 S1": recommendedModulesBySemester['Y4 S1'],
+        "Y4 S2": recommendedModulesBySemester['Y4 S2'],
     }
 
     return (
