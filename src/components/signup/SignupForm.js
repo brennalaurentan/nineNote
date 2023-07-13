@@ -558,10 +558,13 @@ const SignupForm = () => {
       async function setGradReqSpecialgroupFulfilment() {
         // focusArea
         setDoc(doc(db, `users/${currentUserEmail}/gradProgress/programme/breadthAndDepth`, "focusAreas"), {
-          focusAreas_fulfilment: false
+          focusAreas_fulfilment: false,
+          oneFocusAreaCompleted: false,
+          creditsCompleted: 0,
+          creditsToMeet: 20
         });
       }
-      setGradReqSpecialgroupFulfilment();
+      await setGradReqSpecialgroupFulfilment();
 
       // create fields to track user's credit progress in each of the module groups
       let moduleGroupIndex = 0; // moduleGroupIndex for both userCreditTrackerPathArray and moduleGroupsArray is the same
@@ -573,7 +576,7 @@ const SignupForm = () => {
           setCreditsToMeet = 12;
           setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
             creditsToMeet: setCreditsToMeet,
-            creditsCompleted: "0",
+            creditsCompleted: 0,
             fourKModTaken: false
             //modulesTaken: []
           });
@@ -602,6 +605,7 @@ const SignupForm = () => {
           setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
             creditsToMeet: setCreditsToMeet,
             creditsCompleted: 0,
+            industryExperience_fulfilment: false
             //modulesTaken: []
           })
         }
