@@ -574,7 +574,7 @@ const SignupForm = () => {
           setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
             creditsToMeet: setCreditsToMeet,
             creditsCompleted: "0",
-            uncontributingCreditsCompleted: "0", // credits beyond any 2x random & 1x 4k+ mod
+            fourKModTaken: false
             //modulesTaken: []
           });
         }

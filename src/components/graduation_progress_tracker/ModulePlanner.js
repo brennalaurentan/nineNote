@@ -338,7 +338,6 @@ const ModulePlanner = () => {
             console.log(error.message);
         }
     }
-    retrieveGradProgressCollectionPath("gorilla@gmail.com", "foundation");
 
     async function updateCompletedModulesArray(moduleCategory, collectionPath, moduleCode) {
         try {
