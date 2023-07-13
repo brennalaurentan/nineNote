@@ -28,8 +28,8 @@ const RecommendedModulePill = ({ moduleCode, moduleName, moduleMC, moduleStats, 
                                 justifyContent="center"
                                 paddingTop="3px"
                                 paddingBottom="3px"
-                                paddingLeft="3px"
-                                paddingRight="3px">
+                                paddingLeft="6px"
+                                paddingRight="6px">
                                 <Typography variant="tiny_tag_bold" color="dark_gray.main">{moduleMC} MCs</Typography>
                             </Box>
                         </Stack>
