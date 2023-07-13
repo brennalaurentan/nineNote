@@ -601,7 +601,7 @@ const SignupForm = () => {
         }
         // if moduleGroup is industryExperience
         else if (userModuleGroup.groupName.includes("industryExperience")) {
-          setCreditsToMeet = 6;
+          setCreditsToMeet = 12;
           setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
             creditsToMeet: setCreditsToMeet,
             creditsCompleted: 0,

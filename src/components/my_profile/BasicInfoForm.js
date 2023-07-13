@@ -132,7 +132,7 @@ const BasicInfoForm = () => {
   });
 
   // handles updated data to firebase based on user's new inputs
-  const [defaultMatriculationYearValue, setDefaultMatriculationYearValue] = useState('');
+  const [defaultMatriculationYearValue, setDefaultMatriculationYearValue] = useState("");
   const [matriculationYearArray, setMatriculationYearArray] = useState([]);
   const matriculationYearLabelList = matriculationYearArray.map(year => year.label);
   const [matriculationYear, setMatriculationYear] = useState("");
@@ -317,7 +317,11 @@ const BasicInfoForm = () => {
           type={"dropdown"}
           values={matriculationYearArray}
           value={defaultMatriculationYearValue}
-        // onChangeAction={event => setDefaultMatriculationYearValue(event.target.value)}
+          onChangeAction={(event) => {
+            console.log("defaultMatriculationYearValue: " + defaultMatriculationYearValue);
+            console.log("event.target.value: " + event.target.value);
+            /*setDefaultMatriculationYearValue(selectedMatriculationYearValue);*/
+          }}
         />
 
         {/* current/prospective course */}
