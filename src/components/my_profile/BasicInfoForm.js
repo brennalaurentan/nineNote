@@ -5,7 +5,7 @@ import FormField from '../common/FormField';
 import MainButton from '../common/MainButton';
 
 // tools
-import { Stack, Link, Typography, MenuItem, TextField, Box } from '@mui/material';
+import { Stack, Link, Typography } from '@mui/material';
 import { auth, db } from '../others/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { getDoc, doc, collection } from 'firebase/firestore';
@@ -126,21 +126,25 @@ const static_course = [
 ];
 
 const BasicInfoForm = () => {
-  const [user, setUser] = useState({});
-  onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
-  });
-
   // handles updated data to firebase based on user's new inputs
   const [defaultMatriculationYearValue, setDefaultMatriculationYearValue] = useState("");
+  const [defaultMatriculationYearLabel, setDefaultMatriculationYearLabel] = useState("");
   const [matriculationYearArray, setMatriculationYearArray] = useState([]);
   const matriculationYearLabelList = matriculationYearArray.map(year => year.label);
-  const [matriculationYear, setMatriculationYear] = useState("");
 
   const [defaultCourseValue, setDefaultCourseValue] = useState('');
   const [courseArray, setCourseArray] = useState([]);
   const courseLabelList = courseArray.map(course => course.label);
   const courseValueList = courseArray.map(course => course.value);
+
+  const [user, setUser] = useState({});
+
+  // function to get the currently signed-in user
+  useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+  }, [])
 
   // function to load all matriculation years from firebase (code section below is commented to avoid firebase quota)
   useEffect(() => {
@@ -247,6 +251,7 @@ const BasicInfoForm = () => {
         retrievedMatriculationYear.current = userData['matriculationYear'];
         const value = matriculationYearLabelList.indexOf(retrievedMatriculationYear.current) + 1;
         setDefaultMatriculationYearValue(value);
+        setDefaultMatriculationYearLabel(retrievedMatriculationYear.current);
         console.log("retrieved data: ", userData);
         console.log("year retrieved.current: ", retrievedMatriculationYear.current);
         console.log("year value: ", value);
@@ -255,7 +260,7 @@ const BasicInfoForm = () => {
       }
     }
     retrieveUserMatriculationYear();
-  })
+  }, [matriculationYearLabelList, user])
 
   // function to retrieve user's course from firebase and update state
   useEffect(() => {
@@ -275,12 +280,7 @@ const BasicInfoForm = () => {
       }
     }
     retrieveUserCourse();
-  })
-
-  const handleDropdownChange = (event) => {
-    console.log("selected year value: ", event.target.value);
-    setDefaultMatriculationYearValue(event.target.value);
-  }
+  }, [courseValueList, courseLabelList, user])
 
   // function to save user changes and update data in firebase
   const saveChanges = () => {
@@ -289,8 +289,7 @@ const BasicInfoForm = () => {
 
   return (
     <>
-      <Stack gap="32px" width="400px">
-
+      <Stack gap="32px">
         {/* email */}
         <Stack direction="row" gap="8px">
           <Typography variant="body_bold">Email Address: </Typography>
@@ -298,7 +297,7 @@ const BasicInfoForm = () => {
         </Stack>
 
         {/* password */}
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
+        <Stack direction="row" alignItems="center" justifyContent="space-between" width="400px">
           <Stack direction="row" gap="8px">
             <Typography variant="body_bold">Password: </Typography>
             <Typography variant="body_thin">Hidden</Typography>
@@ -306,6 +305,7 @@ const BasicInfoForm = () => {
           <Link href="/reset-password">
             <MainButton
               type="text"
+              main_color="blue.main"
               value="CHANGE PASSWORD"
             />
           </Link>
@@ -318,9 +318,7 @@ const BasicInfoForm = () => {
           values={matriculationYearArray}
           value={defaultMatriculationYearValue}
           onChangeAction={(event) => {
-            console.log("defaultMatriculationYearValue: " + defaultMatriculationYearValue);
-            console.log("event.target.value: " + event.target.value);
-            /*setDefaultMatriculationYearValue(selectedMatriculationYearValue);*/
+            setDefaultMatriculationYearValue(event.target.value);
           }}
         />
 
@@ -330,17 +328,20 @@ const BasicInfoForm = () => {
           type={"dropdown"}
           values={courseArray}
           value={defaultCourseValue}
-        // onChangeAction={(event) => {}}
+          onChangeAction={(event) => {
+            setDefaultCourseValue(event.target.value);
+          }}
         />
 
         <Link>
           <MainButton
             type="contained"
+            main_color="blue.main"
             value="SAVE CHANGES"
             onClickAction={saveChanges}
           />
         </Link>
-      </Stack>
+      </Stack >
     </>
   )
 }
