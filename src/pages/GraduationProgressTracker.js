@@ -10,19 +10,24 @@ import ModulePlanner from '../components/graduation_progress_tracker/ModulePlann
 import SnackBar from '../components/common/SnackBar';
 
 // tools
-import * as React from 'react';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Stack } from '@mui/material';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../components/others/firebase';
-import { useEffect } from 'react';
+import { db, auth } from '../components/others/firebase';
 
 const GraduationProgressTracker = () => {
+  // handles currently signed in user
+  const [user, setUser] = useState({});
 
-  const auth = getAuth();
-  const user = auth.currentUser;
-  const currentUserEmail = user.email;
+  // function to get the currently signed-in user
+  async function getCurrentUser() {
+    onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+  }
+  getCurrentUser();
 
   // edits to the variables below will be reflected in the progress rings
   //let ccr = 8;
@@ -32,12 +37,12 @@ const GraduationProgressTracker = () => {
   //let uer = 0;
   let uerTotal = 40;
 
-  const [ccr, setCCR] = React.useState();
-  const [pr, setPR] = React.useState();
-  const [uer, setUER] = React.useState();
+  const [ccr, setCCR] = useState();
+  const [pr, setPR] = useState();
+  const [uer, setUER] = useState();
 
   async function retrieveProgressFields() {
-    const gradProgressCollectionPath = `users/${currentUserEmail}/gradProgress`;
+    const gradProgressCollectionPath = `users/${user.email}/gradProgress`;
     const gradProgressCollection = collection(db, gradProgressCollectionPath);
     const gradProgressQuerySnapshot = await getDocs(gradProgressCollection);
     gradProgressQuerySnapshot.forEach((mainModuleGroup) => {
@@ -61,31 +66,31 @@ const GraduationProgressTracker = () => {
   let totalNumerator = ccr + pr + uer;
   let totalDenominator = ccrTotal + prTotal + uerTotal;
 
-    return (
-      <>
-        <Helmet>
-          <title>nineNote | Graduation Progress Tracker</title>
-        </Helmet>
-        <MainNavbar />
-        <SnackBar type="success" text="You have logged in successfully." />
-        <Stack direction="row" gap="64px" padding="56px">
-          <Stack gap="56px">
-            <CreditsSelected
-              ccr={ccr}
-              ccrTotal={ccrTotal}
-              pr={pr}
-              prTotal={prTotal}
-              uer={uer}
-              uerTotal={uerTotal} />
-            <GraduationStatus
-              numerator={totalNumerator}
-              denominator={totalDenominator} />
-            <ModuleExemptions />
-          </Stack>
-          <ModulePlanner />
+  return (
+    <>
+      <Helmet>
+        <title>nineNote | Graduation Progress Tracker</title>
+      </Helmet>
+      <MainNavbar />
+      <SnackBar type="success" text="You have logged in successfully." />
+      <Stack direction="row" gap="64px" padding="56px">
+        <Stack gap="56px">
+          <CreditsSelected
+            ccr={ccr}
+            ccrTotal={ccrTotal}
+            pr={pr}
+            prTotal={prTotal}
+            uer={uer}
+            uerTotal={uerTotal} />
+          <GraduationStatus
+            numerator={totalNumerator}
+            denominator={totalDenominator} />
+          <ModuleExemptions />
         </Stack>
-      </>
-    )
+        <ModulePlanner />
+      </Stack>
+    </>
+  )
 }
 
 export default GraduationProgressTracker
