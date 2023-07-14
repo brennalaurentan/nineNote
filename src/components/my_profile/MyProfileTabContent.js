@@ -2,16 +2,18 @@
 
 // components / pages / images
 import BasicInfoForm from './BasicInfoForm';
-import PolytechnicRadioGroup from './PolytechnicRadioGroup';
 import ModuleExemptionTable from './ModuleExemptionTable';
-import MA1301ExemptionTable from './MA1301ExemptionTable';
 import AlertDisplay from './AlertDisplay';
 import profile_image from '../../graphics/profile_image.png';
 
 // tools
-import React from 'react';
+import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Typography, Stack, Chip } from '@mui/material';
+import { auth, db } from '../others/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { getDoc, doc } from 'firebase/firestore';
+
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -155,6 +157,40 @@ const exemptedModulesData = [
 ];
 
 const MyProfileTabContent = ({ value }) => {
+    // handles currently signed-in user
+    const [user, setUser] = useState({});
+
+    // function to get the currently signed-in user
+    useEffect(() => {
+        onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+        });
+    }, [])
+
+    // handles user's course based on user's course retrieved from firebase
+    const [courseLabel, setCourseLabel] = useState('');
+
+    // local variable of user's course retrieved from firebase
+    const retrievedCourseLabel = useRef("");
+
+    // function to retrieve user's course from firebase and update state
+    useEffect(() => {
+        async function retrieveUserCourseLabel() {
+            const docRef = doc(db, "users", `${user.email}`);
+            const docSnap = await getDoc(docRef);
+            try {
+                const userData = docSnap.data();
+                retrievedCourseLabel.current = userData['course'];
+                setCourseLabel(retrievedCourseLabel.current);
+                console.log("retrieved data: ", userData);
+                console.log("course retrieved.current: ", retrievedCourseLabel.current);
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
+        retrieveUserCourseLabel();
+    }, [user])
+
     return (
         <>
             {/* Tab 1 */}
@@ -169,7 +205,7 @@ const MyProfileTabContent = ({ value }) => {
                             </Stack>
                         </Box>
                     </Stack>
-                    <BasicInfoForm />
+                    <BasicInfoForm courseLabel={courseLabel}/>
                 </Stack>
             </TabPanel>
 
@@ -199,7 +235,7 @@ const MyProfileTabContent = ({ value }) => {
                                 paddingBottom="6px"
                                 paddingLeft="3px"
                                 paddingRight="3px">
-                                <Typography variant="tag_bold" color="blue.main">Computer Science</Typography>
+                                <Typography variant="tag_bold" color="blue.main">{courseLabel}</Typography>
                             </Box>
                         </Stack>
                         <Typography variant="body_thin">You may change your target course under <b>Basic Information</b> in <b>My Profile</b>!</Typography>
