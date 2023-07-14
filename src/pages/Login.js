@@ -12,7 +12,7 @@ import { Helmet } from 'react-helmet';
 import { Box } from '@mui/material';
 
 
-const Login = () => {
+const Login = ({ setLoginToGPTSnackBar }) => {
   return (
     <>
       <Helmet>
@@ -28,7 +28,7 @@ const Login = () => {
           height="85vh"
           gap={["50px", "300px"]}
         >
-          <LoginForm />
+          <LoginForm setLoginToGPTSnackBar={setLoginToGPTSnackBar}/>
           <Box width={["50vw", "30vw"]}>
             <img src={login_image} alt="Logo" width="100%" />
           </Box>

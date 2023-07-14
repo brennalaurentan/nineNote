@@ -12,12 +12,12 @@ import SnackBar from '../components/common/SnackBar';
 // tools
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Stack } from '@mui/material';
+import { Stack, Snackbar, Alert, Typography } from '@mui/material';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
 import { db, auth } from '../components/others/firebase';
 
-const GraduationProgressTracker = () => {
+const GraduationProgressTracker = ({ loginToGPTSnackBar, setLoginToGPTSnackBar }) => {
   // handles currently signed in user
   const [user, setUser] = useState({});
 
@@ -28,6 +28,13 @@ const GraduationProgressTracker = () => {
     });
   }
   getCurrentUser();
+
+  const handleCloseSnackBar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setLoginToGPTSnackBar(false);
+  };
 
   // edits to the variables below will be reflected in the progress rings
   //let ccr = 8;
@@ -72,7 +79,6 @@ const GraduationProgressTracker = () => {
         <title>nineNote | Graduation Progress Tracker</title>
       </Helmet>
       <MainNavbar />
-      <SnackBar type="success" text="You have logged in successfully." />
       <Stack direction="row" gap="64px" padding="56px">
         <Stack gap="56px">
           <CreditsSelected
@@ -89,6 +95,21 @@ const GraduationProgressTracker = () => {
         </Stack>
         <ModulePlanner />
       </Stack>
+
+      {/* SUCCESS SNACKBAR */}
+      {/* snackbar displays only when user enters graduation progress tracker from login */}
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={loginToGPTSnackBar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackBar}
+      >
+        <Alert severity="success" sx={{ width: "100%" }}>
+          <Typography variant="tag_thin">
+            Logged in successfully.
+          </Typography>
+        </Alert>
+      </Snackbar>
     </>
   )
 }
