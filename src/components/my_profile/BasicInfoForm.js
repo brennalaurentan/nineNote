@@ -342,7 +342,7 @@ const deleteAccountDocumentsArray = [
   },
 ];
 
-const BasicInfoForm = () => {
+const BasicInfoForm = ({ setOpenDeleteAccountSnackBar }) => {
   const navigate = useNavigate();
 
   // handles updated data to firebase based on user's new inputs
@@ -545,6 +545,7 @@ const BasicInfoForm = () => {
         return "";
       });
 
+      setOpenDeleteAccountSnackBar(true);
       navigate("/");
       await deleteDoc(userRef);
       await user.delete();

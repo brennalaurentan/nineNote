@@ -12,7 +12,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../others/firebase';
 import { useNavigate } from 'react-router-dom';
 
-const LoginForm = ({ setOpenLoginToGPTSnackBar }) => {
+const LoginForm = ({ setOpenLoginSuccessSnackBar }) => {
   const navigate = useNavigate();
   const [loginEmail, setLoginEmail] = useState(null);
   const [loginPassword, setLoginPassword] = useState(null);
@@ -41,7 +41,7 @@ const LoginForm = ({ setOpenLoginToGPTSnackBar }) => {
       console.log(loginPassword);
       const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
       navigate('/graduation-progress-tracker');
-      setOpenLoginToGPTSnackBar(true);
+      setOpenLoginSuccessSnackBar(true);
       console.log(user);
     } catch (error) {
       console.log(error.message);

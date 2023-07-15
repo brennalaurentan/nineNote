@@ -156,7 +156,7 @@ const exemptedModulesData = [
     }
 ];
 
-const MyProfileTabContent = ({ value }) => {
+const MyProfileTabContent = ({ value, setOpenDeleteAccountSnackBar }) => {
     // handles currently signed-in user
     const [user, setUser] = useState({});
 
@@ -205,7 +205,7 @@ const MyProfileTabContent = ({ value }) => {
                             </Stack>
                         </Box>
                     </Stack>
-                    <BasicInfoForm courseLabel={courseLabel}/>
+                    <BasicInfoForm courseLabel={courseLabel} setOpenDeleteAccountSnackBar={setOpenDeleteAccountSnackBar} />
                 </Stack>
             </TabPanel>
 

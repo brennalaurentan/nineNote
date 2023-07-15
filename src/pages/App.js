@@ -20,25 +20,36 @@ import { useState } from 'react';
 
 function App() {
   // const ref = firebase.firestore().collection("users");
-  const [openLoginToGPTSnackBar, setOpenLoginToGPTSnackBar] = useState(false);
+  const [openLoginSuccessSnackBar, setOpenLoginSuccessSnackBar] = useState(false);
+  const [openDeleteAccountSnackBar, setOpenDeleteAccountSnackBar] = useState(false);
 
   return (
     <>
       <ThemeProvider theme={CustomisedTheme}>
         <Routes>
-          <Route path="/" element={<Login setOpenLoginToGPTSnackBar={setOpenLoginToGPTSnackBar} />} />
+          <Route
+            path="/"
+            element={<Login
+              setOpenLoginSuccessSnackBar={setOpenLoginSuccessSnackBar}
+              openDeleteAccountSnackBar={openDeleteAccountSnackBar}
+              setOpenDeleteAccountSnackBar={setOpenDeleteAccountSnackBar} />}
+          />
           <Route path="/signup" element={<Signup />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/reset-link-sent" element={<ResetLinkSent />} />
           <Route
             path="/graduation-progress-tracker"
             element={<GraduationProgressTracker
-              openLoginToGPTSnackBar={openLoginToGPTSnackBar}
-              setOpenLoginToGPTSnackBar={setOpenLoginToGPTSnackBar} />}
+              openLoginSuccessSnackBar={openLoginSuccessSnackBar}
+              setOpenLoginSuccessSnackBar={setOpenLoginSuccessSnackBar} />}
           />
           <Route path="/module-recommender" element={<ModuleRecommender />} />
           <Route path="/module-resource-directory" element={<ModuleResourceDirectory />} />
-          <Route path="/my-profile" element={<MyProfile />} />
+          <Route
+            path="/my-profile"
+            element={<MyProfile
+              setOpenDeleteAccountSnackBar={setOpenDeleteAccountSnackBar} />}
+          />
         </Routes>
       </ThemeProvider>
     </>

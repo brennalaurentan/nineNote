@@ -17,7 +17,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
 import { db, auth } from '../components/others/firebase';
 
-const GraduationProgressTracker = ({ openLoginToGPTSnackBar, setOpenLoginToGPTSnackBar }) => {
+const GraduationProgressTracker = ({ openLoginSuccessSnackBar, setOpenLoginSuccessSnackBar }) => {
   // handles currently signed in user
   const [user, setUser] = useState({});
 
@@ -33,7 +33,7 @@ const GraduationProgressTracker = ({ openLoginToGPTSnackBar, setOpenLoginToGPTSn
     if (reason === 'clickaway') {
       return;
     }
-    setOpenLoginToGPTSnackBar(false);
+    setOpenLoginSuccessSnackBar(false);
   };
 
   // edits to the variables below will be reflected in the progress rings
@@ -110,7 +110,7 @@ const GraduationProgressTracker = ({ openLoginToGPTSnackBar, setOpenLoginToGPTSn
       {/* snackbar displays only when user enters graduation progress tracker from login */}
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={openLoginToGPTSnackBar}
+        open={openLoginSuccessSnackBar}
         autoHideDuration={3000}
         onClose={handleCloseSnackBar}
       >
