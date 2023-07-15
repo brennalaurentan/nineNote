@@ -5,7 +5,7 @@ import FormField from '../common/FormField';
 import MainButton from '../common/MainButton';
 
 // tools
-import { Stack, Link, Typography } from '@mui/material';
+import { Stack, Link, Typography, Snackbar, Alert } from '@mui/material';
 import { auth, db } from '../others/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { getDoc, doc, collection, updateDoc } from 'firebase/firestore';
@@ -136,6 +136,17 @@ const BasicInfoForm = () => {
   const [courseArray, setCourseArray] = useState([]);
 
   const [user, setUser] = useState({});
+
+  // snackbar states
+  const [openSaveChangesSnackBar, setOpenSaveChangesSnackBar] = useState(false);
+
+  const handleCloseSnackBar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSaveChangesSnackBar(false);
+  };
+  
 
   // function to get the currently signed-in user
   useEffect(() => {
@@ -297,6 +308,7 @@ const BasicInfoForm = () => {
         matriculationYear: matriculationYearLabel,
         course: courseLabel,
       });
+      setOpenSaveChangesSnackBar(true);
       console.log("changes saved!");
     } catch (error) {
       console.log(error.message);
@@ -343,7 +355,7 @@ const BasicInfoForm = () => {
                 selectedMatriculationYearLabel = matriculationYear.label;
               }
             }
-            console.log("selected matriculation year label: " + selectedMatriculationYearLabel);
+            console.log("SELECTED MATRICULATION YEAR LABEL: " + selectedMatriculationYearLabel);
             setMatriculationYearLabel(selectedMatriculationYearLabel);
           }}
         />
@@ -364,7 +376,7 @@ const BasicInfoForm = () => {
                 selectedCourseLabel = course.label;
               }
             }
-            console.log("selected course label: " + selectedCourseLabel);
+            console.log("SELECTED COURSE LABEL: " + selectedCourseLabel);
             setCourseLabel(selectedCourseLabel);
           }}
         />
@@ -378,6 +390,21 @@ const BasicInfoForm = () => {
           />
         </Link>
       </Stack >
+
+      {/* SUCCESS SNACKBAR */}
+      {/* snackbar displays only when user's changes are saved successfully */}
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openSaveChangesSnackBar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackBar}
+      >
+        <Alert severity="success" sx={{ width: "100%" }}>
+          <Typography variant="tag_thin">
+            Changes have been saved successfully.
+          </Typography>
+        </Alert>
+      </Snackbar>
     </>
   )
 }
