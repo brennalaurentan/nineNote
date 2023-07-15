@@ -8,7 +8,7 @@ import MainButton from '../common/MainButton';
 import { Stack, Link, Typography } from '@mui/material';
 import { auth, db } from '../others/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { getDoc, doc, collection } from 'firebase/firestore';
+import { getDoc, doc, collection, updateDoc } from 'firebase/firestore';
 import { useEffect, useState, useRef } from 'react';
 
 const static_matriculation_year = [
@@ -127,15 +127,13 @@ const static_course = [
 
 const BasicInfoForm = () => {
   // handles updated data to firebase based on user's new inputs
-  const [defaultMatriculationYearValue, setDefaultMatriculationYearValue] = useState("");
-  const [defaultMatriculationYearLabel, setDefaultMatriculationYearLabel] = useState("");
+  const [matriculationYearValue, setMatriculationYearValue] = useState("");
+  const [matriculationYearLabel, setMatriculationYearLabel] = useState("");
   const [matriculationYearArray, setMatriculationYearArray] = useState([]);
-  const matriculationYearLabelList = matriculationYearArray.map(year => year.label);
 
-  const [defaultCourseValue, setDefaultCourseValue] = useState('');
+  const [courseValue, setCourseValue] = useState("");
+  const [courseLabel, setCourseLabel] = useState("");
   const [courseArray, setCourseArray] = useState([]);
-  const courseLabelList = courseArray.map(course => course.label);
-  const courseValueList = courseArray.map(course => course.value);
 
   const [user, setUser] = useState({});
 
@@ -227,6 +225,11 @@ const BasicInfoForm = () => {
           "label": "Computer Science"
         }
         courseArray.push(newElement);
+        newElement = {
+          "value": "SOC2",
+          "label": "Business Analytics"
+        }
+        courseArray.push(newElement);
         setCourseArray(courseArray);
       } catch (error) {
         console.log(error.message);
@@ -244,14 +247,15 @@ const BasicInfoForm = () => {
   // function to retrieve user's matriculation year from firebase and update state
   useEffect(() => {
     async function retrieveUserMatriculationYear() {
-      const docRef = doc(db, "users", `${user.email}`);
-      const docSnap = await getDoc(docRef);
+      const userRef = doc(db, "users", `${user.email}`);
+      const userSnap = await getDoc(userRef);
       try {
-        const userData = docSnap.data();
+        const userData = userSnap.data();
         retrievedMatriculationYear.current = userData['matriculationYear'];
+        const matriculationYearLabelList = matriculationYearArray.map(year => year.label);
         const value = matriculationYearLabelList.indexOf(retrievedMatriculationYear.current) + 1;
-        setDefaultMatriculationYearValue(value);
-        setDefaultMatriculationYearLabel(retrievedMatriculationYear.current);
+        setMatriculationYearValue(value);
+        setMatriculationYearLabel(retrievedMatriculationYear.current);
         console.log("retrieved data: ", userData);
         console.log("year retrieved.current: ", retrievedMatriculationYear.current);
         console.log("year value: ", value);
@@ -260,18 +264,21 @@ const BasicInfoForm = () => {
       }
     }
     retrieveUserMatriculationYear();
-  }, [matriculationYearLabelList, user])
+  }, [matriculationYearArray, user])
 
   // function to retrieve user's course from firebase and update state
   useEffect(() => {
     async function retrieveUserCourse() {
-      const docRef = doc(db, "users", `${user.email}`);
-      const docSnap = await getDoc(docRef);
+      const userRef = doc(db, "users", `${user.email}`);
+      const userSnap = await getDoc(userRef);
       try {
-        const userData = docSnap.data();
+        const userData = userSnap.data();
         retrievedCourse.current = userData['course'];
+        const courseLabelList = courseArray.map(course => course.label);
+        const courseValueList = courseArray.map(course => course.value);
         const value = courseValueList[courseLabelList.indexOf(retrievedCourse.current)];
-        setDefaultCourseValue(value);
+        setCourseValue(value);
+        setCourseLabel(retrievedCourse.current);
         console.log("retrieved data: ", userData);
         console.log("course retrieved.current: ", retrievedCourse.current);
         console.log("course value: ", value);
@@ -280,11 +287,20 @@ const BasicInfoForm = () => {
       }
     }
     retrieveUserCourse();
-  }, [courseValueList, courseLabelList, user])
+  }, [courseArray, user])
 
   // function to save user changes and update data in firebase
-  const saveChanges = () => {
-    console.log("changes saved!");
+  async function saveChanges() {
+    try {
+      const userRef = doc(db, "users", `${user.email}`);
+      await updateDoc(userRef, {
+        matriculationYear: matriculationYearLabel,
+        course: courseLabel,
+      });
+      console.log("changes saved!");
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
   return (
@@ -316,9 +332,19 @@ const BasicInfoForm = () => {
           field_name={"Matriculation Year"}
           type={"dropdown"}
           values={matriculationYearArray}
-          value={defaultMatriculationYearValue}
+          value={matriculationYearValue}
           onChangeAction={(event) => {
-            setDefaultMatriculationYearValue(event.target.value);
+            setMatriculationYearValue(event.target.value);
+            console.log("SELECTED MATRICULATION YEAR VALUE: ", event.target.value);
+
+            let selectedMatriculationYearLabel = "";
+            for (const matriculationYear of matriculationYearArray) {
+              if (matriculationYear.value === event.target.value) {
+                selectedMatriculationYearLabel = matriculationYear.label;
+              }
+            }
+            console.log("selected matriculation year label: " + selectedMatriculationYearLabel);
+            setMatriculationYearLabel(selectedMatriculationYearLabel);
           }}
         />
 
@@ -327,9 +353,19 @@ const BasicInfoForm = () => {
           field_name={"Current/Prospective Course"}
           type={"dropdown"}
           values={courseArray}
-          value={defaultCourseValue}
+          value={courseValue}
           onChangeAction={(event) => {
-            setDefaultCourseValue(event.target.value);
+            setCourseValue(event.target.value);
+            console.log("SELECTED COURSE VALUE: ", event.target.value);
+
+            let selectedCourseLabel = "";
+            for (const course of courseArray) {
+              if (course.value === event.target.value) {
+                selectedCourseLabel = course.label;
+              }
+            }
+            console.log("selected course label: " + selectedCourseLabel);
+            setCourseLabel(selectedCourseLabel);
           }}
         />
 
