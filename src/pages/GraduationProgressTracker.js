@@ -49,20 +49,30 @@ const GraduationProgressTracker = ({ openLoginToGPTSnackBar, setOpenLoginToGPTSn
   const [uer, setUER] = useState();
 
   async function retrieveProgressFields() {
-    const gradProgressCollectionPath = `users/${user.email}/gradProgress`;
+    const currentUserEmail = user.email;
+    const gradProgressCollectionPath = `users/${currentUserEmail}/gradProgress`;
     const gradProgressCollection = collection(db, gradProgressCollectionPath);
     const gradProgressQuerySnapshot = await getDocs(gradProgressCollection);
     gradProgressQuerySnapshot.forEach((mainModuleGroup) => {
       if (mainModuleGroup.id === "commonCurriculum") {
-        setCCR(mainModuleGroup.data().creditsCompleted);
+        const ccrCreditsCompleted = mainModuleGroup.data().creditsCompleted;
+        ccrCreditsCompleted > ccrTotal
+          ? setCCR(ccrTotal)
+          : setCCR(ccrCreditsCompleted);
         console.log("ccr is " + ccr);
       }
       else if (mainModuleGroup.id === "programme") {
-        setPR(mainModuleGroup.data().creditsCompleted);
+        const prCreditsCompleted = mainModuleGroup.data().creditsCompleted;
+        prCreditsCompleted > prTotal
+          ? setPR(prTotal)
+          : setPR(prCreditsCompleted);
         console.log("pr is " + pr);
       }
       else if (mainModuleGroup.id === "unrestrictedElectives") {
-        setUER(mainModuleGroup.data().creditsCompleted);
+        const uerCreditsCompleted = mainModuleGroup.data().creditsCompleted;
+        uerCreditsCompleted > uerTotal
+          ? setUER(uerTotal)
+          : setUER(uerCreditsCompleted);
         console.log("uer is " + uer);
       }
     });
