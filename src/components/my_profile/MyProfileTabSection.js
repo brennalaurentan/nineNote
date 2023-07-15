@@ -44,7 +44,7 @@ function a11yProps(index) {
   };
 }
 
-const MyProfileTabSection = () => {
+const MyProfileTabSection = ({ setOpenDeleteAccountSnackBar }) => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -67,7 +67,7 @@ const MyProfileTabSection = () => {
             <CustomisedTab label="Module Exemptions" {...a11yProps(1)} />
           </CustomisedTabs>
         </Stack>
-        <MyProfileTabContent value={value} />
+        <MyProfileTabContent value={value} setOpenDeleteAccountSnackBar={setOpenDeleteAccountSnackBar}/>
       </Box>
     </>
   );

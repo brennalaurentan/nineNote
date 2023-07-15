@@ -11,7 +11,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../components/others/firebase';
 import { useState } from 'react';
 
-const MyProfile = () => {
+const MyProfile = ({ setOpenDeleteAccountSnackBar }) => {
 
   /*
   const auth = getAuth();
@@ -35,7 +35,7 @@ const MyProfile = () => {
         <title>nineNote | My Profile</title>
       </Helmet>
       <MainNavbar />
-      <MyProfileTabSection />
+      <MyProfileTabSection setOpenDeleteAccountSnackBar={setOpenDeleteAccountSnackBar}/>
     </>
   )
 }
