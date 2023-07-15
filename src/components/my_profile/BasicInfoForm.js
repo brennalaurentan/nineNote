@@ -3,13 +3,15 @@
 // components / pages / images
 import FormField from '../common/FormField';
 import MainButton from '../common/MainButton';
+import DeleteAccountDialog from '../my_profile/DeleteAccountDialog';
 
 // tools
 import { Stack, Link, Typography, Snackbar, Alert } from '@mui/material';
 import { auth, db } from '../others/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { getDoc, doc, collection, updateDoc } from 'firebase/firestore';
+import { getDoc, doc, collection, updateDoc, deleteDoc } from 'firebase/firestore';
 import { useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const static_matriculation_year = [
   {
@@ -125,7 +127,224 @@ const static_course = [
   },
 ];
 
+const deleteAccountDocumentsArray = [
+  {
+    groupName: "computingEthics",
+    collectionPath: '/gradProgress/commonCurriculum/computingEthics'
+  },
+  {
+    groupName: "crossdisciplinaryEducation",
+    collectionPath: '/gradProgress/commonCurriculum/crossdisciplinaryEducation'
+  },
+  {
+    groupName: "interdisciplinaryEducation",
+    collectionPath: '/gradProgress/commonCurriculum/interdisciplinaryEducation'
+  },
+  {
+    groupName: "communitiesAndEngagement",
+    collectionPath: '/gradProgress/commonCurriculum/universityLevel'
+  },
+  {
+    groupName: "critiqueAndExpression",
+    collectionPath: '/gradProgress/commonCurriculum/universityLevel'
+  },
+  {
+    groupName: "culturesAndConnections",
+    collectionPath: '/gradProgress/commonCurriculum/universityLevel'
+  },
+  {
+    groupName: "dataLiteracy",
+    collectionPath: '/gradProgress/commonCurriculum/universityLevel'
+  },
+  {
+    groupName: "digitalLiteracy",
+    collectionPath: '/gradProgress/commonCurriculum/universityLevel'
+  },
+  {
+    groupName: "singaporeStudies",
+    collectionPath: '/gradProgress/commonCurriculum/universityLevel'
+  },
+  {
+    groupName: "commonCurriculum",
+    collectionPath: '/gradProgress'
+  },
+  {
+    groupName: "algorithmsAndTheory_electives",
+    collectionPath: '/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+    groupName: "algorithmsAndTheory_primaries",
+    collectionPath: '/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+    groupName: "artificialIntelligence_electives",
+    collectionPath: '/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+    groupName: "artificialIntelligence_primaries",
+    collectionPath: '/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+    groupName: "computerGraphicsAndGames_electives",
+    collectionPath: '/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+    groupName: "computerGraphicsAndGames_primaries",
+    collectionPath: '/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+    groupName: "computerSecurity_electives",
+    collectionPath: '/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+    groupName: "computerSecurity_primaries",
+    collectionPath: '/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+    groupName: "databaseSystems_electives",
+    collectionPath: '/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+    groupName: "databaseSystems_primaries",
+    collectionPath: '/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+    groupName: "multimediaInformationRetrieval_electives",
+    collectionPath: '/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+    groupName: "multimediaInformationRetrieval_primaries",
+    collectionPath: '/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+    groupName: "networkingAndDistributedSystems_electives",
+    collectionPath: '/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+    groupName: "networkingAndDistributedSystems_primaries",
+    collectionPath: '/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+    groupName: "focusAreas_others",
+    collectionPath: '/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+    groupName: "parallelComputing_electives",
+    collectionPath: '/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+    groupName: "parallelComputing_primaries",
+    collectionPath: '/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+    groupName: "programmingLanguages_electives",
+    collectionPath: '/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+    groupName: "programmingLanguages_primaries",
+    collectionPath: '/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+    groupName: "softwareEngineering_electives",
+    collectionPath: '/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+    groupName: "softwareEngineering_primaries",
+    collectionPath: '/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+  },
+  {
+    groupName: "focusAreas",
+    collectionPath: '/gradProgress/programme/breadthAndDepth'
+  },
+  {
+    groupName: "industryExperience",
+    collectionPath: '/gradProgress/programme/breadthAndDepth'
+  },
+  {
+    groupName: "foundation",
+    collectionPath: '/gradProgress/programme/foundation'
+  },
+  {
+    groupName: "mathematicsAndSciences",
+    collectionPath: '/gradProgress/programme/mathematicsAndSciences'
+  },
+  {
+    groupName: "programme",
+    collectionPath: '/gradProgress'
+  },
+  {
+    groupName: "unrestrictedElectives",
+    collectionPath: '/gradProgress'
+  },
+  {
+    groupName: "Y1S1",
+    collectionPath: '/modules'
+  },
+  {
+    groupName: "Y1S2",
+    collectionPath: '/modules'
+  },
+  {
+    groupName: "Y1ST1",
+    collectionPath: '/modules'
+  },
+  {
+    groupName: "Y1ST2",
+    collectionPath: '/modules'
+  },
+  {
+    groupName: "Y2S1",
+    collectionPath: '/modules'
+  },
+  {
+    groupName: "Y2S2",
+    collectionPath: '/modules'
+  },
+  {
+    groupName: "Y2ST1",
+    collectionPath: '/modules'
+  },
+  {
+    groupName: "Y2ST2",
+    collectionPath: '/modules'
+  },
+  {
+    groupName: "Y3S1",
+    collectionPath: '/modules'
+  },
+  {
+    groupName: "Y3S2",
+    collectionPath: '/modules'
+  },
+  {
+    groupName: "Y3ST1",
+    collectionPath: '/modules'
+  },
+  {
+    groupName: "Y3ST2",
+    collectionPath: '/modules'
+  },
+  {
+    groupName: "Y4S1",
+    collectionPath: '/modules'
+  },
+  {
+    groupName: "Y4S2",
+    collectionPath: '/modules'
+  },
+  {
+    groupName: "Y4ST1",
+    collectionPath: '/modules'
+  },
+  {
+    groupName: "Y4ST2",
+    collectionPath: '/modules'
+  },
+];
+
 const BasicInfoForm = () => {
+  const navigate = useNavigate();
+
   // handles updated data to firebase based on user's new inputs
   const [matriculationYearValue, setMatriculationYearValue] = useState("");
   const [matriculationYearLabel, setMatriculationYearLabel] = useState("");
@@ -146,7 +365,7 @@ const BasicInfoForm = () => {
     }
     setOpenSaveChangesSnackBar(false);
   };
-  
+
 
   // function to get the currently signed-in user
   useEffect(() => {
@@ -315,6 +534,26 @@ const BasicInfoForm = () => {
     }
   }
 
+  // function to delete user's account from firebase
+  async function deleteAccount() {
+    try {
+      const userRef = doc(db, "users", `${user.email}`);
+
+      deleteAccountDocumentsArray.map(document => {
+        const deleteDocRef = doc(db, userRef.path + document.collectionPath, document.groupName);
+        deleteDoc(deleteDocRef);
+        return "";
+      });
+
+      navigate("/");
+      await deleteDoc(userRef);
+      await user.delete();
+      console.log("account deleted!");
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
   return (
     <>
       <Stack gap="32px">
@@ -334,6 +573,7 @@ const BasicInfoForm = () => {
             <MainButton
               type="text"
               main_color="blue.main"
+              hover_color="blue.light"
               value="CHANGE PASSWORD"
             />
           </Link>
@@ -381,14 +621,23 @@ const BasicInfoForm = () => {
           }}
         />
 
-        <Link>
-          <MainButton
-            type="contained"
-            main_color="blue.main"
-            value="SAVE CHANGES"
-            onClickAction={saveChanges}
+        <Stack direction="row" justifyContent="space-between">
+          <DeleteAccountDialog
+            button_text="DELETE ACCOUNT"
+            header="Delete Account"
+            text="Once your account is deleted, your user data and module 
+            selections will be removed from nineNote's database."
+            deleteAccount={deleteAccount}
           />
-        </Link>
+          <Link>
+            <MainButton
+              type="contained"
+              main_color="blue.main"
+              value="SAVE CHANGES"
+              onClickAction={saveChanges}
+            />
+          </Link>
+        </Stack>
       </Stack >
 
       {/* SUCCESS SNACKBAR */}
