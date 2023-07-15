@@ -369,6 +369,12 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
       moduleMC: '12',
       moduleCategory: 'industryExperience'
     },
+    {
+      moduleCode: 'IE0002',
+      moduleName: 'Sample industryExperience Module',
+      moduleMC: '4',
+      moduleCategory: 'industryExperience'
+    },
   ];
 
   const moduleCodeList = moduleList.map(module => module.moduleCode);
@@ -444,24 +450,23 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
     querySnapshot.forEach((group) => {
       // groups are: commonCurriculum, programme, unrestrictedElectives. We want commonCurriculum
       if (group.id === "commonCurriculum") {
-        if (group.data().computingEthics_fulfilment === true) {
-          if (group.data().crossdisciplinaryEducation_fulfilment === true) {
-            if (group.data().interdisciplinaryEducation_fulfilment === true) {
-              if (group.data().universityLevel_fulfilment === true) {
-                updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "commonCurriculum"), {
-                  overall_fulfilment: true
-                })
-                return true;
-              }
-            }
-          }
+        if (group.data().computingEthics_fulfilment === true &&
+            group.data().crossdisciplinaryEducation_fulfilment === true &&
+            group.data().interdisciplinaryEducation_fulfilment === true &&
+            group.data().universityLevel_fulfilment === true) {
+              updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "commonCurriculum"), {
+                overall_fulfilment: true
+              })
+              return true;
+        }
+        else {
+          updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "commonCurriculum"), {
+            overall_fulfilment: false
+          })
+          return false;
         }
       }
-      updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "commonCurriculum"), {
-        overall_fulfilment: false
-      })
-      return false;
-    })
+    });
   }
 
   // function which checks the programme subgroup requirements
@@ -472,21 +477,21 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
     querySnapshot.forEach((group) => {
       // groups are: commonCurriculum, programme, unrestrictedElectives. We want programme
       if (group.id === "programme") {
-        if (group.data().breadthAndDepth_fulfilment === true) {
-          if (group.data().foundation_fulfilment === true) {
-            if (group.data().mathematicsAndSciences_fulfilment === true) {
+        if (group.data().breadthAndDepth_fulfilment === true &&
+            group.data().foundation_fulfilment === true &&
+            group.data().mathematicsAndSciences_fulfilment === true) {
               updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "programme"), {
                 overall_fulfilment: true
               })
               return true;
-            }
-          }
+        }
+        else {
+          updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "programme"), {
+            overall_fulfilment: false
+          })
+          return false;
         }
       }
-      updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "programme"), {
-        overall_fulfilment: false
-      })
-      return false;
     })
   }
 
@@ -504,12 +509,14 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
           })
           return true;
         }
+        else {
+          updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "unrestrictedElectives"), {
+            overall_fulfilment: false
+          })
+          return false;
+        }
       }
-      updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "unrestrictedElectives"), {
-        overall_fulfilment: false
-      })
-      return false;
-    })
+    });
   }
 
   const handleClickOpen = () => {
