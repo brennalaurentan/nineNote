@@ -293,6 +293,9 @@ const userCreditTrackerPathArray = [
 ]
 
 const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
+
+  //const [moduleAlreadyTaken, setModuleAlreadyTaken] = React.useState(false);
+
   // for testing
   const moduleList = [
     {
@@ -610,6 +613,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
         // means they haven't taken the module before
         return returnBool;
       }
+      //setModuleAlreadyTaken(await moduleAlreadyTaken());
 
       if (await moduleAlreadyTaken() === false) {
 
@@ -699,9 +703,11 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
           }
         }
 
-        // specially for focusArea, update the focusArea creditsCompleted
+        // specially for focusArea, update the creditsCompleted field in the focusAreas document
         let focusAreasCreditsCompleted = 0;
         let newFocusAreaCreditsCompleted = 0;
+        let countedFocusAreasCreditsGained = 0;
+        let focusAreasCreditsToMeet = 0;
         if (userModuleCollectionPath.includes("focusAreas")) {
           async function updateFocusAreaCredits() {
             const focusAreaCollectionPath = `users/${currentUserEmail}/gradProgress/programme/breadthAndDepth`; 
@@ -711,6 +717,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
             focusAreaQuerySnapshot.forEach((doc) => {
               if (doc.id === "focusAreas") {
                 focusAreasCreditsCompleted = parseInt(doc.data().creditsCompleted);
+                focusAreasCreditsToMeet = parseInt(doc.data().creditsToMeet);
               }
             })
             console.log("focusAreas creditsCompleted: " + focusAreasCreditsCompleted);
@@ -719,6 +726,21 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
             await updateDoc(doc(db, focusAreaCollectionPath, "focusAreas"), {
               creditsCompleted: parseInt(newFocusAreaCreditsCompleted)
             })
+            if (focusAreasCreditsCompleted < focusAreasCreditsToMeet) {
+              if (newFocusAreaCreditsCompleted <= focusAreasCreditsToMeet) {
+                // count full
+                countedFocusAreasCreditsGained = newFocusAreaCreditsCompleted - focusAreasCreditsCompleted;
+              }
+              else {
+                // count partial, up to creditsToMeet
+                countedFocusAreasCreditsGained = focusAreasCreditsToMeet - focusAreasCreditsCompleted;
+              }
+            }
+            else {
+              // count none
+              countedFocusAreasCreditsGained = 0;
+            }
+            console.log("countedFocusAreasCreditsGained is " + countedFocusAreasCreditsGained);
           }
           updateFocusAreaCredits();
         }
@@ -742,6 +764,9 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
               console.log("main module group is " + mainModuleGroupName);
               console.log("updating main module credits, current credits completed = " + mainModuleGroup.data().creditsCompleted);
               console.log("new credits completed = " + countedModuleCreditsGainedForGroup);
+              if (userModuleCollectionPath.includes("focusAreas")) {
+                countedModuleCreditsGainedForGroup = countedFocusAreasCreditsGained;
+              }
               updateDoc(doc(db, gradProgressCollectionPath, mainModuleGroupName), {
                 creditsCompleted: parseInt(mainModuleGroup.data().creditsCompleted) + parseInt(countedModuleCreditsGainedForGroup)
               })
@@ -832,7 +857,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
                   oneFocusAreaCompleted: true,
                 })
 
-                // check that creditsCompleted for focusAreas is 20MC
+                // check creditsCompleted for focusAreas
                 async function checkFocusAreasCreditsCompleted() {
                   let returnInt = 0;
                   const focusAreasCollectionPath = `users/${currentUserEmail}/gradProgress/programme/breadthAndDepth`;
@@ -944,7 +969,9 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
               async function checkBreadthAndDepthCredits() {
                 let returnInt = 0;
                 let focusAreasCreditsCompleted = 0;
+                let countedFocusAreasCreditsCompleted = 0;
                 let industryExperienceCreditsCompleted = 0;
+                let countedIndustryExperienceCreditsCompleted = 0;
                 const breadthAndDepthCollectionPath = `users/${currentUserEmail}/gradProgress/programme/breadthAndDepth`;
                 const breadthAndDepthCollection = collection(db, breadthAndDepthCollectionPath);
                 const breadthAndDepthQuerySnapshot = await getDocs(breadthAndDepthCollection);
@@ -952,13 +979,21 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
                   // focusAreas document
                   if (breadthAndDepthSubgroup.id === "focusAreas") {
                     focusAreasCreditsCompleted = parseInt(breadthAndDepthSubgroup.data().creditsCompleted);
+                    countedFocusAreasCreditsCompleted = focusAreasCreditsCompleted;
+                    if (countedFocusAreasCreditsCompleted > 20) {
+                      countedFocusAreasCreditsCompleted = 20;
+                    }
                   }
                   // industryExperience document
                   else {
                     industryExperienceCreditsCompleted = parseInt(breadthAndDepthSubgroup.data().creditsCompleted);
+                    countedFocusAreasCreditsCompleted = industryExperienceCreditsCompleted;
+                    if (countedIndustryExperienceCreditsCompleted > 12) {
+                      countedIndustryExperienceCreditsCompleted = 12;
+                    }
                   }
                 })
-                returnInt = focusAreasCreditsCompleted + industryExperienceCreditsCompleted;
+                returnInt = parseInt(countedFocusAreasCreditsCompleted) + parseInt(countedIndustryExperienceCreditsCompleted);
                 return returnInt;
               }
               
@@ -995,7 +1030,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
         // update progress rings and progress bar
         //GraduationProgressTracker();      
       }
-      // module taken before
+      // module taken before (moduleAlreadyTaken flag is set to true)
       else {
         console.log("module already taken!");
       }
