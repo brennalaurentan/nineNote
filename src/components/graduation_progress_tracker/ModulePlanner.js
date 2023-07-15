@@ -213,70 +213,22 @@ const ModulePlanner = () => {
     // const currentUserEmail = user.email;
     
     const [state, setState] = useState({
-        "Y1 S1": {
-            title: "Y1 S1",
-            items: [item1, item2]
-        },
-        "Y1 S2": {
-            title: "Y1 S2",
-            items: []
-        },
-        "Y1 ST1": {
-            title: "Y1 ST1",
-            items: []
-        },
-        "Y1 ST2": {
-            title: "Y1 ST2",
-            items: []
-        },
-        "Y2 S1": {
-            title: "Y2 S1",
-            items: []
-        },
-        "Y2 S2": {
-            title: "Y2 S2",
-            items: []
-        },
-        "Y2 ST1": {
-            title: "Y2 ST1",
-            items: []
-        },
-        "Y2 ST2": {
-            title: "Y2 ST2",
-            items: []
-        },
-        "Y3 S1": {
-            title: "Y3 S1",
-            items: []
-        },
-        "Y3 S2": {
-            title: "Y3 S2",
-            items: []
-        },
-        "Y3 ST1": {
-            title: "Y3 ST1",
-            items: []
-        },
-        "Y3 ST2": {
-            title: "Y3 ST2",
-            items: []
-        },
-        "Y4 S1": {
-            title: "Y4 S1",
-            items: []
-        },
-        "Y4 S2": {
-            title: "Y4 S2",
-            items: []
-        },
-        "Y4 ST1": {
-            title: "Y4 ST1",
-            items: []
-        },
-        "Y4 ST2": {
-            title: "Y4 ST2",
-            items: []
-        }
+        "Y1 S1": { title: "Y1 S1", items: [item1, item2] },
+        "Y1 S2": { title: "Y1 S2", items: [] },
+        "Y1 ST1": { title: "Y1 ST1", items: [] },
+        "Y1 ST2": { title: "Y1 ST2", items: [] },
+        "Y2 S1": { title: "Y2 S1", items: [] },
+        "Y2 S2": { title: "Y2 S2", items: [] },
+        "Y2 ST1": { title: "Y2 ST1", items: [] },
+        "Y2 ST2": { title: "Y2 ST2", items: [] },
+        "Y3 S1": { title: "Y3 S1", items: [] },
+        "Y3 S2": { title: "Y3 S2", items: [] },
+        "Y3 ST1": { title: "Y3 ST1", items: [] },
+        "Y3 ST2": { title: "Y3 ST2", items: [] },
+        "Y4 S1": { title: "Y4 S1", items: [] },
+        "Y4 S2": { title: "Y4 S2", items: [] },
+        "Y4 ST1": { title: "Y4 ST1", items: [] },
+        "Y4 ST2": { title: "Y4 ST2", items: [] }
     })
 
     const [modulesBySemester, setModulesBySemester] = useState({});
@@ -339,44 +291,6 @@ const ModulePlanner = () => {
         }
     }
 
-    async function updateCompletedModulesArray(moduleCategory, collectionPath, moduleCode) {
-        try {
-            let currentCreditsCompleted = "";
-            let currentCreditsToMeet = "";
-            let currentModulesTakenArray = [];
-            // obtain current modules completed array (for the specified group)
-            const querySnapshot = await getDocs(collection(db, collectionPath));
-            // wait but how do you obtain the correct specified group...
-            // can cycle through the documents but don't know how to 'identify the correct one'
-            // since moduleCat is a QuerySnapshot and not a string name...
-            // able to setDoc (since the moduleCategory and collectionPath is definite / given)
-            // but for getDocs, if there's more than one document in the collection, what condition
-            // to set in order to go into the loop when it's the right document?
-
-            /*
-            querySnapshot.forEach((moduleCat) => {
-                // condition below does not work. need to find a new way
-                if (moduleCat === moduleCategory) {
-                    currentCreditsCompleted = moduleCat.data().creditsCompleted;
-                    currentCreditsToMeet = moduleCat.data().creditsToMeet;
-                    currentModulesTakenArray = moduleCat.data().modulesTaken;
-                }
-            });
-            currentModulesTakenArray.push(moduleCode);
-            setDoc(doc(db, collectionPath, moduleCategory), {
-                creditsCompleted: currentCreditsCompleted,
-                creditsToMeet: currentCreditsToMeet,
-                modulesTaken: currentModulesTakenArray
-            });
-            console.log("updated modules taken array");
-            */
-
-        }
-        catch (error) {
-            console.log(error.message);
-        }
-    }
-
     useEffect(() => {
         async function loadSemesterModules() {
             try {
@@ -391,70 +305,22 @@ const ModulePlanner = () => {
                 console.log("allSemestersSnapshot: " + allSemestersSnapshot);
                 console.log(allSemestersSnapshot);
                 let newState = {
-                    "Y1 S1": {
-                        title: "Y1 S1",
-                        items: []
-                    },
-                    "Y1 S2": {
-                        title: "Y1 S2",
-                        items: []
-                    },
-                    "Y1 ST1": {
-                        title: "Y1 ST1",
-                        items: []
-                    },
-                    "Y1 ST2": {
-                        title: "Y1 ST2",
-                        items: []
-                    },
-                    "Y2 S1": {
-                        title: "Y2 S1",
-                        items: []
-                    },
-                    "Y2 S2": {
-                        title: "Y2 S2",
-                        items: []
-                    },
-                    "Y2 ST1": {
-                        title: "Y2 ST1",
-                        items: []
-                    },
-                    "Y2 ST2": {
-                        title: "Y2 ST2",
-                        items: []
-                    },
-                    "Y3 S1": {
-                        title: "Y3 S1",
-                        items: []
-                    },
-                    "Y3 S2": {
-                        title: "Y3 S2",
-                        items: []
-                    },
-                    "Y3 ST1": {
-                        title: "Y3 ST1",
-                        items: []
-                    },
-                    "Y3 ST2": {
-                        title: "Y3 ST2",
-                        items: []
-                    },
-                    "Y4 S1": {
-                        title: "Y4 S1",
-                        items: []
-                    },
-                    "Y4 S2": {
-                        title: "Y4 S2",
-                        items: []
-                    },
-                    "Y4 ST1": {
-                        title: "Y4 ST1",
-                        items: []
-                    },
-                    "Y4 ST2": {
-                        title: "Y4 ST2",
-                        items: []
-                    }
+                    "Y1 S1": { title: "Y1 S1", items: [] },
+                    "Y1 S2": { title: "Y1 S2", items: [] },
+                    "Y1 ST1": { title: "Y1 ST1", items: [] },
+                    "Y1 ST2": { title: "Y1 ST2", items: [] },
+                    "Y2 S1": { title: "Y2 S1", items: [] },
+                    "Y2 S2": { title: "Y2 S2", items: [] },
+                    "Y2 ST1": { title: "Y2 ST1", items: [] },
+                    "Y2 ST2": { title: "Y2 ST2", items: [] },
+                    "Y3 S1": { title: "Y3 S1", items: [] },
+                    "Y3 S2": { title: "Y3 S2", items: [] },
+                    "Y3 ST1": { title: "Y3 ST1", items: [] },
+                    "Y3 ST2": { title: "Y3 ST2", items: [] },
+                    "Y4 S1": { title: "Y4 S1", items: [] },
+                    "Y4 S2": { title: "Y4 S2", items: [] },
+                    "Y4 ST1": { title: "Y4 ST1", items: [] },
+                    "Y4 ST2": { title: "Y4 ST2", items: [] }
                 };
 
                 // in database: Y1S1, Y1S2, Y1ST1, Y1ST2, ..., Y4ST2
@@ -540,54 +406,52 @@ const ModulePlanner = () => {
     }, []);
 
     // function to mass update module documents in the database
-    useEffect(() => {
-        async function addModuleCategories(categoryName, collectionPath) {
-            // collectionPath contains one or more documents
-            // to each document in the collection, we want to add the field 'moduleCategory: categoryName'
-            // all documents have the same format, with each document having the following fields:
-            // moduleCode, moduleName, moduleMC
-            // at the end, the document should have the following fields:
-            // moduleCode, moduleName, moduleMC, moduleCategory
-            try {
-                let currentModuleCode = "";
-                let currentModuleName = "";
-                let currentModuleMC = "";
+    async function addModuleCategories(categoryName, collectionPath) {
+        // collectionPath contains one or more documents
+        // to each document in the collection, we want to add the field 'moduleCategory: categoryName'
+        // all documents have the same format, with each document having the following fields:
+        // moduleCode, moduleName, moduleMC
+        // at the end, the document should have the following fields:
+        // moduleCode, moduleName, moduleMC, moduleCategory
+        try {
+            let currentModuleCode = "";
+            let currentModuleName = "";
+            let currentModuleMC = "";
 
-                // read collection
-                const querySnapshot = await getDocs(collection(db, collectionPath));
-                // cycle through each of the documents in the collection
-                let moduleIndexCounter = 1;
-                querySnapshot.forEach((module) => {
-                    // keep track of the following existing fields 
-                    // (we don't want to change these fields)
-                    currentModuleCode = module.data().moduleCode;
-                    currentModuleName = module.data().moduleName;
-                    currentModuleMC = module.data().moduleMC;
+            // read collection
+            const querySnapshot = await getDocs(collection(db, collectionPath));
+            // cycle through each of the documents in the collection
+            let moduleIndexCounter = 1;
+            querySnapshot.forEach((module) => {
+                // keep track of the following existing fields 
+                // (we don't want to change these fields)
+                currentModuleCode = module.data().moduleCode;
+                currentModuleName = module.data().moduleName;
+                currentModuleMC = module.data().moduleMC;
 
-                    // update module document with existing fields, and the new field
-                    setDoc(doc(db, collectionPath, `module_${moduleIndexCounter}`), {
-                        moduleCode: currentModuleCode,
-                        moduleName: currentModuleName,
-                        moduleMC: currentModuleMC,
-                        moduleCategory: categoryName
-                    });
-                    console.log(categoryName + ": " + `module_${moduleIndexCounter}` + " done");
-                    moduleIndexCounter++;
-                })
-            }
-            catch (error) {
-                console.log(error.message);
-            }
+                // update module document with existing fields, and the new field
+                setDoc(doc(db, collectionPath, `module_${moduleIndexCounter}`), {
+                    moduleCode: currentModuleCode,
+                    moduleName: currentModuleName,
+                    moduleMC: currentModuleMC,
+                    moduleCategory: categoryName
+                });
+                console.log(categoryName + ": " + `module_${moduleIndexCounter}` + " done");
+                moduleIndexCounter++;
+            })
         }
-        // modify the line below to add the moduleCategory field to all modules in the specified collection
-        //addModuleCategories("programmingLanguages_electives", '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/programmingLanguages/electives');
-        /*
-        // un-comment the block below to make modifications to all module groups in the specified array
-        moduleGroupsArray.forEach((moduleGroup) => {
-            addModuleCategories(moduleGroup.groupName, moduleGroup.collectionPath);
-        });
-        */
-    }, []);
+        catch (error) {
+            console.log(error.message);
+        }
+    }
+    // modify the line below to add the moduleCategory field to all modules in the specified collection
+    //addModuleCategories("programmingLanguages_electives", '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/programmingLanguages/electives');
+    /*
+    // un-comment the block below to make modifications to all module groups in the specified array
+    moduleGroupsArray.forEach((moduleGroup) => {
+        addModuleCategories(moduleGroup.groupName, moduleGroup.collectionPath);
+    });
+    */
 
     const handleDragEnd = ({ destination, source }) => {
         console.log("from", source)
@@ -627,7 +491,6 @@ const ModulePlanner = () => {
                             moduleCode: moduleCode,
                             moduleName: moduleName,
                             moduleMC: moduleMC,
-                            moduleCategory: "P"
                         },
                         ...prev[yearSem].items
                     ]
