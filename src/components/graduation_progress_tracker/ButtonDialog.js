@@ -15,6 +15,7 @@ import { auth, db } from '../others/firebase';
 import { getAuth } from 'firebase/auth';
 import { query, collection, setDoc, getDocs, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { v4 } from 'uuid';
+import { useEffect } from 'react';
 import GraduationProgressTracker from '../../pages/GraduationProgressTracker';
 
 const moduleGroupsArray = [
@@ -435,6 +436,9 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
     return moduleCollectionPath;
   }
 
+  // function which checks the commonCurriculum subgroup requirements
+  // and changes the overall_fulfilment field accordingly
+  // returns the boolean value of overall_fulfilment
   async function checkAndSetCommonCurriculumOverallFulfilment() {
     const querySnapshot = await getDocs(collection(db, `users/${currentUserEmail}/gradProgress`));
     querySnapshot.forEach((group) => {
@@ -460,6 +464,9 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
     })
   }
 
+  // function which checks the programme subgroup requirements
+  // and changes the overall_fulfilment field accordingly
+  // returns the boolean value of overall_fulfilment
   async function checkAndSetProgrammeOverallFulfilment() {
     const querySnapshot = await getDocs(collection(db, `users/${currentUserEmail}/gradProgress`));
     querySnapshot.forEach((group) => {
@@ -483,6 +490,9 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
     })
   }
 
+  // function which checks the unrestrictedElectives subgroup requirements
+  // and changes the overall_fulfilment field accordingly
+  // returns the boolean value of overall_fulfilment
   async function checkAndSetUnrestrictedElectivesOverallFulfilment() {
     const querySnapshot = await getDocs(collection(db, `users/${currentUserEmail}/gradProgress`));
     querySnapshot.forEach((group) => {
@@ -521,14 +531,15 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
       const auth = getAuth();
       const user = auth.currentUser;
       //const currentUserEmail = user.email;
-      setCurrentUserEmail(user.email);
+      console.log("current user email is: " + currentUserEmail);
+      setCurrentUserEmail(user.email, moduleAlreadyTaken);
+      let totalNumModules = 0;
 
       async function moduleAlreadyTaken() {
         let returnBool = false;
         const userModulesCollectionPath = `users/${currentUserEmail}/modules`;
         const userModulesCollection = collection(db, userModulesCollectionPath);
         const userModulesQuerySnapshot = await getDocs(userModulesCollection);
-        let totalNumModules = 0;
         userModulesQuerySnapshot.forEach((semDoc) => {
           if (module.id === "allModules") {
             totalNumModules = semDoc.data().numModules;
@@ -638,7 +649,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
         }
 
         // specially for focusArea, update the focusArea creditsCompleted
-        let focusAreaCreditsCompleted = 0;
+        let focusAreasCreditsCompleted = 0;
         let newFocusAreaCreditsCompleted = 0;
         if (userModuleCollectionPath.includes("focusAreas")) {
           async function updateFocusAreaCredits() {
@@ -648,11 +659,11 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
             // run through focusArea subdocument, then industryExperience subdocument
             focusAreaQuerySnapshot.forEach((doc) => {
               if (doc.id === "focusAreas") {
-                focusAreaCreditsCompleted = parseInt(doc.data().creditsCompleted);
+                focusAreasCreditsCompleted = parseInt(doc.data().creditsCompleted);
               }
             })
-            console.log("focusAreas creditsCompleted: " + focusAreaCreditsCompleted);
-            newFocusAreaCreditsCompleted = parseInt(focusAreaCreditsCompleted) + parseInt(moduleMC);
+            console.log("focusAreas creditsCompleted: " + focusAreasCreditsCompleted);
+            newFocusAreaCreditsCompleted = parseInt(focusAreasCreditsCompleted) + parseInt(moduleMC);
             console.log("new focusArea credits completed: " + newFocusAreaCreditsCompleted);
             await updateDoc(doc(db, focusAreaCollectionPath, "focusAreas"), {
               creditsCompleted: parseInt(newFocusAreaCreditsCompleted)
@@ -781,7 +792,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
                       returnInt = parseInt(subDoc.data().creditsCompleted);
                     }
                   });
-                  return returnInt
+                  return returnInt;
                 }
 
                 // if 20MC focusArea credit requirement met
@@ -821,8 +832,8 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
                     // focusAreas document
                     if (breadthAndDepthSubgroup.id === "focusAreas") {
                       focusAreasCreditsCompleted = parseInt(breadthAndDepthSubgroup.data().creditsCompleted);
-                      countedFocusAreasCredits = focusAreaCreditsCompleted;
-                      if (focusAreaCreditsCompleted > 20) {
+                      countedFocusAreasCredits = focusAreasCreditsCompleted;
+                      if (focusAreasCreditsCompleted > 20) {
                         countedFocusAreasCredits = 20;
                       }
                     }
@@ -876,6 +887,9 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
               }
               focusAreaFulfilment = checkFocusAreaFulfilment();
 
+              // function which calculates total number of credits completed for breadthAndDepth subgroup
+              // by adding up the credits from focusAreas and industryExperience sub-subgroups
+              // updates the 'creditsCompleted' field in the breadthAndDepth document, under programme main group
               async function checkBreadthAndDepthCredits() {
                 let returnInt = 0;
                 let focusAreasCreditsCompleted = 0;
