@@ -4,6 +4,8 @@ let CustomisedTheme = createTheme({
   palette: {
     red: {
       main: '#DB4453',
+      light: '#FCEDEE',
+      dark: '#64050B',
     },
     orange: {
       main: '#EF725D',
