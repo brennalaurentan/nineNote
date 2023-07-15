@@ -15,13 +15,13 @@ import { useNavigate } from 'react-router-dom';
 const ResetPasswordForm = () => {
     const navigate = useNavigate();
     const [resetEmail, setResetEmail] = useState(null);
-    const [openSnackBar, setOpenSnackBar] = useState(false);
+    const [openUserNotFoundSnackBar, setOpenUserNotFoundSnackBar] = useState(false);
 
     const handleCloseSnackBar = (event, reason) => {
         if (reason === 'clickaway') {
             return;
         }
-        setOpenSnackBar(false);
+        setOpenUserNotFoundSnackBar(false);
     };
 
     async function ResetPassword() {
@@ -29,7 +29,7 @@ const ResetPasswordForm = () => {
             await sendPasswordResetEmail(auth, resetEmail);
             navigate('/reset-link-sent');
         } catch (error) {
-            setOpenSnackBar(true);
+            setOpenUserNotFoundSnackBar(true);
             console.log(error.message);
         };
     }
@@ -71,10 +71,11 @@ const ResetPasswordForm = () => {
                             onClickAction={ResetPassword}
                         />
 
+                        {/* ERROR SNACKBAR */}
                         {/* snackbar displays only when there is an error */}
                         <Snackbar
                             anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                            open={openSnackBar}
+                            open={openUserNotFoundSnackBar}
                             autoHideDuration={3000}
                             onClose={handleCloseSnackBar}
                         >
