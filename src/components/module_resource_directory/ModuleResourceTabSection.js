@@ -127,7 +127,7 @@ const ModuleResourceTabSection = ({ moduleData, moduleResources }) => {
                 <Typography variant="h3">All Modules</Typography>
                 <TextField
                     id="filled-search"
-                    label="Module Code or Module Name"
+                    label="Search by Module Code or Module Name"
                     type="search"
                     onChange={handleSearchFilter}
                 />
