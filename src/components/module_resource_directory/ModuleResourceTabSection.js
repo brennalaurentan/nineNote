@@ -9,8 +9,7 @@ import ModuleResourcePagination from './ModuleResourcePagination';
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Stack, TextField } from '@mui/material';
 
-
-const ModuleResourceTabSection = ({ moduleData }) => {
+const ModuleResourceTabSection = ({ moduleData, moduleResources }) => {
     // handles text displayed when filtered modules is empty
     const [showModules, setShowModules] = useState('none');
 
@@ -27,10 +26,31 @@ const ModuleResourceTabSection = ({ moduleData }) => {
     // handles selected page according to pagination and upon search input
     const [activePage, setActivePage] = useState(1);
 
+    // handles module resources based on selected module code
+    const [selectedModuleResources, setSelectedModuleResources] = useState({
+        moduleDescription: "No description available.",
+        moduleWebsite: "No website available.",
+        moduleBooks: "No books available."
+    });
+
     // updates selected module code when module item is clicked
     const handleModuleChange = (event, moduleCode) => {
         console.log(moduleCode);
         setSelectedModuleCode(moduleCode);
+
+        const filteredModuleResource = moduleResources.filter((module) =>
+            (module.moduleCode === moduleCode)
+        )
+        if (filteredModuleResource.length !== 0) {
+            setSelectedModuleResources(filteredModuleResource[0]);
+        } else {
+            setSelectedModuleResources({
+                moduleDescription: "No description available.",
+                moduleWebsite: "No website available.",
+                moduleBooks: "No books available."
+            });
+        }
+        console.log("filtered module resource: ", filteredModuleResource);
     };
 
     // split data in selected page according to pagination
@@ -45,8 +65,12 @@ const ModuleResourceTabSection = ({ moduleData }) => {
         setFilteredModulesCount(moduleData.length);
         setDisplayedModules(defaultModules);
         setSelectedModuleCode('ABM5001');
-    }, [moduleData])
-
+        setSelectedModuleResources({
+            moduleDescription: "No description available.",
+            moduleWebsite: "No website available.",
+            moduleBooks: "No books available."
+        });
+    }, [moduleData, moduleResources])
 
     // updates module data upon search input
     const handleSearchFilter = (event) => {
@@ -71,6 +95,22 @@ const ModuleResourceTabSection = ({ moduleData }) => {
             setDisplayedModules(defaultModules);
             setSelectedModuleCode(defaultModuleCode);
             setActivePage(1);
+
+            console.log("selected module code: ", defaultModuleCode);
+
+            const filteredModuleResource = moduleResources.filter((module) =>
+                (module.moduleCode === defaultModuleCode)
+            )
+            if (filteredModuleResource.length !== 0) {
+                setSelectedModuleResources(filteredModuleResource[0]);
+            } else {
+                setSelectedModuleResources({
+                    moduleDescription: "No description available.",
+                    moduleWebsite: "No website available.",
+                    moduleBooks: "No books available."
+                });
+            }
+            console.log("filtered module resource: ", filteredModuleResource);
         } else {
             setShowModules('flex')
             setFilteredModulesCount(0);
@@ -104,7 +144,13 @@ const ModuleResourceTabSection = ({ moduleData }) => {
                             moduleSem={module.semesterData}
                         />
                     ))}
-                    <Typography variant="body_thin" justifyContent="center" padding="40px" display={showModules}>No modules to be displayed.</Typography>
+                    <Typography
+                        variant="body_thin"
+                        justifyContent="center"
+                        padding="40px"
+                        display={showModules}>
+                        No modules to be displayed.
+                    </Typography>
                 </Stack>
                 <ModuleResourcePagination
                     activePage={activePage}
@@ -116,7 +162,11 @@ const ModuleResourceTabSection = ({ moduleData }) => {
                     setSelectedModuleCode={setSelectedModuleCode}
                 />
             </Stack>
-            <ModuleResourceTabContent selectedModuleCode={selectedModuleCode} moduleData={filteredModules} />
+            <ModuleResourceTabContent
+                selectedModuleCode={selectedModuleCode}
+                moduleData={filteredModules}
+                selectedModuleResources={selectedModuleResources}
+            />
         </Box>
     );
 }

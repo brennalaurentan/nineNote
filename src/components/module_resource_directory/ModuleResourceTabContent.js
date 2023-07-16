@@ -4,7 +4,6 @@
 import ModuleResourceCard from './ModuleResourceCard'
 
 // tools
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Typography, Stack } from '@mui/material';
 
@@ -34,22 +33,25 @@ TabPanel.propTypes = {
     selectedModuleCode: PropTypes.string.isRequired,
 };
 
-const ModuleResourceTabContent = ({ selectedModuleCode, moduleData }) => {
+
+const ModuleResourceTabContent = ({ selectedModuleCode, moduleData, selectedModuleResources }) => {
     return (
         <>
             {moduleData.map((module, index) => (
                 <TabPanel key={index} selectedModuleCode={selectedModuleCode} moduleCode={module.moduleCode}>
                     <Stack gap="64px">
-                        <ModuleResourceCard 
+                        <ModuleResourceCard
                             moduleCode={module.moduleCode}
                             moduleMC={module.moduleCredit}
                             moduleName={module.title}
                             moduleFaculty={module.faculty}
                             moduleDept={module.department}
-                            />
+                            selectedModuleResources={selectedModuleResources}
+                        />
                     </Stack>
                 </TabPanel>
-            ))}
+            ))
+            }
         </>
     )
 }
