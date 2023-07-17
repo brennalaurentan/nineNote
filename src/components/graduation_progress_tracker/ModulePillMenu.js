@@ -62,7 +62,7 @@ const ModulePillMenu = ({ moduleID, moduleCode, yearSem, onMenuClick }) => {
 
             // delete module from 'modules' collection under user's profile database
             async function removeModuleFromAllModules(moduleCodeArg) {
-                const userModulesCollectionPath = `users/${currentUserEmail}/modules/allModules/allModules`;
+                const userModulesCollectionPath = `users/${currentUserEmail}/modules`;
                 const userModulesCollection = collection(db, userModulesCollectionPath);
                 const userModulesQuerySnapshot = await getDocs(userModulesCollection);
                 userModulesQuerySnapshot.forEach((semDoc) => {

@@ -299,17 +299,10 @@ const ModulePlanner = () => {
 
     useEffect(() => {
         async function loadSemesterModules() {
-            const semestersCollectionRef = collection(db, `users/${user.email}/modules`);
-            const allSemestersSnapshot = await getDocs(semestersCollectionRef);
-
             const allModulesCollectionRef = collection(db, `users/${user.email}/modules/allModules/allModules`);
             const allModulesSnapshot = await getDocs(allModulesCollectionRef);
 
             try {
-                // 16 docs, correct
-                //console.log("allSemestersSnapshot: " + allSemestersSnapshot);
-                //console.log(allSemestersSnapshot);
-
                 let y1s1Mods = [];
                 let y1s2Mods = [];
                 let y1st1Mods = [];
@@ -332,7 +325,6 @@ const ModulePlanner = () => {
                         moduleCode: module.data().moduleCode,
                         moduleName: module.data().moduleName,
                         moduleMC: module.data().moduleMC,
-                        //moduleCategory: tryFindModuleDocumentSnap.data().moduleCategory
                     }
 
                     switch (module.data().yearSem) {
@@ -408,75 +400,6 @@ const ModulePlanner = () => {
 
                 setModulesBySemester(newState);
 
-                // // in database: Y1S1, Y1S2, Y1ST1, Y1ST2, ..., Y4ST2
-                // allSemestersSnapshot.forEach(async semester => {
-                //     // log each of the 16 semesters
-                //     console.log("semester: " + semester.id);
-                //     // line below only retrieves the numModules field from each of the semesters
-                //     console.log(semester.data());
-                //     // still haven't figured out a way to get module_1, module_2 etc
-                //     // (they're collections)
-
-                //     // create semesterLabel: obtain "Y1 S1" from "Y1S1" by adding a space
-                //     const semesterLabel = semester.id.replace(/^(.{2})(.*)$/, "$1 $2");
-
-                //     const numModules = semester.data().numModules;
-
-                //     // create 'items' array to store all the modules for the particular semester
-                //     let modulesForThisSemester = [];
-
-                //     // moduleIndex counts upwards from 1, sequentially but may skip some numbers
-                //     // depending on whether the module_x document exists
-                //     // (moduleIndex can count up to a number that exceeds numModules)
-                //     let moduleIndex = 1;
-
-                //     // moduleCount counts upwards from 1, sequentially
-                //     let moduleCount = 1;
-
-                //     while (moduleCount <= numModules) {
-                //         const tryFindModuleDocumentRef = doc(db, `users/${user.email}/modules/${semester.id}/module_${moduleIndex}`, "moduleDetails");
-                //         const tryFindModuleDocumentSnap = await getDoc(tryFindModuleDocumentRef);
-                //         console.log("moduleCount is " + moduleCount + ", moduleIndex is " + moduleIndex);
-                //         // if module_x document exists
-                //         if (tryFindModuleDocumentSnap.exists()) {
-                //             // console.log("module_" + moduleIndex + " moduleCode is: " + tryFindModuleDocumentSnap.data().moduleCode);
-                //             // console.log("module_" + moduleIndex + " moduleName is: " + tryFindModuleDocumentSnap.data().moduleName);
-                //             // console.log("module_" + moduleIndex + " moduleMC is: " + tryFindModuleDocumentSnap.data().moduleMC);
-                //             // obtain fields in moduleDetails since the module document exists
-                //             const newItem = {
-                //                 moduleID: tryFindModuleDocumentSnap.data().moduleID,
-                //                 moduleCode: tryFindModuleDocumentSnap.data().moduleCode,
-                //                 moduleName: tryFindModuleDocumentSnap.data().moduleName,
-                //                 moduleMC: tryFindModuleDocumentSnap.data().moduleMC,
-                //                 //moduleCategory: tryFindModuleDocumentSnap.data().moduleCategory
-                //             }
-                //             // push object with retrieved module details into the array of items
-                //             // for the semester
-                //             modulesForThisSemester.push(newItem);
-
-                //             // add one to moduleCount to signify another module 'found'
-                //             moduleCount++;
-                //             console.log("module_" + moduleIndex + " exists, loaded");
-
-                //             console.log("modules for " + semesterLabel + " : " + modulesForThisSemester);
-                //             console.log("static modules for " + semesterLabel + " : " + [item1, item2]);
-                //         }
-                //         // moduleIndex gets incremented regardless of whether the
-                //         // module document exists or not
-                //         moduleIndex++;
-                //     }
-
-                //     // create new object for semester, to be stored in main newState object
-                //     const newSemesterObject = {
-                //         title: semesterLabel,
-                //         items: modulesForThisSemester
-                //     };
-
-                //     // add new object to main newState object
-                //     newState[semesterLabel] = newSemesterObject;
-                //     setModulesBySemester(newState);
-                //})
-                
                 console.log("new state: ", newState);
                 console.log("modules by semester: ");
                 console.log(modulesBySemester);

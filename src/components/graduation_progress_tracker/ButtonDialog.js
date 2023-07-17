@@ -591,15 +591,15 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
 
       async function moduleAlreadyTaken() {
         let returnBool = false;
-        const userModulesCollectionPath = `users/${currentUserEmail}/modules`;
-        const userModulesCollection = collection(db, userModulesCollectionPath);
-        const userModulesQuerySnapshot = await getDocs(userModulesCollection);
-        userModulesQuerySnapshot.forEach((semDoc) => {
-          if (module.id === "allModules") {
-            totalNumModules = semDoc.data().numModules;
-          }
-        })
-        const userAllModulesCollectionPath = "users/" + currentUserEmail + "/modules/allModules/allModules"
+        // const userModulesCollectionPath = `users/${currentUserEmail}/modules`;
+        // const userModulesCollection = collection(db, userModulesCollectionPath);
+        // const userModulesQuerySnapshot = await getDocs(userModulesCollection);
+        // userModulesQuerySnapshot.forEach((semDoc) => {
+        //   if (module.id === "allModules") {
+        //     totalNumModules = semDoc.data().numModules;
+        //   }
+        // })
+        const userAllModulesCollectionPath = "users/" + currentUserEmail + "/modules"
         const userAllModulesCollection = collection(db, userAllModulesCollectionPath);
         const userAllModulesQuerySnapshot = await getDocs(userAllModulesCollection);
         userAllModulesQuerySnapshot.forEach((moduleDoc) => {
@@ -618,33 +618,33 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
       if (await moduleAlreadyTaken() === false) {
 
         // retrieve number of modules taken for the semester
-        const userModulesBySemesterSnapshot = await getDocs(collection(db, `users/${currentUserEmail}/modules/`));
-        let docCount = 0;
-        userModulesBySemesterSnapshot.forEach((semesterDoc) => {
-          if (semesterDoc.id === yearSemCode) {
-            docCount = semesterDoc.data().numModules;
-          }
-        })
+        // const userModulesBySemesterSnapshot = await getDocs(collection(db, `users/${currentUserEmail}/modules/`));
+        // let docCount = 0;
+        // userModulesBySemesterSnapshot.forEach((semesterDoc) => {
+        //   if (semesterDoc.id === yearSemCode) {
+        //     docCount = semesterDoc.data().numModules;
+        //   }
+        // })
   
         // obtain index of next module to add (to name the collection e.g module_1, module_2 etc)
-        const docNextIndex = docCount + 1;
+        //const docNextIndex = docCount + 1;
   
-        // create new collection in semester with new module details
-        await setDoc(doc(db, `users/${currentUserEmail}/modules/${yearSemCode}/module_${docNextIndex}`, 'moduleDetails'), {
-          moduleID: v4(),
-          moduleCode: moduleCode,
-          moduleName: moduleName,
-          moduleMC: moduleMC,
-          moduleCategory: moduleCategory
-        });
+        // // create new collection in semester with new module details
+        // await setDoc(doc(db, `users/${currentUserEmail}/modules/${yearSemCode}/module_${docNextIndex}`, 'moduleDetails'), {
+        //   moduleID: v4(),
+        //   moduleCode: moduleCode,
+        //   moduleName: moduleName,
+        //   moduleMC: moduleMC,
+        //   moduleCategory: moduleCategory
+        // });
 
-        // update numModules property (field) in firestore
-        await setDoc(doc(db, `users/${currentUserEmail}/modules`, yearSemCode), {
-          numModules: docNextIndex
-        });
+        // // update numModules property (field) in firestore
+        // await setDoc(doc(db, `users/${currentUserEmail}/modules`, yearSemCode), {
+        //   numModules: docNextIndex
+        // });
   
-        // create new document in 'allModules' with new module details
-        await setDoc(doc(db, `users/${currentUserEmail}/modules/allModules/allModules`, moduleCode), {
+        // create new document in 'modules' with new module details
+        await setDoc(doc(db, `users/${currentUserEmail}/modules`, moduleCode), {
           moduleID: v4(),
           moduleCode: moduleCode,
           moduleName: moduleName,

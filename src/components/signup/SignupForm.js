@@ -497,12 +497,12 @@ const SignupForm = () => {
         course: course
       });
 
-      // create semester collections under user's database profile in firebase
-      for (const semester of static_semesters) {
-        setDoc(doc(db, `users/${currentUserEmail}/modules`, semester), {
-          numModules: 0
-        });
-      }
+      // // create semester collections under user's database profile in firebase
+      // for (const semester of static_semesters) {
+      //   setDoc(doc(db, `users/${currentUserEmail}/modules`, semester), {
+      //     numModules: 0
+      //   });
+      // }
 
       // retrieve number of credits required from each module group (graduation requirements)
       // from firebase
