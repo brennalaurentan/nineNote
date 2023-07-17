@@ -7,7 +7,7 @@ import ninenote_blue from '../../graphics/ninenote_blue.png';
 
 // tools
 import { Stack, Link, Typography, Box, Snackbar, Alert } from '@mui/material';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../others/firebase';
 import { useNavigate } from 'react-router-dom';
@@ -63,6 +63,21 @@ const LoginForm = ({ setOpenLoginSuccessSnackBar }) => {
       }
     };
   }
+
+  // function to enable button click using keyboard enter
+  useEffect(() => {
+    const listener = event => {
+      if (event.code === "Enter" || event.code === "NumpadEnter") {
+        console.log("Enter key was pressed. Run your function.");
+        event.preventDefault();
+        Login();
+      }
+    };
+    document.addEventListener("keydown", listener);
+    return () => {
+      document.removeEventListener("keydown", listener);
+    };
+  });
 
   return (
     <>
