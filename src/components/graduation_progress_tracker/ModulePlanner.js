@@ -299,7 +299,7 @@ const ModulePlanner = () => {
 
     useEffect(() => {
         async function loadSemesterModules() {
-            const allModulesCollectionRef = collection(db, `users/${user.email}/modules/allModules/allModules`);
+            const allModulesCollectionRef = collection(db, `users/${user.email}/modules`);
             const allModulesSnapshot = await getDocs(allModulesCollectionRef);
 
             try {
@@ -325,6 +325,7 @@ const ModulePlanner = () => {
                         moduleCode: module.data().moduleCode,
                         moduleName: module.data().moduleName,
                         moduleMC: module.data().moduleMC,
+                        moduleCategory: module.data().moduleCategory
                     }
 
                     switch (module.data().yearSem) {
@@ -498,7 +499,7 @@ const ModulePlanner = () => {
                             moduleID: v4(),
                             moduleCode: moduleCode,
                             moduleName: moduleName,
-                            moduleMC: moduleMC,
+                            moduleMC: moduleMC
                         },
                         ...prev[yearSem].items
                     ]
@@ -566,6 +567,7 @@ const ModulePlanner = () => {
                                                                             moduleCode={el.moduleCode}
                                                                             moduleName={el.moduleName}
                                                                             moduleMC={el.moduleMC}
+                                                                            moduleCategory={el.moduleCategory}
                                                                             yearSem={data.title}
                                                                             onClick={deleteModule}
                                                                         />
