@@ -649,7 +649,8 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
           moduleCode: moduleCode,
           moduleName: moduleName,
           moduleMC: moduleMC,
-          moduleCategory: moduleCategory
+          moduleCategory: moduleCategory,
+          yearSem: yearSemCode
         })
   
         // retrieve necessary info pertaining to current progress of the added module's module group
