@@ -19,8 +19,10 @@ const ModuleResourceCard = ({ moduleCode, moduleMC, moduleName, moduleFaculty, m
                 if (Array.isArray(moduleBooksRefArray)) {
                     console.log("yes, array!");
                     console.log("books array: ", moduleBooksRefArray);
-                    console.log("number of books: ", moduleBooksRefArray.length);
+                    const numberOfBooks = moduleBooksRefArray.length;
+                    console.log("number of books: ", numberOfBooks);
 
+                    let bookCount = 0;
                     let moduleBooksArray = [];
                     moduleBooksRefArray.forEach(async book => {
                         const moduleBooksDocumentSnapshot = await getDoc(book);
@@ -29,11 +31,16 @@ const ModuleResourceCard = ({ moduleCode, moduleMC, moduleName, moduleFaculty, m
                             bookAuthor: moduleBooksDocumentSnapshot.data().bookAuthor,
                             bookPublisher: moduleBooksDocumentSnapshot.data().bookPublisher,
                             bookISBN13: moduleBooksDocumentSnapshot.data().bookISBN13,
+                            bookImage: moduleBooksDocumentSnapshot.data().bookImage,
                         }
                         moduleBooksArray.push(newBook);
+                        bookCount = bookCount + 1;
                         console.log("current book: ", newBook.bookTitle);
                         console.log("loop local module books array: ", moduleBooksArray);
-                        setModuleBooks(moduleBooksArray);
+                        
+                        if (bookCount === numberOfBooks) {
+                            setModuleBooks(moduleBooksArray);
+                        }
                     });
 
                     console.log("local module books array: ", moduleBooksArray);
@@ -49,7 +56,17 @@ const ModuleResourceCard = ({ moduleCode, moduleMC, moduleName, moduleFaculty, m
     }, [selectedModuleResources])
 
     return (
-        <Card elevation={0} sx={{ marginBottom: "10px", padding: "30px", width: "42vw", bgcolor: "light_blue.light", borderRadius: "15px" }}>
+        <Card
+            elevation={0}
+            sx={{
+                marginBottom: "10px",
+                padding: "30px",
+                width: "42vw",
+                bgcolor: "light_blue.light",
+                borderRadius: "15px",
+                height: '100vh',
+                overflow: 'scroll'
+            }}>
             <CardContent>
                 <Stack gap="32px">
                     {/* module details retrieved from nusmods api */}
@@ -75,14 +92,20 @@ const ModuleResourceCard = ({ moduleCode, moduleMC, moduleName, moduleFaculty, m
                     <Stack gap="8px">
                         <Typography variant="body_bold" color="light_blue.dark">Module Books</Typography>
                         <Stack gap="32px">
-                            {moduleBooks.map((book, index) => (
-                                <Box key={index} display="flex" flexDirection="column">
-                                    <Typography variant="body_bold">{book.bookTitle}</Typography>
-                                    <Typography variant="tag_thin">ISBN-13: {book.bookISBN13}</Typography>
-                                    <Typography variant="tag_thin">Author: {book.bookAuthor}</Typography>
-                                    <Typography variant="tag_thin">Publisher: {book.bookPublisher}</Typography>
-                                </Box>
-                            ))}
+                            {moduleBooks.length !== 0
+                                ? moduleBooks.map((book, index) => (
+                                    <Stack key={index} direction="row" gap="32px" alignItems="center">
+                                        <img src={book.bookImage} alt="Logo" width="200px" />
+                                        <Stack>
+                                            <Typography variant="body_bold">{book.bookTitle}</Typography>
+                                            <Typography variant="tag_thin">ISBN-13: {book.bookISBN13}</Typography>
+                                            <Typography variant="tag_thin">Author: {book.bookAuthor}</Typography>
+                                            <Typography variant="tag_thin">Publisher: {book.bookPublisher}</Typography>
+                                        </Stack>
+                                    </Stack>
+                                ))
+                                : <Typography variant="body_thin">No module books available.</Typography>
+                            }
                         </Stack>
                     </Stack>
 
