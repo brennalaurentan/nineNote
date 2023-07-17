@@ -34,7 +34,6 @@ const ModulePill = ({ moduleID, moduleCode, moduleName, moduleMC, moduleCategory
                             </Box>
                         </Stack>
                         <Typography variant="tag_thin">{moduleName}</Typography>
-                        <Typography variant="tag_thin">{moduleCategory}</Typography>
                     </Box>
                     <ModulePillMenu 
                         moduleID={moduleID} 

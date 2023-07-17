@@ -733,12 +733,12 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
               console.log("updating main module credits, current credits completed = " + mainModuleGroup.data().creditsCompleted);
               console.log("new credits completed = " + countedModuleCreditsGainedForGroup);
               if (userModuleCollectionPath.includes("focusAreas")) {
-                countedModuleCreditsGainedForGroup = countedFocusAreasCreditsGained;
+                countedModuleCreditsGainedForGroup = parseInt(countedFocusAreasCreditsGained);
               }
               updateDoc(doc(db, gradProgressCollectionPath, mainModuleGroupName), {
                 creditsCompleted: parseInt(mainModuleGroup.data().creditsCompleted) + parseInt(countedModuleCreditsGainedForGroup)
               })
-              console.log("updated main module credits");
+              console.log("updated main module credits, " + (parseInt(mainModuleGroup.data().creditsCompleted) + parseInt(countedModuleCreditsGainedForGroup)));
             }
           })
         }
@@ -891,6 +891,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
                     }
                   })
                   returnInt = countedFocusAreasCredits + countedIndustryExperienceCredits;
+                  console.log("breadthanddepthcredits: " + returnInt);
                   return returnInt;
                 }
                 

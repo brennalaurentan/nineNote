@@ -376,17 +376,20 @@ const ModulePillMenu = ({ moduleID, moduleCode, moduleCategory, moduleMC, yearSe
 						// if old credits completed did not meet the creditsToMeet for focusAreas
 						if (focusAreasCreditsCompleted < focusAreasCreditsToMeet) {
 							// count full
-							countedFocusAreasCreditsLost = focusAreasCreditsCompleted - newFocusAreaCreditsCompleted;
+							console.log("new < meet, old < meet");
+							countedFocusAreasCreditsLost = parseInt(focusAreasCreditsCompleted) - parseInt(newFocusAreaCreditsCompleted);
 						}
 						// else if old credits completed met creditsToMeet but new credits no longer do
 						else {
 							// count partial, up to creditsToMeet
-							countedFocusAreasCreditsLost = focusAreasCreditsToMeet - newFocusAreaCreditsCompleted;
+							console.log("new < meet, old > meet");
+							countedFocusAreasCreditsLost = parseInt(focusAreasCreditsToMeet) - parseInt(newFocusAreaCreditsCompleted);
 						}
 					}
 					// else, both old and new credits completed for focusAreas meet the creditsToMeet
 					else {
 						// count none
+						console.log("new > meet");
 						countedFocusAreasCreditsLost = 0;
 					}
 					console.log("countedFocusAreasCreditsLost is " + countedFocusAreasCreditsLost);
@@ -412,14 +415,18 @@ const ModulePillMenu = ({ moduleID, moduleCode, moduleCategory, moduleMC, yearSe
 					if (mainModuleGroup.id === mainModuleGroupName) {
 						console.log("main module group is " + mainModuleGroupName);
 						console.log("updating main module credits, current credits completed = " + mainModuleGroup.data().creditsCompleted);
-						console.log("new credits completed = " + countedModuleCreditsLostForGroup);
+						console.log("credits lost = " + countedModuleCreditsLostForGroup);
 						if (userModuleCollectionPath.includes("focusAreas")) {
-							countedModuleCreditsLostForGroup = countedFocusAreasCreditsLost;
+							countedModuleCreditsLostForGroup = parseInt(countedFocusAreasCreditsLost);
 						}
+						let newCreditCount = parseInt(mainModuleGroup.data().creditsCompleted) - parseInt(countedModuleCreditsLostForGroup);
+						console.log("mainModuleGroup data creditsCompleted = " + parseInt(mainModuleGroup.data().creditsCompleted));
+						console.log("counted module credits lost for group = " + parseInt(countedModuleCreditsLostForGroup));
+						console.log("new credits completed count = " + newCreditCount);
 						updateDoc(doc(db, gradProgressCollectionPath, mainModuleGroupName), {
-							creditsCompleted: parseInt(mainModuleGroup.data().creditsCompleted) - parseInt(countedModuleCreditsLostForGroup)
+							creditsCompleted: (parseInt(mainModuleGroup.data().creditsCompleted) - parseInt(countedModuleCreditsLostForGroup))
 						})
-						console.log("updated main module credits");
+						console.log("updated main module credits, " + (parseInt(mainModuleGroup.data().creditsCompleted) - parseInt(countedModuleCreditsLostForGroup)));
 					}
 				})
 			}
