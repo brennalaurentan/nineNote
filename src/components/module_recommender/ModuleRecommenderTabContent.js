@@ -40,7 +40,7 @@ TabPanel.propTypes = {
     value: PropTypes.number.isRequired,
 };
 
-const MyProfileTabContent = ({ value }) => {
+const ModuleRecommenderTabContent = ({ value }) => {
     const [recommendedModulesBySemester, setRecommendedModulesBySemester] = useState({
         "Y1 S1": {
             title: "Y1 S1",
@@ -214,4 +214,4 @@ const MyProfileTabContent = ({ value }) => {
     )
 }
 
-export default MyProfileTabContent
+export default ModuleRecommenderTabContent;
