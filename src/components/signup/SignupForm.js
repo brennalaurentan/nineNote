@@ -758,6 +758,21 @@ const SignupForm = () => {
 
   console.count("component rendered!");
 
+  // function to enable button click using keyboard enter
+  useEffect(() => {
+    const listener = event => {
+      if (event.code === "Enter" || event.code === "NumpadEnter") {
+        console.log("Enter key was pressed. Run your function.");
+        event.preventDefault();
+        Register();
+      }
+    };
+    document.addEventListener("keydown", listener);
+    return () => {
+      document.removeEventListener("keydown", listener);
+    };
+  });
+
   return (
     <>
       <Stack gap="24px">
