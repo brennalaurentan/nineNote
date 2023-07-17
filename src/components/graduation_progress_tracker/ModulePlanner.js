@@ -13,9 +13,9 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import _ from "lodash";
 import { v4 } from 'uuid';
 import { collection, getDocs, getDoc, doc, setDoc, updateDoc } from 'firebase/firestore';
-import { db } from '../others/firebase';
+import { db, auth } from '../others/firebase';
 import { useEffect } from 'react';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { setSelectionRange } from '@testing-library/user-event/dist/utils';
 
 const SemContainer = styled(Container)(({ theme }) => ({
@@ -208,9 +208,15 @@ request.send();
 
 const ModulePlanner = () => {
 
-    // const auth = getAuth();
-    // const user = auth.currentUser;
-    // const currentUserEmail = user.email;
+    // handles currently signed-in user
+    const [user, setUser] = useState({});
+
+    // function to get the currently signed-in user
+    useEffect(() => {
+        onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+        });
+    }, [])
     
     const [state, setState] = useState({
         "Y1 S1": { title: "Y1 S1", items: [item1, item2] },
@@ -293,14 +299,9 @@ const ModulePlanner = () => {
 
     useEffect(() => {
         async function loadSemesterModules() {
+            const semestersCollectionRef = collection(db, `users/${user.email}/modules`);
+            const allSemestersSnapshot = await getDocs(semestersCollectionRef);
             try {
-                const auth = getAuth();
-                const user = auth.currentUser;
-                const currentUserEmail = user.email;
-
-                const semestersCollectionRef = collection(db, `users/${user.email}/modules`);
-                const allSemestersSnapshot = await getDocs(semestersCollectionRef);
-
                 // 16 docs, correct
                 console.log("allSemestersSnapshot: " + allSemestersSnapshot);
                 console.log(allSemestersSnapshot);
@@ -349,7 +350,7 @@ const ModulePlanner = () => {
                     let moduleCount = 1;
 
                     while (moduleCount <= numModules) {
-                        const tryFindModuleDocumentRef = doc(db, `users/${currentUserEmail}/modules/${semester.id}/module_${moduleIndex}`, "moduleDetails");
+                        const tryFindModuleDocumentRef = doc(db, `users/${user.email}/modules/${semester.id}/module_${moduleIndex}`, "moduleDetails");
                         //const tryFindModuleDocument = await getDoc(collection(db, `users/${currentUserEmail}/modules/${semester.id}/module_${moduleIndex}`));
                         const tryFindModuleDocumentSnap = await getDoc(tryFindModuleDocumentRef);
                         console.log("moduleCount is " + moduleCount + ", moduleIndex is " + moduleIndex);
@@ -393,6 +394,7 @@ const ModulePlanner = () => {
                     setModulesBySemester(newState);
                 })
                 
+                console.log("new state: ", newState);
                 console.log("modules by semester: ");
                 console.log(modulesBySemester);
                 console.log("static modules by semester: ");
@@ -403,7 +405,7 @@ const ModulePlanner = () => {
             }
         }
         loadSemesterModules();
-    }, []);
+    }, [user]);
 
     // function to mass update module documents in the database
     async function addModuleCategories(categoryName, collectionPath) {
