@@ -517,7 +517,7 @@ const ModulePlanner = () => {
                 [yearSem]: {
                     title: yearSem,
                     items: [
-                        ...prev[yearSem].items.filter(module => module.id !== moduleID)
+                        ...prev[yearSem].items.filter(module => module.moduleID !== moduleID)
                     ]
                 }
             }
