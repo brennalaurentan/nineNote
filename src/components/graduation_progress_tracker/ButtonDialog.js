@@ -12,144 +12,144 @@ import {
   Stack, Autocomplete, TextField
 } from '@mui/material'
 import { auth, db } from '../others/firebase';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { query, collection, setDoc, getDocs, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { v4 } from 'uuid';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import GraduationProgressTracker from '../../pages/GraduationProgressTracker';
 
 const moduleGroupsArray = [
-  {   
-      groupName: "computingEthics",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/computingEthics/computingEthics'
+  {
+    groupName: "computingEthics",
+    collectionPath: '/graduationRequirements/computerScience/commonCurriculum/computingEthics/computingEthics'
   },
   {
-      groupName: "crossdisciplinaryEducation",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/crossdisciplinaryEducation/crossdisciplinaryEducation'
+    groupName: "crossdisciplinaryEducation",
+    collectionPath: '/graduationRequirements/computerScience/commonCurriculum/crossdisciplinaryEducation/crossdisciplinaryEducation'
   },
   {
-      groupName: "interdisciplinaryEducation",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/interdisciplinaryEducation/interdisciplinaryEducation'
+    groupName: "interdisciplinaryEducation",
+    collectionPath: '/graduationRequirements/computerScience/commonCurriculum/interdisciplinaryEducation/interdisciplinaryEducation'
   },
   {
-      groupName: "communitiesAndEngagement",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/communitiesAndEngagement'
+    groupName: "communitiesAndEngagement",
+    collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/communitiesAndEngagement'
   },
   {
-      groupName: "critiqueAndExpression",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/critiqueAndExpression'
+    groupName: "critiqueAndExpression",
+    collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/critiqueAndExpression'
   },
   {
-      groupName: "culturesAndConnections",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/culturesAndConnections'
+    groupName: "culturesAndConnections",
+    collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/culturesAndConnections'
   },
   {
-      groupName: "dataLiteracy",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/dataLiteracy'
+    groupName: "dataLiteracy",
+    collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/dataLiteracy'
   },
   {
-      groupName: "digitalLiteracy",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/digitalLiteracy'
+    groupName: "digitalLiteracy",
+    collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/digitalLiteracy'
   },
   {
-      groupName: "singaporeStudies",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/singaporeStudies'
+    groupName: "singaporeStudies",
+    collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/singaporeStudies'
   },
   {
-      groupName: "algorithmsAndTheory_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/algorithmsAndTheory/electives'
+    groupName: "algorithmsAndTheory_electives",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/algorithmsAndTheory/electives'
   },
   {
-      groupName: "algorithmsAndTheory_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/algorithmsAndTheory/primaries'
+    groupName: "algorithmsAndTheory_primaries",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/algorithmsAndTheory/primaries'
   },
   {
-      groupName: "artificialIntelligence_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/artificialIntelligence/electives'
+    groupName: "artificialIntelligence_electives",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/artificialIntelligence/electives'
   },
   {
-      groupName: "artificialIntelligence_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/artificialIntelligence/primaries'
+    groupName: "artificialIntelligence_primaries",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/artificialIntelligence/primaries'
   },
   {
-      groupName: "computerGraphicsAndGames_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerGraphicsAndGames/electives'
+    groupName: "computerGraphicsAndGames_electives",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerGraphicsAndGames/electives'
   },
   {
-      groupName: "computerGraphicsAndGames_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerGraphicsAndGames/primaries'
+    groupName: "computerGraphicsAndGames_primaries",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerGraphicsAndGames/primaries'
   },
   {
-      groupName: "computerSecurity_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerSecurity/electives'
+    groupName: "computerSecurity_electives",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerSecurity/electives'
   },
   {
-      groupName: "computerSecurity_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerSecurity/primaries'
+    groupName: "computerSecurity_primaries",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerSecurity/primaries'
   },
   {
-      groupName: "databaseSystems_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/databaseSystems/electives'
+    groupName: "databaseSystems_electives",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/databaseSystems/electives'
   },
   {
-      groupName: "databaseSystems_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/databaseSystems/primaries'
+    groupName: "databaseSystems_primaries",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/databaseSystems/primaries'
   },
   {
-      groupName: "multimediaInformationRetrieval_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/multimediaInformationRetrieval/primaries'
+    groupName: "multimediaInformationRetrieval_electives",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/multimediaInformationRetrieval/primaries'
   },
   {
-      groupName: "multimediaInformationRetrieval_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/multimediaInformationRetrieval/primaries'
+    groupName: "multimediaInformationRetrieval_primaries",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/multimediaInformationRetrieval/primaries'
   },
   {
-      groupName: "networkingAndDistributedSystems_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/networkingAndDistributedSystems/electives'
+    groupName: "networkingAndDistributedSystems_electives",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/networkingAndDistributedSystems/electives'
   },
   {
-      groupName: "networkingAndDistributedSystems_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/networkingAndDistributedSystems/primaries'
+    groupName: "networkingAndDistributedSystems_primaries",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/networkingAndDistributedSystems/primaries'
   },
   {
-      groupName: "focusAreas_others",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/others/others'
+    groupName: "focusAreas_others",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/others/others'
   },
   {
-      groupName: "parallelComputing_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/parallelComputing/electives'
+    groupName: "parallelComputing_electives",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/parallelComputing/electives'
   },
   {
-      groupName: "parallelComputing_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/parallelComputing/primaries'
+    groupName: "parallelComputing_primaries",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/parallelComputing/primaries'
   },
   {
-      groupName: "programmingLanguages_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/programmingLanguages/electives'
+    groupName: "programmingLanguages_electives",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/programmingLanguages/electives'
   },
   {
-      groupName: "programmingLanguages_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/programmingLanguages/primaries'
+    groupName: "programmingLanguages_primaries",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/programmingLanguages/primaries'
   },
   {
-      groupName: "softwareEngineering_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/softwareEngineering/electives'
+    groupName: "softwareEngineering_electives",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/softwareEngineering/electives'
   },
   {
-      groupName: "softwareEngineering_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/softwareEngineering/primaries'
+    groupName: "softwareEngineering_primaries",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/softwareEngineering/primaries'
   },
   {
-      groupName: "industryExperience",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/industryExperience'
+    groupName: "industryExperience",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/industryExperience'
   },
   {
-      groupName: "mathematicsAndSciences",
-      collectionPath: '/graduationRequirements/computerScience/programme/mathematicsAndSciences/mathematicsAndSciences'
+    groupName: "mathematicsAndSciences",
+    collectionPath: '/graduationRequirements/computerScience/programme/mathematicsAndSciences/mathematicsAndSciences'
   },
   {
-      groupName: "foundation",
-      collectionPath: '/graduationRequirements/computerScience/programme/foundation/foundation'
+    groupName: "foundation",
+    collectionPath: '/graduationRequirements/computerScience/programme/foundation/foundation'
   },
   {
     groupName: "unrestrictedElectives",
@@ -158,141 +158,151 @@ const moduleGroupsArray = [
 ];
 
 const userCreditTrackerPathArray = [
-  {   
+  {
     groupName: "computingEthics",
     collectionPath: '/users/!/gradProgress/commonCurriculum/computingEthics'
   },
   {
-      groupName: "crossdisciplinaryEducation",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/crossdisciplinaryEducation'
+    groupName: "crossdisciplinaryEducation",
+    collectionPath: '/users/!/gradProgress/commonCurriculum/crossdisciplinaryEducation'
   },
   {
-      groupName: "interdisciplinaryEducation",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/interdisciplinaryEducation'
+    groupName: "interdisciplinaryEducation",
+    collectionPath: '/users/!/gradProgress/commonCurriculum/interdisciplinaryEducation'
   },
   {
-      groupName: "communitiesAndEngagement",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
+    groupName: "communitiesAndEngagement",
+    collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
   },
   {
-      groupName: "critiqueAndExpression",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
+    groupName: "critiqueAndExpression",
+    collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
   },
   {
-      groupName: "culturesAndConnections",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
+    groupName: "culturesAndConnections",
+    collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
   },
   {
-      groupName: "dataLiteracy",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
+    groupName: "dataLiteracy",
+    collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
   },
   {
-      groupName: "digitalLiteracy",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
+    groupName: "digitalLiteracy",
+    collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
   },
   {
-      groupName: "singaporeStudies",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
+    groupName: "singaporeStudies",
+    collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
   },
   {
-      groupName: "algorithmsAndTheory_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "algorithmsAndTheory_electives",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "algorithmsAndTheory_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "algorithmsAndTheory_primaries",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "artificialIntelligence_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "artificialIntelligence_electives",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "artificialIntelligence_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "artificialIntelligence_primaries",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "computerGraphicsAndGames_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "computerGraphicsAndGames_electives",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "computerGraphicsAndGames_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "computerGraphicsAndGames_primaries",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "computerSecurity_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "computerSecurity_electives",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "computerSecurity_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "computerSecurity_primaries",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "databaseSystems_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "databaseSystems_electives",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "databaseSystems_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "databaseSystems_primaries",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "multimediaInformationRetrieval_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "multimediaInformationRetrieval_electives",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "multimediaInformationRetrieval_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "multimediaInformationRetrieval_primaries",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "networkingAndDistributedSystems_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "networkingAndDistributedSystems_electives",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "networkingAndDistributedSystems_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "networkingAndDistributedSystems_primaries",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "focusAreas_others",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "focusAreas_others",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "parallelComputing_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "parallelComputing_electives",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "parallelComputing_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "parallelComputing_primaries",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "programmingLanguages_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "programmingLanguages_electives",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "programmingLanguages_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "programmingLanguages_primaries",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "softwareEngineering_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "softwareEngineering_electives",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "softwareEngineering_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "softwareEngineering_primaries",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "industryExperience",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth'
+    groupName: "industryExperience",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth'
   },
   {
-      groupName: "mathematicsAndSciences",
-      collectionPath: '/users/!/gradProgress/programme/mathematicsAndSciences'
+    groupName: "mathematicsAndSciences",
+    collectionPath: '/users/!/gradProgress/programme/mathematicsAndSciences'
   },
   {
-      groupName: "foundation",
-      collectionPath: '/users/!/gradProgress/programme/foundation'
+    groupName: "foundation",
+    collectionPath: '/users/!/gradProgress/programme/foundation'
   }
 ]
 
 const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
+
+  // handles currently signed-in user
+  const [user, setUser] = useState({});
+
+  // function to get the currently signed-in user
+  useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+  }, [])
 
   //const [moduleAlreadyTaken, setModuleAlreadyTaken] = React.useState(false);
 
@@ -391,15 +401,15 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
     const collectionRef = collection(db, collectionPath);
     const querySnapshot = await getDocs(collectionRef)
     querySnapshot.forEach((doc) => {
-        // each module in the database has the following details:
-        // moduleCode, moduleMC, moduleName
-        const newModule = {
-            "moduleCode": doc.data().moduleCode,
-            "moduleMC": doc.data().moduleMC,
-            "moduleName": doc.data().moduleName,
-            "moduleCategory": doc.data().moduleCategory
-        }
-        arrayOfModules.push(newModule);
+      // each module in the database has the following details:
+      // moduleCode, moduleMC, moduleName
+      const newModule = {
+        "moduleCode": doc.data().moduleCode,
+        "moduleMC": doc.data().moduleMC,
+        "moduleName": doc.data().moduleName,
+        "moduleCategory": doc.data().moduleCategory
+      }
+      arrayOfModules.push(newModule);
     })
     return arrayOfModules;
   }
@@ -412,10 +422,10 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
     let arrayOfAllModules = [];
     let arrayOfModules = [];
     (arrayOfModuleGroups).forEach(courseCollection => {
-        // retrieve modules in an array
-        arrayOfModules = retrieveModulesFromCollectionPath(courseCollection.collectionPath);
-        // add arrayOfModules to arrayOfAllModules
-        arrayOfAllModules = arrayOfAllModules.concat(arrayOfModules);
+      // retrieve modules in an array
+      arrayOfModules = retrieveModulesFromCollectionPath(courseCollection.collectionPath);
+      // add arrayOfModules to arrayOfAllModules
+      arrayOfAllModules = arrayOfAllModules.concat(arrayOfModules);
     });
     return arrayOfAllModules;
   }
@@ -433,7 +443,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
   const [moduleName, setModuleName] = React.useState("");
   const [moduleMC, setModuleMC] = React.useState(0);
   const [moduleCategory, setModuleCategory] = React.useState("");
-  const [currentUserEmail, setCurrentUserEmail] = React.useState("");
+  // const [currentUserEmail, setCurrentUserEmail] = React.useState("");
   const [listOfModules, setListOfModules] = React.useState([]);
   const yearSemCode = yearSem.replace(/ /g, '');
 
@@ -456,24 +466,24 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
   // by accessing the 'creditsToMeet' and 'creditsCompleted' fields in the given collection path
   async function updateCreditCount(moduleCategory, collectionPath, creditsToAdd) {
     try {
-        // obtain current credit count
-        const querySnapshot = await getDocs(collection(db, collectionPath));
-        let currentCreditCount = 0;
-        let creditsToMeet = 0;
-        querySnapshot.forEach((doc) => {
-            currentCreditCount = parseInt(doc.data().creditsCompleted);
-            creditsToMeet = doc.data().creditsToMeet;
-        })
-        // calculate new credit count
-        const newCreditCount = (currentCreditCount + creditsToAdd).toString();
-        // update credit count with new credit count
-        await setDoc(doc(db, collectionPath, moduleCategory), {
-            creditsCompleted: newCreditCount,
-            creditsToMeet: creditsToMeet
-        });
+      // obtain current credit count
+      const querySnapshot = await getDocs(collection(db, collectionPath));
+      let currentCreditCount = 0;
+      let creditsToMeet = 0;
+      querySnapshot.forEach((doc) => {
+        currentCreditCount = parseInt(doc.data().creditsCompleted);
+        creditsToMeet = doc.data().creditsToMeet;
+      })
+      // calculate new credit count
+      const newCreditCount = (currentCreditCount + creditsToAdd).toString();
+      // update credit count with new credit count
+      await setDoc(doc(db, collectionPath, moduleCategory), {
+        creditsCompleted: newCreditCount,
+        creditsToMeet: creditsToMeet
+      });
     }
     catch (error) {
-        console.log(error.message);
+      console.log(error.message);
     }
   }
 
@@ -493,21 +503,21 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
   // and changes the overall_fulfilment field accordingly
   // returns the boolean value of overall_fulfilment
   async function checkAndSetCommonCurriculumOverallFulfilment() {
-    const querySnapshot = await getDocs(collection(db, `users/${currentUserEmail}/gradProgress`));
+    const querySnapshot = await getDocs(collection(db, `users/${user.email}/gradProgress`));
     querySnapshot.forEach((group) => {
       // groups are: commonCurriculum, programme, unrestrictedElectives. We want commonCurriculum
       if (group.id === "commonCurriculum") {
         if (group.data().computingEthics_fulfilment === true &&
-            group.data().crossdisciplinaryEducation_fulfilment === true &&
-            group.data().interdisciplinaryEducation_fulfilment === true &&
-            group.data().universityLevel_fulfilment === true) {
-              updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "commonCurriculum"), {
-                overall_fulfilment: true
-              })
-              return true;
+          group.data().crossdisciplinaryEducation_fulfilment === true &&
+          group.data().interdisciplinaryEducation_fulfilment === true &&
+          group.data().universityLevel_fulfilment === true) {
+          updateDoc(doc(db, `users/${user.email}/gradProgress`, "commonCurriculum"), {
+            overall_fulfilment: true
+          })
+          return true;
         }
         else {
-          updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "commonCurriculum"), {
+          updateDoc(doc(db, `users/${user.email}/gradProgress`, "commonCurriculum"), {
             overall_fulfilment: false
           })
           return false;
@@ -520,20 +530,20 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
   // and changes the overall_fulfilment field accordingly
   // returns the boolean value of overall_fulfilment
   async function checkAndSetProgrammeOverallFulfilment() {
-    const querySnapshot = await getDocs(collection(db, `users/${currentUserEmail}/gradProgress`));
+    const querySnapshot = await getDocs(collection(db, `users/${user.email}/gradProgress`));
     querySnapshot.forEach((group) => {
       // groups are: commonCurriculum, programme, unrestrictedElectives. We want programme
       if (group.id === "programme") {
         if (group.data().breadthAndDepth_fulfilment === true &&
-            group.data().foundation_fulfilment === true &&
-            group.data().mathematicsAndSciences_fulfilment === true) {
-              updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "programme"), {
-                overall_fulfilment: true
-              })
-              return true;
+          group.data().foundation_fulfilment === true &&
+          group.data().mathematicsAndSciences_fulfilment === true) {
+          updateDoc(doc(db, `users/${user.email}/gradProgress`, "programme"), {
+            overall_fulfilment: true
+          })
+          return true;
         }
         else {
-          updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "programme"), {
+          updateDoc(doc(db, `users/${user.email}/gradProgress`, "programme"), {
             overall_fulfilment: false
           })
           return false;
@@ -546,18 +556,18 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
   // and changes the overall_fulfilment field accordingly
   // returns the boolean value of overall_fulfilment
   async function checkAndSetUnrestrictedElectivesOverallFulfilment() {
-    const querySnapshot = await getDocs(collection(db, `users/${currentUserEmail}/gradProgress`));
+    const querySnapshot = await getDocs(collection(db, `users/${user.email}/gradProgress`));
     querySnapshot.forEach((group) => {
       // groups are: commonCurriculum, programme, unrestrictedElectives. We want unrestrictedElectives
       if (group.id === "unrestrictedElectives") {
         if (parseInt(group.data().creditsCompleted) >= parseInt(group.data().creditsToMeet)) {
-          updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "unrestrictedElectives"), {
+          updateDoc(doc(db, `users/${user.email}/gradProgress`, "unrestrictedElectives"), {
             overall_fulfilment: true
           })
           return true;
         }
         else {
-          updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "unrestrictedElectives"), {
+          updateDoc(doc(db, `users/${user.email}/gradProgress`, "unrestrictedElectives"), {
             overall_fulfilment: false
           })
           return false;
@@ -582,16 +592,16 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
     onSubmit(moduleCode, moduleName, moduleMC, yearSem);
 
     try {
-      const auth = getAuth();
-      const user = auth.currentUser;
+      // const auth = getAuth();
+      // const user = auth.currentUser;
       //const currentUserEmail = user.email;
-      console.log("current user email is: " + currentUserEmail);
-      setCurrentUserEmail(user.email, moduleAlreadyTaken);
+      console.log("current user email is: " + user.email);
+      // setCurrentUserEmail(user.email, moduleAlreadyTaken);
       let totalNumModules = 0;
 
       async function moduleAlreadyTaken() {
         let returnBool = false;
-        const userAllModulesCollectionPath = "users/" + currentUserEmail + "/modules"
+        const userAllModulesCollectionPath = "users/" + user.email + "/modules"
         const userAllModulesCollection = collection(db, userAllModulesCollectionPath);
         const userAllModulesQuerySnapshot = await getDocs(userAllModulesCollection);
         userAllModulesQuerySnapshot.forEach((moduleDoc) => {
@@ -608,9 +618,9 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
       //setModuleAlreadyTaken(await moduleAlreadyTaken());
 
       if (await moduleAlreadyTaken() === false) {
-  
+
         // create new document in 'modules' with new module details
-        await setDoc(doc(db, `users/${currentUserEmail}/modules`, moduleCode), {
+        await setDoc(doc(db, `users/${user.email}/modules`, moduleCode), {
           moduleID: v4(),
           moduleCode: moduleCode,
           moduleName: moduleName,
@@ -618,25 +628,25 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
           moduleCategory: moduleCategory,
           yearSem: yearSemCode
         })
-  
+
         // retrieve necessary info pertaining to current progress of the added module's module group
         let moduleGroupCreditsCompleted = 0;
         let moduleGroupCreditsToMeet = 0;
         let newModuleGroupCreditsCompleted = 0;
         async function retrieveUserModuleGroupProgress() {
-          const userModuleCollectionPath = retrieveUserModuleCreditTrackerPath(currentUserEmail, moduleCategory);
+          const userModuleCollectionPath = retrieveUserModuleCreditTrackerPath(user.email, moduleCategory);
           const userModuleCollectionPathSnapshot = await getDocs(collection(db, userModuleCollectionPath));
           userModuleCollectionPathSnapshot.forEach((moduleGroupInCollection) => {
-              if (moduleGroupInCollection.id === moduleCategory) {
-                moduleGroupCreditsCompleted = parseInt(moduleGroupInCollection.data().creditsCompleted);
-                console.log("module group credits completed: " + parseInt(moduleGroupInCollection.data().creditsCompleted));
-                moduleGroupCreditsToMeet = parseInt(moduleGroupInCollection.data().creditsToMeet);
-                console.log("module group credits to meet: " + parseInt(moduleGroupInCollection.data().creditsToMeet));
-              }
+            if (moduleGroupInCollection.id === moduleCategory) {
+              moduleGroupCreditsCompleted = parseInt(moduleGroupInCollection.data().creditsCompleted);
+              console.log("module group credits completed: " + parseInt(moduleGroupInCollection.data().creditsCompleted));
+              moduleGroupCreditsToMeet = parseInt(moduleGroupInCollection.data().creditsToMeet);
+              console.log("module group credits to meet: " + parseInt(moduleGroupInCollection.data().creditsToMeet));
+            }
           });
         }
         await retrieveUserModuleGroupProgress();
-  
+
         newModuleGroupCreditsCompleted = parseInt(moduleGroupCreditsCompleted) + parseInt(moduleMC);
         console.log("original credits completed for " + moduleCategory + ": " + moduleGroupCreditsCompleted);
         console.log("new credits completed for " + moduleCategory + ": " + newModuleGroupCreditsCompleted);
@@ -655,7 +665,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
         console.log("counted credits gained towards overall: " + countedModuleCreditsGainedForGroup);
 
         // update the fields in the document for the module subgroup
-        const userModuleCollectionPath = retrieveUserModuleCreditTrackerPath(currentUserEmail, moduleCategory);
+        const userModuleCollectionPath = retrieveUserModuleCreditTrackerPath(user.email, moduleCategory);
         console.log("[update fields in document for module subgroup] moduleCategory is " + moduleCategory + ", path is " + userModuleCollectionPath);
         await updateDoc(doc(db, userModuleCollectionPath, moduleCategory), {
           creditsCompleted: newModuleGroupCreditsCompleted,
@@ -680,7 +690,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
         let focusAreasCreditsToMeet = 0;
         if (userModuleCollectionPath.includes("focusAreas")) {
           async function updateFocusAreaCredits() {
-            const focusAreaCollectionPath = `users/${currentUserEmail}/gradProgress/programme/breadthAndDepth`; 
+            const focusAreaCollectionPath = `users/${user.email}/gradProgress/programme/breadthAndDepth`;
             const focusAreaCollection = collection(db, focusAreaCollectionPath);
             const focusAreaQuerySnapshot = await getDocs(focusAreaCollection);
             // run through focusArea subdocument, then industryExperience subdocument
@@ -719,7 +729,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
         // update the fields in the main module group 
         // (creditsCompleted field in main commonCurriculum/programme/unrestrictedElectives documents)
         async function updateMainModuleGroupCredits() {
-          const gradProgressCollectionPath = `users/${currentUserEmail}/gradProgress`;
+          const gradProgressCollectionPath = `users/${user.email}/gradProgress`;
           const gradProgressCollection = collection(db, gradProgressCollectionPath);
           const gradProgressQuerySnapshot = await getDocs(gradProgressCollection);
           let mainModuleGroupName = "";
@@ -750,7 +760,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
           })
         }
         await updateMainModuleGroupCredits();
-  
+
         // if an objective was met by adding this module (module group objective met)
         if ((moduleGroupCreditsCompleted < moduleGroupCreditsToMeet) && (newModuleGroupCreditsCompleted >= moduleGroupCreditsToMeet)) {
           console.log(moduleCategory + " objective met!");
@@ -768,7 +778,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
               // check other universityLevel subgroups to see if it's the last one
               async function checkUniversityLevelFulfilment() {
                 let returnBool = true;
-                const collectionPath = retrieveUserModuleCreditTrackerPath(currentUserEmail, "communitiesAndEngagement");
+                const collectionPath = retrieveUserModuleCreditTrackerPath(user.email, "communitiesAndEngagement");
                 const collectionRef = collection(db, collectionPath);
                 const querySnapshot = await getDocs(collectionRef);
                 querySnapshot.forEach((uLSubgroup) => {
@@ -781,7 +791,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
               // if all universityLevel subgroups have been satisfied
               if (await checkUniversityLevelFulfilment() === true) {
                 // set universityLevel_fulfilment to true
-                updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "commonCurriculum"), {
+                updateDoc(doc(db, `users/${user.email}/gradProgress`, "commonCurriculum"), {
                   universityLevel_fulfilment: true
                 })
               }
@@ -790,30 +800,30 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
             else {
               // set computingEthics_fulfilment / crossDisciplinaryEducation_fulfilment / interdisciplinaryEducation_fulfilment to true
               if (moduleCategory === "computingEthics") {
-                updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "commonCurriculum"), {
+                updateDoc(doc(db, `users/${user.email}/gradProgress`, "commonCurriculum"), {
                   computingEthics_fulfilment: true
                 })
               }
               else if (moduleCategory === "crossDisciplinaryEducation") {
-                updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "commonCurriculum"), {
+                updateDoc(doc(db, `users/${user.email}/gradProgress`, "commonCurriculum"), {
                   crossdisciplinaryEducation_fulfilment: true
                 })
               }
               else {
-                updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "commonCurriculum"), {
+                updateDoc(doc(db, `users/${user.email}/gradProgress`, "commonCurriculum"), {
                   interdisciplinaryEducation_fulfilment: true
                 })
               }
             }
             await checkAndSetCommonCurriculumOverallFulfilment();
-          // for programme requirement modules
+            // for programme requirement modules
           } else if (userModuleCollectionPath.includes("programme")) {
             // is a focusArea, meaning a focusArea was cleared
             if (userModuleCollectionPath.includes("focusAreas")) {
               // check that the 4k mod requirement has been met as well
               async function checkFocusArea4kFulfilment() {
                 let returnBool = false;
-                const focusAreaCollectionPath = retrieveUserModuleCreditTrackerPath(currentUserEmail, moduleCategory);
+                const focusAreaCollectionPath = retrieveUserModuleCreditTrackerPath(user.email, moduleCategory);
                 const focusAreaCollection = collection(db, focusAreaCollectionPath);
                 const focusAreaQuerySnapshot = await getDocs(focusAreaCollection);
                 focusAreaQuerySnapshot.forEach((focusAreaSubgroup) => {
@@ -828,14 +838,14 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
               // if 4k module requirement met
               if (focusArea4kFulfilment) {
                 // update the fulfilment in the focusArea subgroup (oneFocusAreaCompleted field)
-                await updateDoc(doc(db, `users/${currentUserEmail}/gradProgress/programme/breadthAndDepth`, "focusAreas"), {
+                await updateDoc(doc(db, `users/${user.email}/gradProgress/programme/breadthAndDepth`, "focusAreas"), {
                   oneFocusAreaCompleted: true,
                 })
 
                 // check creditsCompleted for focusAreas
                 async function checkFocusAreasCreditsCompleted() {
                   let returnInt = 0;
-                  const focusAreasCollectionPath = `users/${currentUserEmail}/gradProgress/programme/breadthAndDepth`;
+                  const focusAreasCollectionPath = `users/${user.email}/gradProgress/programme/breadthAndDepth`;
                   const focusAreasCollection = collection(db, focusAreasCollectionPath);
                   const focusAreasQuerySnapshot = await getDocs(focusAreasCollection);
                   focusAreasQuerySnapshot.forEach((subDoc) => {
@@ -849,7 +859,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
                 // if 20MC focusArea credit requirement met
                 if (await checkFocusAreasCreditsCompleted() >= 20) {
                   // update the fulfilment in the focusArea subgroup (focusArea_fulfilment field)
-                  await updateDoc(doc(db, `users/${currentUserEmail}/gradProgress/programme/breadthAndDepth`, "focusAreas"), {
+                  await updateDoc(doc(db, `users/${user.email}/gradProgress/programme/breadthAndDepth`, "focusAreas"), {
                     focusAreas_fulfilment: true,
                   })
                 }
@@ -858,7 +868,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
                 let industryExperienceFulfilment = false;
                 async function checkIndustryExperienceFulfilment() {
                   let returnBool = false;
-                  const breadthAndDepthCollectionPath = `users/${currentUserEmail}/gradProgress/programme/breadthAndDepth`;
+                  const breadthAndDepthCollectionPath = `users/${user.email}/gradProgress/programme/breadthAndDepth`;
                   const breadthAndDepthCollection = collection(db, breadthAndDepthCollectionPath);
                   const breadthAndDepthQuerySnapshot = await getDocs(breadthAndDepthCollection);
                   breadthAndDepthQuerySnapshot.forEach((breadthAndDepthSubgroup) => {
@@ -876,7 +886,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
                   let industryExperienceCreditsCompleted = 0;
                   let countedFocusAreasCredits = 0;
                   let countedIndustryExperienceCredits = 0;
-                  const breadthAndDepthCollectionPath = `users/${currentUserEmail}/gradProgress/programme/breadthAndDepth`;
+                  const breadthAndDepthCollectionPath = `users/${user.email}/gradProgress/programme/breadthAndDepth`;
                   const breadthAndDepthCollection = collection(db, breadthAndDepthCollectionPath);
                   const breadthAndDepthQuerySnapshot = await getDocs(breadthAndDepthCollection);
                   breadthAndDepthQuerySnapshot.forEach((breadthAndDepthSubgroup) => {
@@ -901,11 +911,11 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
                   console.log("breadthanddepthcredits: " + returnInt);
                   return returnInt;
                 }
-                
+
                 // all breadthAndDepth requirements fulfilled
                 if (industryExperienceFulfilment && await checkBreadthAndDepthCredits() >= 32) {
                   // set breadthAndDepth_fulfilment to true
-                  updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "programme"), {
+                  updateDoc(doc(db, `users/${user.email}/gradProgress`, "programme"), {
                     breadthAndDepth_fulfilment: true
                   });
                 }
@@ -919,7 +929,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
             else if (moduleCategory.includes("industryExperience")) {
               console.log("updating industryExperience_fulfilment to true");
               // update the fulfilment in the industryExperience subgroup (industryExperience_fulfilment field)
-              await updateDoc(doc(db, `users/${currentUserEmail}/gradProgress/programme/breadthAndDepth`, "industryExperience"), {
+              await updateDoc(doc(db, `users/${user.email}/gradProgress/programme/breadthAndDepth`, "industryExperience"), {
                 industryExperience_fulfilment: true
               })
 
@@ -927,7 +937,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
               let focusAreaFulfilment = false;
               async function checkFocusAreaFulfilment() {
                 let returnBool = false;
-                const breadthAndDepthCollectionPath = `users/${currentUserEmail}/gradProgress/programme/breadthAndDepth`;
+                const breadthAndDepthCollectionPath = `users/${user.email}/gradProgress/programme/breadthAndDepth`;
                 const breadthAndDepthCollection = collection(db, breadthAndDepthCollectionPath);
                 const breadthAndDepthQuerySnapshot = await getDocs(breadthAndDepthCollection);
                 breadthAndDepthQuerySnapshot.forEach((breadthAndDepthSubgroup) => {
@@ -948,7 +958,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
                 let countedFocusAreasCreditsCompleted = 0;
                 let industryExperienceCreditsCompleted = 0;
                 let countedIndustryExperienceCreditsCompleted = 0;
-                const breadthAndDepthCollectionPath = `users/${currentUserEmail}/gradProgress/programme/breadthAndDepth`;
+                const breadthAndDepthCollectionPath = `users/${user.email}/gradProgress/programme/breadthAndDepth`;
                 const breadthAndDepthCollection = collection(db, breadthAndDepthCollectionPath);
                 const breadthAndDepthQuerySnapshot = await getDocs(breadthAndDepthCollection);
                 breadthAndDepthQuerySnapshot.forEach((breadthAndDepthSubgroup) => {
@@ -972,11 +982,11 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
                 returnInt = parseInt(countedFocusAreasCreditsCompleted) + parseInt(countedIndustryExperienceCreditsCompleted);
                 return returnInt;
               }
-              
+
               // all breadthAndDepth requirements fulfilled
               if (focusAreaFulfilment && await checkBreadthAndDepthCredits() >= 32) {
                 // set breadthAndDepth_fulfilment to true
-                updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "programme"), {
+                updateDoc(doc(db, `users/${user.email}/gradProgress`, "programme"), {
                   breadthAndDepth_fulfilment: true
                 });
               }
@@ -985,24 +995,24 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
             else {
               // mathematicsAndSciences
               if (moduleCategory === "mathematicsAndSciences") {
-                updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "programme"), {
+                updateDoc(doc(db, `users/${user.email}/gradProgress`, "programme"), {
                   mathematicsAndSciences_fulfilment: true
                 })
               }
               // foundation
               else {
-                updateDoc(doc(db, `users/${currentUserEmail}/gradProgress`, "programme"), {
+                updateDoc(doc(db, `users/${user.email}/gradProgress`, "programme"), {
                   foundation_fulfilment: true
                 })
               }
             }
             await checkAndSetProgrammeOverallFulfilment();
-          // for unrestrictedElective requirement modules
+            // for unrestrictedElective requirement modules
           } else {
             await checkAndSetUnrestrictedElectivesOverallFulfilment();
           }
         }
-  
+
         // update progress rings and progress bar
         //GraduationProgressTracker();      
       }
