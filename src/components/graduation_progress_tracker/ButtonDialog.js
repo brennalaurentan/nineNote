@@ -629,7 +629,9 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
           userModuleCollectionPathSnapshot.forEach((moduleGroupInCollection) => {
               if (moduleGroupInCollection.id === moduleCategory) {
                 moduleGroupCreditsCompleted = parseInt(moduleGroupInCollection.data().creditsCompleted);
+                console.log("module group credits completed: " + parseInt(moduleGroupInCollection.data().creditsCompleted));
                 moduleGroupCreditsToMeet = parseInt(moduleGroupInCollection.data().creditsToMeet);
+                console.log("module group credits to meet: " + parseInt(moduleGroupInCollection.data().creditsToMeet));
               }
           });
         }
@@ -638,7 +640,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
         newModuleGroupCreditsCompleted = parseInt(moduleGroupCreditsCompleted) + parseInt(moduleMC);
         console.log("original credits completed for " + moduleCategory + ": " + moduleGroupCreditsCompleted);
         console.log("new credits completed for " + moduleCategory + ": " + newModuleGroupCreditsCompleted);
-        let countedModuleCreditsGainedForGroup = moduleMC;
+        let countedModuleCreditsGainedForGroup = parseInt(moduleMC);
 
         // if original group credits completed already met or exceeded the credits to meet
         if (moduleGroupCreditsCompleted >= moduleGroupCreditsToMeet) {
@@ -691,17 +693,18 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
             console.log("focusAreas creditsCompleted: " + focusAreasCreditsCompleted);
             newFocusAreaCreditsCompleted = parseInt(focusAreasCreditsCompleted) + parseInt(moduleMC);
             console.log("new focusArea credits completed: " + newFocusAreaCreditsCompleted);
+            console.log("focusAreas credits to meet: " + focusAreasCreditsToMeet);
             await updateDoc(doc(db, focusAreaCollectionPath, "focusAreas"), {
               creditsCompleted: parseInt(newFocusAreaCreditsCompleted)
             })
             if (focusAreasCreditsCompleted < focusAreasCreditsToMeet) {
               if (newFocusAreaCreditsCompleted <= focusAreasCreditsToMeet) {
                 // count full
-                countedFocusAreasCreditsGained = newFocusAreaCreditsCompleted - focusAreasCreditsCompleted;
+                countedFocusAreasCreditsGained = parseInt(newFocusAreaCreditsCompleted) - parseInt(focusAreasCreditsCompleted);
               }
               else {
                 // count partial, up to creditsToMeet
-                countedFocusAreasCreditsGained = focusAreasCreditsToMeet - focusAreasCreditsCompleted;
+                countedFocusAreasCreditsGained = parseInt(focusAreasCreditsToMeet) - parseInt(focusAreasCreditsCompleted);
               }
             }
             else {
@@ -710,7 +713,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
             }
             console.log("countedFocusAreasCreditsGained is " + countedFocusAreasCreditsGained);
           }
-          updateFocusAreaCredits();
+          await updateFocusAreaCredits();
         }
 
         // update the fields in the main module group 
@@ -729,16 +732,20 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
           }
           gradProgressQuerySnapshot.forEach((mainModuleGroup) => {
             if (mainModuleGroup.id === mainModuleGroupName) {
+              let currentMainModuleGroupCreditsCompleted = parseInt(mainModuleGroup.data().creditsCompleted);
               console.log("main module group is " + mainModuleGroupName);
-              console.log("updating main module credits, current credits completed = " + mainModuleGroup.data().creditsCompleted);
-              console.log("new credits completed = " + countedModuleCreditsGainedForGroup);
+              console.log("updating main module credits, current credits completed = " + currentMainModuleGroupCreditsCompleted);
+              console.log("userModuleCollectionPath is: " + userModuleCollectionPath);
               if (userModuleCollectionPath.includes("focusAreas")) {
+                console.log("userModuleCollectionPath includes focusAreas, set countedModuleCreditsGainedForGroup to countedFocusAreasCreditsGained");
                 countedModuleCreditsGainedForGroup = parseInt(countedFocusAreasCreditsGained);
               }
+              console.log("new credits completed = " + countedModuleCreditsGainedForGroup);
+              let newMainModuleGroupCreditsCompleted = currentMainModuleGroupCreditsCompleted + countedModuleCreditsGainedForGroup;
               updateDoc(doc(db, gradProgressCollectionPath, mainModuleGroupName), {
-                creditsCompleted: parseInt(mainModuleGroup.data().creditsCompleted) + parseInt(countedModuleCreditsGainedForGroup)
+                creditsCompleted: newMainModuleGroupCreditsCompleted
               })
-              console.log("updated main module credits, " + (parseInt(mainModuleGroup.data().creditsCompleted) + parseInt(countedModuleCreditsGainedForGroup)));
+              console.log("updated main module credits, " + newMainModuleGroupCreditsCompleted);
             }
           })
         }
@@ -753,8 +760,8 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
               console.log("creditsCompleted: " + newModuleGroupCreditsCompleted);
               // update the fulfilment in the subgroup itself as well
               await updateDoc(doc(db, userModuleCollectionPath, moduleCategory), {
-                creditsCompleted: newModuleGroupCreditsCompleted,
-                creditsToMeet: moduleGroupCreditsToMeet,
+                creditsCompleted: parseInt(newModuleGroupCreditsCompleted),
+                creditsToMeet: parseInt(moduleGroupCreditsToMeet),
                 uLSubgroup_fulfilment: true
               })
 

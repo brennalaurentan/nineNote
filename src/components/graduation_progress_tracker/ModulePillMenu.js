@@ -313,7 +313,7 @@ const ModulePillMenu = ({ moduleID, moduleCode, moduleCategory, moduleMC, yearSe
 			newModuleGroupCreditsCompleted = parseInt(moduleGroupCreditsCompleted) - parseInt(moduleMC);
 			console.log("original credits completed for " + moduleCategory + ": " + moduleGroupCreditsCompleted);
 			console.log("new credits completed for " + moduleCategory + ": " + newModuleGroupCreditsCompleted);
-			let countedModuleCreditsLostForGroup = moduleMC;
+			let countedModuleCreditsLostForGroup = parseInt(moduleMC);
 
 			// if new group credits completed still exceeds the credits to meet
 			if (newModuleGroupCreditsCompleted >= moduleGroupCreditsToMeet) {
@@ -394,7 +394,7 @@ const ModulePillMenu = ({ moduleID, moduleCode, moduleCategory, moduleMC, yearSe
 					}
 					console.log("countedFocusAreasCreditsLost is " + countedFocusAreasCreditsLost);
 				}
-				updateFocusAreaCredits();
+				await updateFocusAreaCredits();
 			}
 	
 			// update the fields in the main module group 
