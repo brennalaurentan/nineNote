@@ -9,7 +9,7 @@ import * as React from 'react';
 import {
   Typography, Dialog, DialogActions,
   DialogContent, DialogContentText, DialogTitle,
-  Stack, Autocomplete, TextField
+  Stack, Autocomplete, TextField, Snackbar, Alert
 } from '@mui/material'
 import { auth, db } from '../others/firebase';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -304,6 +304,16 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
     });
   }, [])
 
+  // snackbar state
+  const [openModuleAlreadyAddedSnackBar, setOpenModuleAlreadyAddedSnackBar] = useState(false);
+
+  const handleCloseSnackBar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenModuleAlreadyAddedSnackBar(false);
+  }
+
   //const [moduleAlreadyTaken, setModuleAlreadyTaken] = React.useState(false);
 
   // for testing
@@ -588,13 +598,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
   };
 
   const handleAdd = async () => {
-    setOpen(false);
-    onSubmit(moduleCode, moduleName, moduleMC, yearSem);
-
     try {
-      // const auth = getAuth();
-      // const user = auth.currentUser;
-      //const currentUserEmail = user.email;
       console.log("current user email is: " + user.email);
       // setCurrentUserEmail(user.email, moduleAlreadyTaken);
       let totalNumModules = 0;
@@ -618,6 +622,12 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
       //setModuleAlreadyTaken(await moduleAlreadyTaken());
 
       if (await moduleAlreadyTaken() === false) {
+
+        // close button dialog
+        setOpen(false);
+
+        // add module to user interface
+        onSubmit(moduleCode, moduleName, moduleMC, yearSem);
 
         // create new document in 'modules' with new module details
         await setDoc(doc(db, `users/${user.email}/modules`, moduleCode), {
@@ -1019,6 +1029,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
       // module taken before (moduleAlreadyTaken flag is set to true)
       else {
         console.log("module already taken!");
+        setOpenModuleAlreadyAddedSnackBar(true);
       }
     } catch (error) {
       console.log(error.message);
@@ -1026,7 +1037,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
   }
 
   return (
-    <div>
+    <>
       <MainButton type="text" main_color="dark_gray.main" value={button_text} onClickAction={handleClickOpen} />
       <Dialog open={open} onClose={handleClose}>
         <Stack padding="24px">
@@ -1104,7 +1115,22 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
           </DialogActions>
         </Stack>
       </Dialog>
-    </div>
+
+      {/* ERROR SNACKBAR */}
+      {/* snackbar displays only when module is already added */}
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openModuleAlreadyAddedSnackBar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackBar}
+      >
+        <Alert severity="error" sx={{ width: "100%" }}>
+          <Typography variant="tag_thin">
+            Module has already been added to the module planner.
+          </Typography>
+        </Alert>
+      </Snackbar>
+    </>
   );
 }
 
