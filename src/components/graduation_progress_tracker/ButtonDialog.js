@@ -406,7 +406,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
     //const staticListOfModules = retrieveAllModules(moduleGroupsArray);
     //console.log(staticListOfModules);
 
-  // code for dynamically retrieving modules from graduationRequirements collection in the database
+  // // code for dynamically retrieving modules from graduationRequirements collection in the database
   // useEffect(() => {
   //   console.log("useeffect called");
   //   setModuleList([]);
