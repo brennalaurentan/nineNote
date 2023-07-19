@@ -460,8 +460,6 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
   const [moduleName, setModuleName] = React.useState("");
   const [moduleMC, setModuleMC] = React.useState(0);
   const [moduleCategory, setModuleCategory] = React.useState("");
-  // const [currentUserEmail, setCurrentUserEmail] = React.useState("");
-  //const [listOfModules, setListOfModules] = React.useState([]);
   const yearSemCode = yearSem.replace(/ /g, '');
 
   // function to retrieve the path to the collection which stores the module group tracker for
@@ -609,11 +607,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
     onSubmit(moduleCode, moduleName, moduleMC, yearSem);
 
     try {
-      // const auth = getAuth();
-      // const user = auth.currentUser;
-      //const currentUserEmail = user.email;
       console.log("current user email is: " + user.email);
-      // setCurrentUserEmail(user.email, moduleAlreadyTaken);
       let totalNumModules = 0;
 
       async function moduleAlreadyTaken() {
