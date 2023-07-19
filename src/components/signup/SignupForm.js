@@ -497,13 +497,6 @@ const SignupForm = () => {
         course: course
       });
 
-      // // create semester collections under user's database profile in firebase
-      // for (const semester of static_semesters) {
-      //   setDoc(doc(db, `users/${currentUserEmail}/modules`, semester), {
-      //     numModules: 0
-      //   });
-      // }
-
       // retrieve number of credits required from each module group (graduation requirements)
       // from firebase
       let commonCurriculumRequirement = 0;
@@ -676,26 +669,28 @@ const SignupForm = () => {
       try {
         // code below reads all the matriculation years from database and
         // displays each of them in the matriculation year dropdown list
-        /*
-        const qSnapshot = getDocs(matriculationYearCollectionRef)
-          .then((qSnapshot) => {
+        
+        // const qSnapshot = getDocs(matriculationYearCollectionRef)
+        //   .then((qSnapshot) => {
 
-            console.log("matriculationYear qSnapshot: " + qSnapshot);
-            qSnapshot.forEach(childDoc => {
-              let newElement = {
-                "value": matriculationYearArray.length.toString(),
-                "label": childDoc.data().year
-              }
-              console.log("pushing label: " + childDoc.data().year);
-              matriculationYearArray.push(newElement);
-            })
-            console.log("matriculationYearArray: " + matriculationYearArray.toString());
-            matriculationYearArray.forEach((item) => console.log(item));
-            console.log("staticMatriculationyear: " + static_matriculation_year.toString());
-            static_matriculation_year.forEach((item) => console.log(item));
-            setMatriculationYearArray(matriculationYearArray);
-          });
-        */
+        //     console.log("matriculationYear qSnapshot: " + qSnapshot);
+        //     qSnapshot.forEach(childDoc => {
+        //       let newElement = {
+        //         "value": matriculationYearArray.length.toString(),
+        //         "label": childDoc.data().year
+        //       }
+        //       console.log("pushing label: " + childDoc.data().year);
+        //       matriculationYearArray.push(newElement);
+        //     })
+        //     console.log("matriculationYearArray: " + matriculationYearArray.toString());
+        //     matriculationYearArray.forEach((item) => console.log(item));
+        //     console.log("staticMatriculationyear: " + static_matriculation_year.toString());
+        //     static_matriculation_year.forEach((item) => console.log(item));
+        //     setMatriculationYearArray(matriculationYearArray);
+        //   });
+          
+        // once changed to dynamic, remove the line below (use the 'set' line above)
+        // or it won't work
         setMatriculationYearArray(static_matriculation_year);
       } catch (error) {
         console.log(error.message);
@@ -706,42 +701,38 @@ const SignupForm = () => {
 
   useEffect(() => {
     let courseArray = [];
-    /*
-    const courseCollectionRef = collection(db, "courseLibrary");
-    */
+    // const courseCollectionRef = collection(db, "courseLibrary");
     async function loadCourseList() {
       try {
-        /*
-        const qSnapshot = getDocs(courseCollectionRef)
-          .then((qSnapshot) => {
+        // const qSnapshot = getDocs(courseCollectionRef)
+        //   .then((qSnapshot) => {
 
-            console.log("course qSnapshot: " + qSnapshot);
-            // for each faculty in courseLibrary (faculty is a document)
-            qSnapshot.forEach(async faculty => {
-              let facultyCourseCount = 0;
-              const courseSnapshot = await getDocs(collection(db, `courseLibrary/${faculty.id}/courses`));
-              // for each course in the childDoc faculty (course is a document)
-              courseSnapshot.forEach(course => {
-                facultyCourseCount++;
-                let newElement = {
-                  "value": faculty.id.toString() + facultyCourseCount.toString(),
-                  "label": course.id.toString()
-                }
-                console.log("pushing value: " + faculty.id.toString() + facultyCourseCount.toString());
-                console.log("pushing label: " + course.id.toString());
-                console.log("pushing label id: " + course.id);
-                console.log("current facultycoursecount is " + facultyCourseCount.toString());
-                console.log(courseArray);
-                courseArray.push(newElement);
-                setCourseArray(courseArray);
-              })
-            })
-            console.log("courseArray: " + courseArray.toString());
-            courseArray.forEach((item) => console.log(item));
-            console.log("staticCourse: " + static_course.toString());
-            static_course.forEach((item) => console.log(item));
-        });
-        */
+        //     console.log("course qSnapshot: " + qSnapshot);
+        //     // for each faculty in courseLibrary (faculty is a document)
+        //     qSnapshot.forEach(async faculty => {
+        //       let facultyCourseCount = 0;
+        //       const courseSnapshot = await getDocs(collection(db, `courseLibrary/${faculty.id}/courses`));
+        //       // for each course in the childDoc faculty (course is a document)
+        //       courseSnapshot.forEach(course => {
+        //         facultyCourseCount++;
+        //         let newElement = {
+        //           "value": faculty.id.toString() + facultyCourseCount.toString(),
+        //           "label": course.id.toString()
+        //         }
+        //         console.log("pushing value: " + faculty.id.toString() + facultyCourseCount.toString());
+        //         console.log("pushing label: " + course.id.toString());
+        //         console.log("pushing label id: " + course.id);
+        //         console.log("current facultycoursecount is " + facultyCourseCount.toString());
+        //         console.log(courseArray);
+        //         courseArray.push(newElement);
+        //         setCourseArray(courseArray);
+        //       })
+        //     })
+        //     console.log("courseArray: " + courseArray.toString());
+        //     courseArray.forEach((item) => console.log(item));
+        //     console.log("staticCourse: " + static_course.toString());
+        //     static_course.forEach((item) => console.log(item));
+        // });
         // code below adds a single 'Computer Science' course to the course dropdown
         let newElement = {
           "value": "SOC1",

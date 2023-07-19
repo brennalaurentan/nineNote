@@ -153,7 +153,7 @@ const moduleGroupsArray = [
   },
   {
     groupName: "unrestrictedElectives",
-    collectionPath: '/graduationrequirements/computerScience/unrestrictedElectives/unrestrictedElectives/unrestrictedElectives'
+    collectionPath: '/graduationRequirements/computerScience/unrestrictedElectives/unrestrictedElectives/unrestrictedElectives'
   }
 ];
 
@@ -314,10 +314,10 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
     setOpenModuleAlreadyAddedSnackBar(false);
   }
 
-  //const [moduleAlreadyTaken, setModuleAlreadyTaken] = React.useState(false);
+  const [moduleList, setModuleList] = useState([]);
 
   // for testing
-  const moduleList = [
+  const static_moduleList = [
     {
       moduleCode: 'CS1101S',
       moduleName: 'Programming Methodology I',
@@ -403,50 +403,57 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
       moduleCategory: 'industryExperience'
     },
   ];
+    //const staticListOfModules = retrieveAllModules(moduleGroupsArray);
+    //console.log(staticListOfModules);
 
-  // function which takes in a path and returns an array of the modules in 
-  // that path in the database (graduation requirement modules, to obtain module details)
-  async function retrieveModulesFromCollectionPath(collectionPath) {
-    const arrayOfModules = [];
-    const collectionRef = collection(db, collectionPath);
-    const querySnapshot = await getDocs(collectionRef)
-    querySnapshot.forEach((doc) => {
-      // each module in the database has the following details:
-      // moduleCode, moduleMC, moduleName
-      const newModule = {
-        "moduleCode": doc.data().moduleCode,
-        "moduleMC": doc.data().moduleMC,
-        "moduleName": doc.data().moduleName,
-        "moduleCategory": doc.data().moduleCategory
-      }
-      arrayOfModules.push(newModule);
-    })
-    return arrayOfModules;
-  }
-  //console.log("Testing retrieveModuleList function:");
-  //console.log(retrieveModulesFromCollectionPath(`/graduationRequirements/computerScience/commonCurriculum/computingEthics/computingEthics`));
+  // code for dynamically retrieving modules from graduationRequirements collection in the database
+  // useEffect(() => {
+  //   console.log("useeffect called");
+  //   setModuleList([]);
+  //   let arrayOfAllModules = [];
+    
+  //   // cycle through all modules in arrayOfModuleGroups (each object has a groupName and a collectionPath property)
+  //   moduleGroupsArray.forEach(courseCollection => {
+  //     let arrayOfModules = [];
 
-  // function which takes in an array of objects, each object representing one module collection in the database
-  // each object has 2 properties: groupName and collectionPath
-  function retrieveAllModules(arrayOfModuleGroups) {
-    let arrayOfAllModules = [];
-    let arrayOfModules = [];
-    (arrayOfModuleGroups).forEach(courseCollection => {
-      // retrieve modules in an array
-      arrayOfModules = retrieveModulesFromCollectionPath(courseCollection.collectionPath);
-      // add arrayOfModules to arrayOfAllModules
-      arrayOfAllModules = arrayOfAllModules.concat(arrayOfModules);
-    });
-    return arrayOfAllModules;
-  }
-  //setListOfModules(retrieveAllModules(moduleGroupsArray));
-  //const staticListOfModules = retrieveAllModules(moduleGroupsArray);
-  //console.log(staticListOfModules);
+  //     async function loadModuleList() {
+  //       try {
+  //         // code below reads all the modules from database and displays
+  //         // each of them in the add module dropdown list
+  //         const courseCollectionRef = collection(db, courseCollection.collectionPath);
+  //         const courseCollectionSnapshot = await getDocs(courseCollectionRef);
+  //         courseCollectionSnapshot.forEach(moduleItem => {
+  //             // for each module in the collection
+  //             const newModule = {
+  //               "moduleCode": moduleItem.data().moduleCode,
+  //               "moduleMC": moduleItem.data().moduleMC,
+  //               "moduleName": moduleItem.data().moduleName,
+  //               "moduleCategory": moduleItem.data().moduleCategory
+  //             }
+  //             // add module to arrayOfModules (for the collection)
+  //             arrayOfModules.push(newModule);
+  //             console.log("added module: " + newModule.moduleCode);
+  //           })
+  //         // add arrayOfModules to arrayOfAllModules (for all collections)
+  //         arrayOfAllModules = arrayOfAllModules.concat(arrayOfModules);
+  //         // update moduleList state with the latest arrayOfAllModules
+  //         setModuleList(arrayOfAllModules);
+  //       } catch (error) {
+  //         console.log(error.message);
+  //       }
+  //     }
+  //     loadModuleList();
+  //   });
+  // }, [user]);
 
-  const moduleCodeList = moduleList.map(module => module.moduleCode);
-  const moduleNameList = moduleList.map(module => module.moduleName);
-  const moduleMCList = moduleList.map(module => module.moduleMC);
-  const moduleCategoryList = moduleList.map(module => module.moduleCategory);
+  const moduleCodeList = static_moduleList.map(module => module.moduleCode);
+  const moduleNameList = static_moduleList.map(module => module.moduleName);
+  const moduleMCList = static_moduleList.map(module => module.moduleMC);
+  const moduleCategoryList = static_moduleList.map(module => module.moduleCategory);
+  // const moduleCodeList = moduleList.map(module => module.moduleCode);
+  // const moduleNameList = moduleList.map(module => module.moduleName);
+  // const moduleMCList = moduleList.map(module => module.moduleMC);
+  // const moduleCategoryList = moduleList.map(module => module.moduleCategory);
 
   const [open, setOpen] = React.useState(false);
   const [moduleCode, setModuleCode] = React.useState("");
@@ -454,7 +461,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
   const [moduleMC, setModuleMC] = React.useState(0);
   const [moduleCategory, setModuleCategory] = React.useState("");
   // const [currentUserEmail, setCurrentUserEmail] = React.useState("");
-  const [listOfModules, setListOfModules] = React.useState([]);
+  //const [listOfModules, setListOfModules] = React.useState([]);
   const yearSemCode = yearSem.replace(/ /g, '');
 
   // function to retrieve the path to the collection which stores the module group tracker for
@@ -598,7 +605,13 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
   };
 
   const handleAdd = async () => {
+    setOpen(false);
+    onSubmit(moduleCode, moduleName, moduleMC, yearSem);
+
     try {
+      // const auth = getAuth();
+      // const user = auth.currentUser;
+      //const currentUserEmail = user.email;
       console.log("current user email is: " + user.email);
       // setCurrentUserEmail(user.email, moduleAlreadyTaken);
       let totalNumModules = 0;

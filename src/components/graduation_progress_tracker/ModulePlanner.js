@@ -218,6 +218,7 @@ const ModulePlanner = () => {
         });
     }, [])
     
+    // shouldn't be needed already ?
     const [state, setState] = useState({
         "Y1 S1": { title: "Y1 S1", items: [item1, item2] },
         "Y1 S2": { title: "Y1 S2", items: [] },
