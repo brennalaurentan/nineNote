@@ -464,8 +464,19 @@ const ModulePlanner = () => {
     */
 
     const handleDragEnd = ({ destination, source }) => {
+        
         console.log("from", source)
         console.log("to", destination)
+
+        const originalYearSem = destination.droppableId.replace(/ /g, '');
+        const newYearSem = destination.droppableId.replace(/ /g, '');
+        const moduleCode = modulesBySemester[source.droppableId].items[source.index].moduleCode;
+
+        const userModuleCollectionPath = `users/${user.email}/modules`;      
+        updateDoc(doc(db, userModuleCollectionPath, moduleCode), {
+          yearSem: newYearSem
+        })
+        console.log(moduleCode + " moved from " + originalYearSem + " to " + newYearSem);
 
         if (!destination) {
             return
