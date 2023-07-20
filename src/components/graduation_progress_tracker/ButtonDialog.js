@@ -623,7 +623,6 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
         // means they haven't taken the module before
         return returnBool;
       }
-      //setModuleAlreadyTaken(await moduleAlreadyTaken());
 
       if (await moduleAlreadyTaken() === false) {
 
@@ -1030,7 +1029,7 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
         // update progress rings and progress bar
         //GraduationProgressTracker();      
       }
-      // module taken before (moduleAlreadyTaken flag is set to true)
+      // module taken before (moduleAlreadyTaken() returns true)
       else {
         console.log("module already taken!");
         setOpenModuleAlreadyAddedSnackBar(true);
