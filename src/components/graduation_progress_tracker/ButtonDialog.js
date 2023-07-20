@@ -603,9 +603,6 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
   };
 
   const handleAdd = async () => {
-    setOpen(false);
-    onSubmit(moduleCode, moduleName, moduleMC, yearSem);
-
     try {
       console.log("current user email is: " + user.email);
       let totalNumModules = 0;
