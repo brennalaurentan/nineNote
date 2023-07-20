@@ -14,7 +14,7 @@ const Linear_PB_Label = (numerator, denominator) => {
                 <Box width="320px">
                     <LinearProgressBar variant="determinate" value={numerator / denominator * 100} />
                 </Box>
-                <Typography variant="tag_bold">{numerator / denominator * 100}%</Typography>
+                <Typography variant="tag_bold">{(numerator / denominator * 100).toFixed(2)}%</Typography>
             </Stack>
         </Stack>
     )
