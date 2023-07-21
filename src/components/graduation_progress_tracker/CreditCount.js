@@ -5,9 +5,7 @@
 // tools
 import { Box, Typography, Stack } from '@mui/material';
 
-const CreditCount = ({ moduleArray, calculateCredits }) => {
-    // const totalCredits = calculateCredits(moduleArray);
-
+const CreditCount = ({ value }) => {
     return (
         <Stack direction="row" gap="8px" alignItems="center">
             <Box
@@ -18,7 +16,7 @@ const CreditCount = ({ moduleArray, calculateCredits }) => {
                 display="flex"
                 alignItems="center"
                 justifyContent="center">
-                <Typography variant="body_bold">4</Typography>
+                <Typography variant="body_bold">{value}</Typography>
             </Box>
             <Typography variant="body_bold">MCs</Typography>
         </Stack>
