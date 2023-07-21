@@ -450,6 +450,39 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
   //   });
   // }, [user]);
 
+  // // code for dynamically retrieving modules from exemptionLibrary collection in the database
+  // useEffect(() => {
+  //   console.log("useeffect called");
+  //   setExemptedModuleList([]);
+  //   let arrayOfAllExemptions = [];
+
+  //   async function loadExemptionsList() {
+  //     try {
+  //       // code below reads all the modules from database and displays
+  //       // each of them in the add module dropdown list
+  //       const courseCollectionRef = collection(db, "exemptionLibrary");
+  //       const courseCollectionSnapshot = await getDocs(courseCollectionRef);
+  //       courseCollectionSnapshot.forEach(exemptionItem => {
+  //           // for each module in the collection
+  //           const newExemption = {
+  //             "moduleCode": exemptionItem.data().moduleCode,
+  //             "moduleMC": exemptionItem.data().moduleMC,
+  //             "moduleName": exemptionItem.data().moduleName,
+  //             "moduleCategory": exemptionItem.data().moduleCategory
+  //           }
+  //           // add module to arrayOfAllExemptions (for the collection)
+  //           arrayOfAllExemptions.push(newExemption);
+  //           console.log("added module: " + newExemption.moduleCode);
+  //           // update exemptionList state with the latest arrayOfAllExemptions
+  //           setExemptedModuleList(arrayOfAllExemptions)
+  //         })
+  //     } catch (error) {
+  //       console.log(error.message);
+  //     }
+  //   }
+  //   loadExemptionsList();
+  // }, [user]);
+
   // for testing (module exemptions)
   const static_exemptedModuleList = [
     {
