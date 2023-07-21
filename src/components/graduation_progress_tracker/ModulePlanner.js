@@ -207,7 +207,7 @@ request.onload = function () {
 request.send();
 */
 
-const ModulePlanner = () => {
+const ModulePlanner = ({ retrieveProgressFields }) => {
 
     // handles currently signed-in user
     const [user, setUser] = useState({});
@@ -533,7 +533,7 @@ const ModulePlanner = () => {
         })
     }
 
-    const addModule = (moduleCode, moduleName, moduleMC, yearSem) => {
+    const addModule = (moduleCode, moduleName, moduleMC, moduleCategory, yearSem) => {
         console.log("Module Added: " + moduleCode);
         console.log("Year and Semester: " + yearSem);
         setModulesBySemester(prev => {
@@ -546,13 +546,16 @@ const ModulePlanner = () => {
                             moduleID: v4(),
                             moduleCode: moduleCode,
                             moduleName: moduleName,
-                            moduleMC: moduleMC
+                            moduleMC: moduleMC,
+                            moduleCategory: moduleCategory,
                         },
                         ...prev[yearSem].items
                     ],
+                    credits: [yearSem].credits,
                 }
-            }
+            };
         })
+        retrieveProgressFields();
     }
 
     const deleteModule = (moduleID, moduleCode, yearSem) => {
@@ -566,9 +569,11 @@ const ModulePlanner = () => {
                     items: [
                         ...prev[yearSem].items.filter(module => module.moduleID !== moduleID)
                     ],
+                    credits: [yearSem].credits,
                 }
             }
         })
+        retrieveProgressFields();
     }
 
     return (
