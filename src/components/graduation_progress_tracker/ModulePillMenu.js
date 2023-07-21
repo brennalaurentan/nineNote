@@ -8,12 +8,10 @@ import { Menu, MenuItem, IconButton } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { deleteDoc, getDocs, doc, collection, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../others/firebase';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 
 
 const ModulePillMenu = ({ moduleID, moduleCode, moduleCategory, moduleMC, yearSem, onMenuClick }) => {
-
-	console.log("MOD CAT: ", moduleCategory);
 
 	// handles currently signed-in user
 	const [user, setUser] = useState({});

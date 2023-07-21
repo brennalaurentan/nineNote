@@ -569,12 +569,14 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
           updateDoc(doc(db, `users/${user.email}/gradProgress`, "commonCurriculum"), {
             overall_fulfilment: true
           })
+          console.log("Updated commonCurriculum overall fulfilment to true");
           return true;
         }
         else {
           updateDoc(doc(db, `users/${user.email}/gradProgress`, "commonCurriculum"), {
             overall_fulfilment: false
           })
+          console.log("commonCurriculum overall fulfilment is false");
           return false;
         }
       }
@@ -595,12 +597,14 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
           updateDoc(doc(db, `users/${user.email}/gradProgress`, "programme"), {
             overall_fulfilment: true
           })
+          console.log("Updated programme overall fulfilment to true");
           return true;
         }
         else {
           updateDoc(doc(db, `users/${user.email}/gradProgress`, "programme"), {
             overall_fulfilment: false
           })
+          console.log("programme overall fulfilment is false");
           return false;
         }
       }
@@ -619,12 +623,14 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
           updateDoc(doc(db, `users/${user.email}/gradProgress`, "unrestrictedElectives"), {
             overall_fulfilment: true
           })
+          console.log("Updated unrestrictedElectives overall fulfilment to true");
           return true;
         }
         else {
           updateDoc(doc(db, `users/${user.email}/gradProgress`, "unrestrictedElectives"), {
             overall_fulfilment: false
           })
+          console.log("unrestrictedElectives overall fulfilment is false");
           return false;
         }
       }
