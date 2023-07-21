@@ -4,55 +4,41 @@
 import ModuleResourceCard from './ModuleResourceCard'
 
 // tools
-import PropTypes from 'prop-types';
-import { Box, Typography, Stack } from '@mui/material';
-
-function TabPanel(props) {
-    const { children, selectedModuleCode, moduleCode, ...other } = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={selectedModuleCode !== moduleCode}
-            id={`vertical-tabpanel-${moduleCode}`}
-            aria-labelledby={`vertical-tab-${moduleCode}`}
-            {...other}
-        >
-            {selectedModuleCode === moduleCode && (
-                <Box sx={{ p: 5 }}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
-        </div>
-    );
-}
-
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    moduleCode: PropTypes.string.isRequired,
-    selectedModuleCode: PropTypes.string.isRequired,
-};
-
+import { useEffect, useState } from 'react';
 
 const ModuleResourceTabContent = ({ selectedModuleCode, moduleData, selectedModuleResources }) => {
-    return (
-        <>
-            {moduleData.map((module, index) => (
-                <TabPanel key={index} selectedModuleCode={selectedModuleCode} moduleCode={module.moduleCode}>
-                    <Stack gap="64px">
-                        <ModuleResourceCard
-                            moduleCode={module.moduleCode}
-                            moduleMC={module.moduleCredit}
-                            moduleName={module.title}
-                            moduleFaculty={module.faculty}
-                            moduleDept={module.department}
-                            selectedModuleResources={selectedModuleResources}
-                        />
-                    </Stack>
-                </TabPanel>
-            ))
+
+    // handles module details
+    const [moduleCode, setModuleCode] = useState('');
+    const [moduleMC, setModuleMC] = useState('');
+    const [moduleName, setModuleName] = useState('');
+    const [moduleFaculty, setModuleFaculty] = useState('');
+    const [moduleDept, setModuleDept] = useState('');
+
+    // function to set module details based on selected module code
+    useEffect(() => {
+        console.log(moduleData);
+        moduleData.map((module, index) => {
+            if (module.moduleCode === selectedModuleCode) {
+                setModuleCode(module.moduleCode);
+                setModuleMC(module.moduleCredit);
+                setModuleName(module.title);
+                setModuleFaculty(module.faculty);
+                setModuleDept(module.department);
             }
-        </>
+            return ""
+        })
+    }, [moduleData, selectedModuleCode])
+
+    return (
+        <ModuleResourceCard
+            moduleCode={moduleCode}
+            moduleMC={moduleMC}
+            moduleName={moduleName}
+            moduleFaculty={moduleFaculty}
+            moduleDept={moduleDept}
+            selectedModuleResources={selectedModuleResources}
+        />
     )
 }
 
