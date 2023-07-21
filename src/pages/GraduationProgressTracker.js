@@ -36,11 +36,8 @@ const GraduationProgressTracker = ({ openLoginSuccessSnackBar, setOpenLoginSucce
   };
 
   // edits to the variables below will be reflected in the progress rings
-  //let ccr = 8;
   let ccrTotal = 40;
-  //let pr = 24;
   let prTotal = 80;
-  //let uer = 0;
   let uerTotal = 40;
 
   const [ccr, setCCR] = useState(0);
@@ -48,7 +45,6 @@ const GraduationProgressTracker = ({ openLoginSuccessSnackBar, setOpenLoginSucce
   const [uer, setUER] = useState(0);
 
   async function retrieveProgressFields() {
-    // const currentUserEmail = user.email;
     const gradProgressCollectionPath = `users/${user.email}/gradProgress`;
     const gradProgressCollection = collection(db, gradProgressCollectionPath);
     const gradProgressQuerySnapshot = await getDocs(gradProgressCollection);

@@ -12,11 +12,10 @@ import {
   Stack, Autocomplete, TextField, Snackbar, Alert
 } from '@mui/material'
 import { auth, db } from '../others/firebase';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { query, collection, setDoc, getDocs, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
+import { collection, setDoc, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { v4 } from 'uuid';
 import { useEffect, useState } from 'react';
-import GraduationProgressTracker from '../../pages/GraduationProgressTracker';
 
 const moduleGroupsArray = [
   {
@@ -411,8 +410,6 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
       moduleCategory: 'industryExperience'
     },
   ];
-  //const staticListOfModules = retrieveAllModules(moduleGroupsArray);
-  //console.log(staticListOfModules);
 
   // // code for dynamically retrieving modules from graduationRequirements collection in the database
   // useEffect(() => {
