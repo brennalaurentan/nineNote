@@ -21,6 +21,7 @@ import { useState } from 'react';
 function App() {
   // const ref = firebase.firestore().collection("users");
   const [openLoginSuccessSnackBar, setOpenLoginSuccessSnackBar] = useState(false);
+  const [openSignupSuccessSnackBar, setOpenSignupSuccessSnackBar] = useState(false);
   const [openDeleteAccountSnackBar, setOpenDeleteAccountSnackBar] = useState(false);
 
   return (
@@ -32,16 +33,21 @@ function App() {
             element={<Login
               setOpenLoginSuccessSnackBar={setOpenLoginSuccessSnackBar}
               openDeleteAccountSnackBar={openDeleteAccountSnackBar}
-              setOpenDeleteAccountSnackBar={setOpenDeleteAccountSnackBar} />}
+              setOpenDeleteAccountSnackBar={setOpenDeleteAccountSnackBar}
+            />}
           />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/signup" element={<Signup
+            setOpenSignupSuccessSnackBar={setOpenSignupSuccessSnackBar} />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/reset-link-sent" element={<ResetLinkSent />} />
           <Route
             path="/graduation-progress-tracker"
             element={<GraduationProgressTracker
               openLoginSuccessSnackBar={openLoginSuccessSnackBar}
-              setOpenLoginSuccessSnackBar={setOpenLoginSuccessSnackBar} />}
+              setOpenLoginSuccessSnackBar={setOpenLoginSuccessSnackBar}
+              openSignupSuccessSnackBar={openSignupSuccessSnackBar}
+              setOpenSignupSuccessSnackBar={setOpenSignupSuccessSnackBar}
+            />}
           />
           <Route path="/module-recommender" element={<ModuleRecommender />} />
           <Route path="/module-resource-directory" element={<ModuleResourceDirectory />} />
