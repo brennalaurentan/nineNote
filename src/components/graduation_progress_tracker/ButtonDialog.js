@@ -411,79 +411,79 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
     },
   ];
 
-  // // code for dynamically retrieving modules from graduationRequirements collection in the database
-  // useEffect(() => {
-  //   setModuleList([]);
-  //   let arrayOfAllModules = [];
+  // code for dynamically retrieving modules from graduationRequirements collection in the database
+  useEffect(() => {
+    setModuleList([]);
+    let arrayOfAllModules = [];
 
-  //   // cycle through all modules in arrayOfModuleGroups (each object has a groupName and a collectionPath property)
-  //   moduleGroupsArray.forEach(courseCollection => {
-  //     let arrayOfModules = [];
+    // cycle through all modules in arrayOfModuleGroups (each object has a groupName and a collectionPath property)
+    moduleGroupsArray.forEach(courseCollection => {
+      let arrayOfModules = [];
 
-  //     // code below reads all the modules from database and displays
-  //     // each of them in the add module dropdown list
-  //     async function loadModuleList() {
-  //       try {
-  //         console.log("loadModuleList() called");              
-  //         const courseCollectionRef = collection(db, courseCollection.collectionPath);
-  //         const courseCollectionSnapshot = await getDocs(courseCollectionRef);
-  //         courseCollectionSnapshot.forEach(moduleItem => {
-  //             // for each module in the collection
-  //             const newModule = {
-  //               "moduleCode": moduleItem.data().moduleCode,
-  //               "moduleMC": moduleItem.data().moduleMC,
-  //               "moduleName": moduleItem.data().moduleName,
-  //               "moduleCategory": moduleItem.data().moduleCategory
-  //             }
-  //             // add module to arrayOfModules (for the collection)
-  //             arrayOfModules.push(newModule);
-  //           })
-  //         // add arrayOfModules to arrayOfAllModules (for all collections)
-  //         arrayOfAllModules = arrayOfAllModules.concat(arrayOfModules);
-  //         // update moduleList state with the latest arrayOfAllModules
-  //         setModuleList(arrayOfAllModules);
-  //         console.log("loadModuleList() success");
-  //       } catch (error) {
-  //         console.log("loadModuleList() failed: " + error.message);
-  //       }
-  //     }
-  //     loadModuleList();
-  //   });
-  // }, [user]);
+      // code below reads all the modules from database and displays
+      // each of them in the add module dropdown list
+      async function loadModuleList() {
+        try {
+          console.log("loadModuleList() called");              
+          const courseCollectionRef = collection(db, courseCollection.collectionPath);
+          const courseCollectionSnapshot = await getDocs(courseCollectionRef);
+          courseCollectionSnapshot.forEach(moduleItem => {
+              // for each module in the collection
+              const newModule = {
+                "moduleCode": moduleItem.data().moduleCode,
+                "moduleMC": moduleItem.data().moduleMC,
+                "moduleName": moduleItem.data().moduleName,
+                "moduleCategory": moduleItem.data().moduleCategory
+              }
+              // add module to arrayOfModules (for the collection)
+              arrayOfModules.push(newModule);
+            })
+          // add arrayOfModules to arrayOfAllModules (for all collections)
+          arrayOfAllModules = arrayOfAllModules.concat(arrayOfModules);
+          // update moduleList state with the latest arrayOfAllModules
+          setModuleList(arrayOfAllModules);
+          console.log("loadModuleList() success");
+        } catch (error) {
+          console.log("loadModuleList() failed: " + error.message);
+        }
+      }
+      loadModuleList();
+    });
+  }, [user]);
 
-  // // code for dynamically retrieving modules from exemptionLibrary collection in the database
-  // useEffect(() => {
-  //   setExemptedModuleList([]);
-  //   let arrayOfAllExemptions = [];
+  // code for dynamically retrieving modules from exemptionLibrary collection in the database
+  useEffect(() => {
+    setExemptedModuleList([]);
+    let arrayOfAllExemptions = [];
 
-  //   // code below reads all the modules from database and displays
-  //   // each of them in the add module dropdown list
+    // code below reads all the modules from database and displays
+    // each of them in the add module dropdown list
     
-  //     async function loadExemptionsList() {
-  //     try {
-  //       console.log("loadExemptionsList() called");
-  //       const courseCollectionRef = collection(db, "exemptionLibrary");
-  //       const courseCollectionSnapshot = await getDocs(courseCollectionRef);
-  //       courseCollectionSnapshot.forEach(exemptionItem => {
-  //         // for each module in the collection
-  //         const newExemption = {
-  //           "moduleCode": exemptionItem.data().moduleCode,
-  //           "moduleMC": exemptionItem.data().moduleMC,
-  //           "moduleName": exemptionItem.data().moduleName,
-  //           "moduleCategory": exemptionItem.data().moduleCategory
-  //         }
-  //         // add module to arrayOfAllExemptions (for the collection)
-  //         arrayOfAllExemptions.push(newExemption);
-  //         // update exemptionList state with the latest arrayOfAllExemptions
-  //         setExemptedModuleList(arrayOfAllExemptions)
-  //       })
-  //       console.log("loadExemptionsList() success");
-  //     } catch (error) {
-  //       console.log("loadExemptionsList() failed: " + error.message);
-  //     }
-  //   }
-  //   loadExemptionsList();
-  // }, [user]);
+      async function loadExemptionsList() {
+      try {
+        console.log("loadExemptionsList() called");
+        const courseCollectionRef = collection(db, "exemptionLibrary");
+        const courseCollectionSnapshot = await getDocs(courseCollectionRef);
+        courseCollectionSnapshot.forEach(exemptionItem => {
+          // for each module in the collection
+          const newExemption = {
+            "moduleCode": exemptionItem.data().moduleCode,
+            "moduleMC": exemptionItem.data().moduleMC,
+            "moduleName": exemptionItem.data().moduleName,
+            "moduleCategory": exemptionItem.data().moduleCategory
+          }
+          // add module to arrayOfAllExemptions (for the collection)
+          arrayOfAllExemptions.push(newExemption);
+          // update exemptionList state with the latest arrayOfAllExemptions
+          setExemptedModuleList(arrayOfAllExemptions)
+        })
+        console.log("loadExemptionsList() success");
+      } catch (error) {
+        console.log("loadExemptionsList() failed: " + error.message);
+      }
+    }
+    loadExemptionsList();
+  }, [user]);
 
   // for testing (module exemptions)
   const static_exemptedModuleList = [
@@ -502,24 +502,24 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
   ]
 
   // module planner module list
-  const moduleCodeList = static_moduleList.map(module => module.moduleCode);
-  const moduleNameList = static_moduleList.map(module => module.moduleName);
-  const moduleMCList = static_moduleList.map(module => module.moduleMC);
-  const moduleCategoryList = static_moduleList.map(module => module.moduleCategory);
-  // const moduleCodeList = moduleList.map(module => module.moduleCode);
-  // const moduleNameList = moduleList.map(module => module.moduleName);
-  // const moduleMCList = moduleList.map(module => module.moduleMC);
-  // const moduleCategoryList = moduleList.map(module => module.moduleCategory);
+  // const moduleCodeList = static_moduleList.map(module => module.moduleCode);
+  // const moduleNameList = static_moduleList.map(module => module.moduleName);
+  // const moduleMCList = static_moduleList.map(module => module.moduleMC);
+  // const moduleCategoryList = static_moduleList.map(module => module.moduleCategory);
+  const moduleCodeList = moduleList.map(module => module.moduleCode);
+  const moduleNameList = moduleList.map(module => module.moduleName);
+  const moduleMCList = moduleList.map(module => module.moduleMC);
+  const moduleCategoryList = moduleList.map(module => module.moduleCategory);
 
   // module exemptions module list
-  const exemptedModuleCodeList = static_exemptedModuleList.map(module => module.moduleCode);
-  const exemptedModuleNameList = static_exemptedModuleList.map(module => module.moduleName);
-  const exemptedModuleMCList = static_exemptedModuleList.map(module => module.moduleMC);
-  const exemptedModuleCategoryList = static_exemptedModuleList.map(module => module.moduleCategory);
-  // const exemptedModuleCodeList = exemptedModuleList.map(module => module.moduleCode);
-  // const exemptedModuleNameList = exemptedModuleList.map(module => module.moduleName);
-  // const exemptedModuleMCList = exemptedModuleList.map(module => module.moduleMC);
-  // const exemptedModuleCategoryList = exemptedModuleList.map(module => module.moduleCategory);
+  // const exemptedModuleCodeList = static_exemptedModuleList.map(module => module.moduleCode);
+  // const exemptedModuleNameList = static_exemptedModuleList.map(module => module.moduleName);
+  // const exemptedModuleMCList = static_exemptedModuleList.map(module => module.moduleMC);
+  // const exemptedModuleCategoryList = static_exemptedModuleList.map(module => module.moduleCategory);
+  const exemptedModuleCodeList = exemptedModuleList.map(module => module.moduleCode);
+  const exemptedModuleNameList = exemptedModuleList.map(module => module.moduleName);
+  const exemptedModuleMCList = exemptedModuleList.map(module => module.moduleMC);
+  const exemptedModuleCategoryList = exemptedModuleList.map(module => module.moduleCategory);
 
   const [open, setOpen] = React.useState(false);
   const [moduleCode, setModuleCode] = React.useState("");
