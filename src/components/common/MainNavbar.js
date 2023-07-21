@@ -38,13 +38,11 @@ const MainNavbar = () => {
         </Box>
         <Stack direction="row" gap="64px" display="flex" alignItems="center">
           <Typography variant="tag_thin">Welcome, {user.email}</Typography>
-          {/* <Link href="/" underline="none" color="white.main">Login</Link> */}
           <Link href="/graduation-progress-tracker" underline="none" color="white.main">Graduation Progress Tracker</Link>
           <Link href="/module-recommender" underline="none" color="white.main">Module Recommender</Link>
           <Link href="/module-resource-directory" underline="none" color="white.main">Module Resource Directory</Link>
           <Link href="/" underline="none" color="white.main" onClick={Logout} component="button">Logout</Link>
           <Link href="/my-profile">
-            {/* <Avatar sx={{ bgcolor: "dark_gray.main", textDecoration: "none" }}>NN</Avatar> */}
             <img src={profile_image} alt="Logo" width="40px" />
           </Link>
         </Stack>
