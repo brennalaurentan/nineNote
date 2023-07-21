@@ -1,7 +1,6 @@
 // styles
 
 // components / pages / images
-import RecommendedModulePill from '../module_recommender/RecommendedModulePill';
 import InformationDesc from './InformationDesc';
 import RecommendedModules from './RecommendedModules';
 
@@ -11,8 +10,7 @@ import PropTypes from 'prop-types';
 import _ from "lodash";
 import { Box, Typography, Stack } from '@mui/material';
 import { getDoc, getDocs, doc, collection } from 'firebase/firestore';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth, db } from '../others/firebase';
+import { db } from '../others/firebase';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -135,6 +133,7 @@ const ModuleRecommenderTabContent = ({ value }) => {
                             moduleCode: moduleDetailsSnap.data().moduleCode,
                             moduleName: moduleDetailsSnap.data().moduleName,
                             moduleMC: moduleDetailsSnap.data().moduleMC,
+                            moduleCategory: moduleDetailsSnap.data().moduleCategory,
                             moduleStats: enrollmentPercentage + "% of students took this module last year.",
                         }
                         modulesForThisSemester.push(newItem);
