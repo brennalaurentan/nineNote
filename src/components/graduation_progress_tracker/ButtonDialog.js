@@ -292,7 +292,7 @@ const userCreditTrackerPathArray = [
   }
 ]
 
-const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
+const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem }) => {
 
   // handles currently signed-in user
   const [user, setUser] = useState({});
@@ -314,9 +314,13 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
     setOpenModuleAlreadyAddedSnackBar(false);
   }
 
+  // handles module planner module list
   const [moduleList, setModuleList] = useState([]);
 
-  // for testing
+  // handles module exemptions module list
+  const [exemptedModuleList, setExemptedModuleList] = useState([]);
+
+  // for testing (module planner)
   const static_moduleList = [
     {
       moduleCode: 'CS1101S',
@@ -403,15 +407,15 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
       moduleCategory: 'industryExperience'
     },
   ];
-    //const staticListOfModules = retrieveAllModules(moduleGroupsArray);
-    //console.log(staticListOfModules);
+  //const staticListOfModules = retrieveAllModules(moduleGroupsArray);
+  //console.log(staticListOfModules);
 
   // // code for dynamically retrieving modules from graduationRequirements collection in the database
   // useEffect(() => {
   //   console.log("useeffect called");
   //   setModuleList([]);
   //   let arrayOfAllModules = [];
-    
+
   //   // cycle through all modules in arrayOfModuleGroups (each object has a groupName and a collectionPath property)
   //   moduleGroupsArray.forEach(courseCollection => {
   //     let arrayOfModules = [];
@@ -446,6 +450,23 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
   //   });
   // }, [user]);
 
+  // for testing (module exemptions)
+  const static_exemptedModuleList = [
+    {
+      moduleCode: 'MA1301',
+      moduleName: 'Introductory Mathematics',
+      moduleMC: '4',
+      moduleCategory: 'unrestrictedElectives'
+    },
+    {
+      moduleCode: 'BT1101',
+      moduleName: 'Introduction to Business Analytics',
+      moduleMC: '4',
+      moduleCategory: 'dataLiteracy'
+    },
+  ]
+
+  // module planner module list
   const moduleCodeList = static_moduleList.map(module => module.moduleCode);
   const moduleNameList = static_moduleList.map(module => module.moduleName);
   const moduleMCList = static_moduleList.map(module => module.moduleMC);
@@ -454,6 +475,16 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
   // const moduleNameList = moduleList.map(module => module.moduleName);
   // const moduleMCList = moduleList.map(module => module.moduleMC);
   // const moduleCategoryList = moduleList.map(module => module.moduleCategory);
+
+  // module exemptions module list
+  const exemptedModuleCodeList = static_exemptedModuleList.map(module => module.moduleCode);
+  const exemptedModuleNameList = static_exemptedModuleList.map(module => module.moduleName);
+  const exemptedModuleMCList = static_exemptedModuleList.map(module => module.moduleMC);
+  const exemptedModuleCategoryList = static_exemptedModuleList.map(module => module.moduleCategory);
+  // const exemptedModuleCodeList = exemptedModuleList.map(module => module.moduleCode);
+  // const exemptedModuleNameList = exemptedModuleList.map(module => module.moduleName);
+  // const exemptedModuleMCList = exemptedModuleList.map(module => module.moduleMC);
+  // const exemptedModuleCategoryList = exemptedModuleList.map(module => module.moduleCategory);
 
   const [open, setOpen] = React.useState(false);
   const [moduleCode, setModuleCode] = React.useState("");
@@ -1056,19 +1087,24 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
               <Autocomplete
                 disablePortal
                 id="combo-box-demo"
-                options={moduleCodeList}
+                options={modLibrary === "exemptions" ? exemptedModuleCodeList : moduleCodeList}
                 fullWidth
                 defaultValue=""
                 value={moduleCode}
                 onChange={(event, newValue) => {
+                  const moduleCodeListUsed = modLibrary === "exemptions" ? exemptedModuleCodeList : moduleCodeList;
+                  const moduleNameListUsed = modLibrary === "exemptions" ? exemptedModuleNameList : moduleNameList;
+                  const moduleMCListUsed = modLibrary === "exemptions" ? exemptedModuleMCList : moduleMCList;
+                  const moduleCategoryListUsed = modLibrary === "exemptions" ? exemptedModuleCategoryList : moduleCategoryList;
+
                   setModuleCode(newValue);
-                  const correspondingModuleName = moduleNameList[moduleCodeList.indexOf(newValue)];
+                  const correspondingModuleName = moduleNameListUsed[moduleCodeListUsed.indexOf(newValue)];
                   setModuleName(correspondingModuleName);
                   console.log(correspondingModuleName);
-                  const correspondingModuleMC = moduleMCList[moduleCodeList.indexOf(newValue)];
+                  const correspondingModuleMC = moduleMCListUsed[moduleCodeListUsed.indexOf(newValue)];
                   setModuleMC(correspondingModuleMC);
                   console.log(correspondingModuleMC);
-                  const correspondingModuleCategory = moduleCategoryList[moduleCodeList.indexOf(newValue)];
+                  const correspondingModuleCategory = moduleCategoryListUsed[moduleCodeListUsed.indexOf(newValue)];
                   setModuleCategory(correspondingModuleCategory);
                   console.log(correspondingModuleCategory);
                 }}
@@ -1081,19 +1117,24 @@ const ButtonDialog = ({ button_text, header, text, onSubmit, yearSem }) => {
               <Autocomplete
                 disablePortal
                 id="combo-box-demo"
-                options={moduleNameList}
+                options={modLibrary === "exemptions" ? exemptedModuleNameList : moduleNameList}
                 fullWidth
                 defaultValue=""
                 value={moduleName}
                 onChange={(event, newValue) => {
+                  const moduleCodeListUsed = modLibrary === "exemptions" ? exemptedModuleCodeList : moduleCodeList;
+                  const moduleNameListUsed = modLibrary === "exemptions" ? exemptedModuleNameList : moduleNameList;
+                  const moduleMCListUsed = modLibrary === "exemptions" ? exemptedModuleMCList : moduleMCList;
+                  const moduleCategoryListUsed = modLibrary === "exemptions" ? exemptedModuleCategoryList : moduleCategoryList;
+
                   setModuleName(newValue);
-                  const correspondingModuleCode = moduleCodeList[moduleNameList.indexOf(newValue)];
+                  const correspondingModuleCode = moduleCodeListUsed[moduleNameListUsed.indexOf(newValue)];
                   setModuleCode(correspondingModuleCode);
                   console.log(correspondingModuleCode);
-                  const correspondingModuleMC = moduleMCList[moduleNameList.indexOf(newValue)];
+                  const correspondingModuleMC = moduleMCListUsed[moduleNameListUsed.indexOf(newValue)];
                   setModuleMC(correspondingModuleMC);
                   console.log(correspondingModuleMC);
-                  const correspondingModuleCategory = moduleCategoryList[moduleNameList.indexOf(newValue)];
+                  const correspondingModuleCategory = moduleCategoryListUsed[moduleNameListUsed.indexOf(newValue)];
                   setModuleCategory(correspondingModuleCategory);
                   console.log(correspondingModuleCategory);
                 }}

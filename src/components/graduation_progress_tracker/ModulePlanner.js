@@ -40,7 +40,7 @@ const item2 = {
 }
 
 const moduleGroupsArray = [
-    {   
+    {
         groupName: "computingEthics",
         collectionPath: '/graduationRequirements/computerScience/commonCurriculum/computingEthics/computingEthics'
     },
@@ -217,7 +217,7 @@ const ModulePlanner = () => {
             setUser(currentUser);
         });
     }, [])
-    
+
     // shouldn't be needed already ?
     const [state, setState] = useState({
         "Y1 S1": { title: "Y1 S1", items: [item1, item2] },
@@ -464,7 +464,7 @@ const ModulePlanner = () => {
     */
 
     const handleDragEnd = ({ destination, source }) => {
-        
+
         console.log("from", source)
         console.log("to", destination)
 
@@ -472,9 +472,9 @@ const ModulePlanner = () => {
         const newYearSem = destination.droppableId.replace(/ /g, '');
         const moduleCode = modulesBySemester[source.droppableId].items[source.index].moduleCode;
 
-        const userModuleCollectionPath = `users/${user.email}/modules`;      
+        const userModuleCollectionPath = `users/${user.email}/modules`;
         updateDoc(doc(db, userModuleCollectionPath, moduleCode), {
-          yearSem: newYearSem
+            yearSem: newYearSem
         })
         console.log(moduleCode + " moved from " + originalYearSem + " to " + newYearSem);
 
@@ -550,6 +550,7 @@ const ModulePlanner = () => {
                                 <Stack direction="row" display="flex" justifyContent="space-between" alignItems="center" marginTop="5px">
                                     <Typography variant="body_bold">{data.title}</Typography>
                                     <ButtonDialog
+                                        modLibrary="planner"
                                         button_text="+ ADD NEW"
                                         header="Add Module"
                                         text="Search for your desired modules by their respective module code 
