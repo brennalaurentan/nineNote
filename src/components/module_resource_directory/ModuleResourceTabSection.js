@@ -75,7 +75,7 @@ const ModuleResourceTabSection = ({ moduleData, moduleResources }) => {
     // updates module data upon search input
     const handleSearchFilter = (event) => {
         console.log(event.target.value);
-        const searchWord = event.target.value;
+        const searchWord = event.target.value.toLowerCase();
         const filterBySearchCode = moduleData.filter((module) => {
             return module.moduleCode.toLowerCase().includes(searchWord);
         })
@@ -120,54 +120,54 @@ const ModuleResourceTabSection = ({ moduleData, moduleResources }) => {
     }
 
     return (
-        <Box
-            sx={{ display: 'flex', justifyContent: "space-between", height: 400, padding: "56px" }}
-        >
-            <Stack gap="16px" width="42vw">
-                <Typography variant="h3">All Modules</Typography>
-                <TextField
-                    id="filled-search"
-                    label="Search by Module Code or Module Name"
-                    type="search"
-                    onChange={handleSearchFilter}
-                />
-                <Stack gap="0px">
-                    {displayedModules.map((module, index) => (
-                        <ModuleListItem
-                            key={index}
-                            index={index}
-                            selectedModuleCode={selectedModuleCode}
-                            onSelect={handleModuleChange}
-                            moduleCode={module.moduleCode}
-                            moduleMC={module.moduleCredit}
-                            moduleName={module.title}
-                            moduleSem={module.semesterData}
-                        />
-                    ))}
-                    <Typography
-                        variant="body_thin"
-                        justifyContent="center"
-                        padding="40px"
-                        display={showModules}>
-                        No modules to be displayed.
-                    </Typography>
+        <Stack height="400px" padding="56px" gap="16px" display="flex-start">
+            <Typography variant="h3">All Modules</Typography>
+            <Stack direction="row" justifyContent="space-between">
+                <Stack gap="16px" width="42vw">
+                    <TextField
+                        id="filled-search"
+                        label="Search by Module Code or Module Name"
+                        type="search"
+                        onChange={handleSearchFilter}
+                    />
+                    <Stack gap="0px">
+                        {displayedModules.map((module, index) => (
+                            <ModuleListItem
+                                key={index}
+                                index={index}
+                                selectedModuleCode={selectedModuleCode}
+                                onSelect={handleModuleChange}
+                                moduleCode={module.moduleCode}
+                                moduleMC={module.moduleCredit}
+                                moduleName={module.title}
+                                moduleSem={module.semesterData}
+                            />
+                        ))}
+                        <Typography
+                            variant="body_thin"
+                            justifyContent="center"
+                            padding="40px"
+                            display={showModules}>
+                            No modules to be displayed.
+                        </Typography>
+                    </Stack>
+                    <ModuleResourcePagination
+                        activePage={activePage}
+                        setActivePage={setActivePage}
+                        moduleData={filteredModules}
+                        totalModuleCount={filteredModulesCount}
+                        splitModuleData={splitModuleData}
+                        setDisplayedModules={setDisplayedModules}
+                        setSelectedModuleCode={setSelectedModuleCode}
+                    />
                 </Stack>
-                <ModuleResourcePagination
-                    activePage={activePage}
-                    setActivePage={setActivePage}
+                <ModuleResourceTabContent
+                    selectedModuleCode={selectedModuleCode}
                     moduleData={filteredModules}
-                    totalModuleCount={filteredModulesCount}
-                    splitModuleData={splitModuleData}
-                    setDisplayedModules={setDisplayedModules}
-                    setSelectedModuleCode={setSelectedModuleCode}
+                    selectedModuleResources={selectedModuleResources}
                 />
             </Stack>
-            <ModuleResourceTabContent
-                selectedModuleCode={selectedModuleCode}
-                moduleData={filteredModules}
-                selectedModuleResources={selectedModuleResources}
-            />
-        </Box>
+        </Stack>
     );
 }
 
