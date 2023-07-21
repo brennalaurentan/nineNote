@@ -506,6 +506,7 @@ const ModulePlanner = ({ retrieveProgressFields }) => {
         const originalYearSem = destination.droppableId.replace(/ /g, '');
         const newYearSem = destination.droppableId.replace(/ /g, '');
         const moduleCode = modulesBySemester[source.droppableId].items[source.index].moduleCode;
+        const moduleMC = modulesBySemester[source.droppableId].items[source.index].moduleMC;
 
         const userModuleCollectionPath = `users/${user.email}/modules`;
         updateDoc(doc(db, userModuleCollectionPath, moduleCode), {
@@ -529,6 +530,8 @@ const ModulePlanner = ({ retrieveProgressFields }) => {
             prev[source.droppableId].items.splice(source.index, 1)
             // adding to new items array location
             prev[destination.droppableId].items.splice(destination.index, 0, itemCopy)
+            modulesBySemester[source.droppableId].credits -= parseInt(moduleMC)
+            modulesBySemester[destination.droppableId].credits += parseInt(moduleMC)
             return prev
         })
     }

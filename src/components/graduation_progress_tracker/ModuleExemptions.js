@@ -122,10 +122,11 @@ const ModuleExemptions = ({ retrieveProgressFields }) => {
                 }
             }
         })
+        setModuleExemptionsCreditCount(prev => prev + parseInt(moduleMC));
         retrieveProgressFields();
     }
 
-    const deleteModule = (moduleID, moduleCode, yearSem) => {
+    const deleteModule = (moduleID, moduleCode, moduleMC, yearSem) => {
         console.log("Module Deleted: " + moduleCode);
         console.log("Year and Semester: " + yearSem);
         setModuleExemptions(prev => {
@@ -139,6 +140,7 @@ const ModuleExemptions = ({ retrieveProgressFields }) => {
                 }
             }
         })
+        setModuleExemptionsCreditCount(prev => prev - parseInt(moduleMC));
         retrieveProgressFields();
     }
 
