@@ -289,6 +289,10 @@ const userCreditTrackerPathArray = [
   {
     groupName: "foundation",
     collectionPath: '/users/!/gradProgress/programme/foundation'
+  },
+  {
+    groupName: "unrestrictedElectives",
+    collectionPath: '/users/!/gradProgress'
   }
 ]
 
@@ -689,13 +693,6 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
       }
 
       if (await moduleAlreadyTaken() === false) {
-
-        // close button dialog
-        setOpen(false);
-
-        // add module to user interface
-        onSubmit(moduleCode, moduleName, moduleMC, yearSem);
-
         // create new document in 'modules' with new module details
         await setDoc(doc(db, `users/${user.email}/modules`, moduleCode), {
           moduleID: v4(),
@@ -1092,6 +1089,13 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
 
         // update progress rings and progress bar
         //GraduationProgressTracker();      
+
+        // close button dialog
+        setOpen(false);
+
+        // add module to user interface and retrieve credits from firebase
+        onSubmit(moduleCode, moduleName, moduleMC, moduleCategory, yearSem);
+
       }
       // module taken before (moduleAlreadyTaken() returns true)
       else {

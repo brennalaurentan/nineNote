@@ -10,7 +10,7 @@ import ModulePlanner from '../components/graduation_progress_tracker/ModulePlann
 import SnackBar from '../components/common/SnackBar';
 
 // tools
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Stack, Snackbar, Alert, Typography } from '@mui/material';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -18,16 +18,15 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db, auth } from '../components/others/firebase';
 
 const GraduationProgressTracker = ({ openLoginSuccessSnackBar, setOpenLoginSuccessSnackBar }) => {
-  // handles currently signed in user
+  // handles currently signed-in user
   const [user, setUser] = useState({});
 
   // function to get the currently signed-in user
-  async function getCurrentUser() {
+  useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
-  }
-  getCurrentUser();
+  }, [])
 
   const handleCloseSnackBar = (event, reason) => {
     if (reason === 'clickaway') {
@@ -44,13 +43,13 @@ const GraduationProgressTracker = ({ openLoginSuccessSnackBar, setOpenLoginSucce
   //let uer = 0;
   let uerTotal = 40;
 
-  const [ccr, setCCR] = useState();
-  const [pr, setPR] = useState();
-  const [uer, setUER] = useState();
+  const [ccr, setCCR] = useState(0);
+  const [pr, setPR] = useState(0);
+  const [uer, setUER] = useState(0);
 
   async function retrieveProgressFields() {
-    const currentUserEmail = user.email;
-    const gradProgressCollectionPath = `users/${currentUserEmail}/gradProgress`;
+    // const currentUserEmail = user.email;
+    const gradProgressCollectionPath = `users/${user.email}/gradProgress`;
     const gradProgressCollection = collection(db, gradProgressCollectionPath);
     const gradProgressQuerySnapshot = await getDocs(gradProgressCollection);
     gradProgressQuerySnapshot.forEach((mainModuleGroup) => {
@@ -103,7 +102,7 @@ const GraduationProgressTracker = ({ openLoginSuccessSnackBar, setOpenLoginSucce
             denominator={totalDenominator} />
           <ModuleExemptions />
         </Stack>
-        <ModulePlanner />
+        <ModulePlanner retrieveProgressFields={retrieveProgressFields}/>
       </Stack>
 
       {/* SUCCESS SNACKBAR */}

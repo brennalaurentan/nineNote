@@ -147,6 +147,10 @@ const userCreditTrackerPathArray = [
   {
       groupName: "foundation",
       collectionPath: '/users/!/gradProgress/programme/foundation'
+  },
+  {
+    groupName: "unrestrictedElectives",
+    collectionPath: '/users/!/gradProgress'
   }
 ]
 
