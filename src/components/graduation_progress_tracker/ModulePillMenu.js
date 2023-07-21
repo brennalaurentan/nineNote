@@ -324,13 +324,18 @@ const ModulePillMenu = ({ moduleID, moduleCode, moduleCategory, moduleMC, yearSe
 			}
 			console.log("counted credits lost towards overall: " + countedModuleCreditsLostForGroup);
 
-			// update the fields in the document for the module subgroup
+			// obtain path to collection containing data for the module group, pertaining to the user
 			const userModuleCollectionPath = retrieveUserModuleCreditTrackerPath(user.email, moduleCategory);
-			console.log("[update fields in document for module subgroup] moduleCategory is " + moduleCategory + ", path is " + userModuleCollectionPath);
-			await updateDoc(doc(db, userModuleCollectionPath, moduleCategory), {
-				creditsCompleted: newModuleGroupCreditsCompleted,
-				creditsToMeet: moduleGroupCreditsToMeet
-			})
+
+			// update the fields in the document for the module subgroup (except for unrestrictedElectives)
+			if (!moduleCategory.includes("unrestrictedElectives")) {
+				console.log("[update fields in document for module subgroup] moduleCategory is " + moduleCategory + ", path is " + userModuleCollectionPath);
+				await updateDoc(doc(db, userModuleCollectionPath, moduleCategory), {
+					creditsCompleted: newModuleGroupCreditsCompleted,
+					creditsToMeet: moduleGroupCreditsToMeet
+				})
+				console.log("updated module subgroup credit count");
+			}
 
 			// special check for 4k module, if it's a focus area module
 			const moduleCodeNumbers = moduleCode.slice(-4);
@@ -611,7 +616,7 @@ const ModulePillMenu = ({ moduleID, moduleCode, moduleCategory, moduleMC, yearSe
 			await setMenu(null);
 
 			// add module to user interface and retrieve credits from firebase
-			await onMenuClick(moduleID, moduleCode, yearSem);
+			await onMenuClick(moduleID, moduleCode, moduleMC, yearSem);
 
 		} catch (error) {
 			console.log(error.message);

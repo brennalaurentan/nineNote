@@ -551,14 +551,14 @@ const ModulePlanner = ({ retrieveProgressFields }) => {
                         },
                         ...prev[yearSem].items
                     ],
-                    credits: [yearSem].credits,
+                    credits: prev[yearSem].credits + parseInt(moduleMC),
                 }
             };
         })
         retrieveProgressFields();
     }
 
-    const deleteModule = (moduleID, moduleCode, yearSem) => {
+    const deleteModule = (moduleID, moduleCode, moduleMC, yearSem) => {
         console.log("Module Deleted: " + moduleCode);
         console.log("Year and Semester: " + yearSem);
         setModulesBySemester(prev => {
@@ -569,7 +569,7 @@ const ModulePlanner = ({ retrieveProgressFields }) => {
                     items: [
                         ...prev[yearSem].items.filter(module => module.moduleID !== moduleID)
                     ],
-                    credits: [yearSem].credits,
+                    credits: prev[yearSem].credits - parseInt(moduleMC),
                 }
             }
         })

@@ -350,13 +350,17 @@ const RecommendedModulePillMenu = ({ moduleCode, moduleName, moduleMC, moduleCat
         }
         console.log("counted credits gained towards overall: " + countedModuleCreditsGainedForGroup);
 
-        // update the fields in the document for the module subgroup
-        const userModuleCollectionPath = retrieveUserModuleCreditTrackerPath(user.email, moduleCategory);
-        console.log("[update fields in document for module subgroup] moduleCategory is " + moduleCategory + ", path is " + userModuleCollectionPath);
-        await updateDoc(doc(db, userModuleCollectionPath, moduleCategory), {
-          creditsCompleted: newModuleGroupCreditsCompleted,
-          creditsToMeet: moduleGroupCreditsToMeet
-        })
+			// obtain path to collection containing data for the module group, pertaining to the user
+			const userModuleCollectionPath = retrieveUserModuleCreditTrackerPath(user.email, moduleCategory);
+
+			// update the fields in the document for the module subgroup (except for unrestrictedElectives)
+			if (!moduleCategory.includes("unrestrictedElectives")) {
+				console.log("[update fields in document for module subgroup] moduleCategory is " + moduleCategory + ", path is " + userModuleCollectionPath);
+				await updateDoc(doc(db, userModuleCollectionPath, moduleCategory), {
+					creditsCompleted: newModuleGroupCreditsCompleted,
+					creditsToMeet: moduleGroupCreditsToMeet
+				})
+			}
 
         // special check for 4k module, if it's a focus area module
         const moduleCodeNumbers = moduleCode.slice(-4);
