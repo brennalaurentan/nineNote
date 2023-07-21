@@ -99,17 +99,6 @@ function EnhancedTableHead(props) {
                         </TableSortLabel>
                     </TableCell>
                 ))}
-                {/* <TableCell padding="checkbox">
-                    <Checkbox
-                        color="primary"
-                        indeterminate={numSelected > 0 && numSelected < rowCount}
-                        checked={rowCount > 0 && numSelected === rowCount}
-                        onChange={onSelectAllClick}
-                        inputProps={{
-                            'aria-label': 'select all',
-                        }}
-                    />
-                </TableCell> */}
             </TableRow>
         </TableHead>
     );
@@ -231,15 +220,6 @@ const MA1301ExemptionTable = () => {
                                             {row.certificate}
                                         </TableCell>
                                         <TableCell align="left">{row.description}</TableCell>
-                                        {/* <TableCell padding="checkbox">
-                                            <Checkbox
-                                                color="primary"
-                                                checked={isItemSelected}
-                                                inputProps={{
-                                                    'aria-labelledby': labelId,
-                                                }}
-                                            />
-                                        </TableCell> */}
                                     </TableRow>
                                 );
                             })}

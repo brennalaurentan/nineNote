@@ -366,7 +366,6 @@ const BasicInfoForm = ({ setOpenDeleteAccountSnackBar }) => {
     setOpenSaveChangesSnackBar(false);
   };
 
-
   // function to get the currently signed-in user
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -374,7 +373,8 @@ const BasicInfoForm = ({ setOpenDeleteAccountSnackBar }) => {
     });
   }, [])
 
-  // function to load all matriculation years from firebase (code section below is commented to avoid firebase quota)
+  // function to load all matriculation years from firebase 
+  // (code section below is commented to avoid hitting firebase quota)
   useEffect(() => {
     let matriculationYearArray = [];
     const matriculationYearCollectionRef = collection(db, "matriculationYear");
@@ -402,6 +402,8 @@ const BasicInfoForm = ({ setOpenDeleteAccountSnackBar }) => {
             setMatriculationYearArray(matriculationYearArray);
           });
         */
+        // code below adds a static matriculation year array to the course dropdown
+        // (comment out if the code above is in use)
         setMatriculationYearArray(static_matriculation_year);
       } catch (error) {
         console.log(error.message);
@@ -410,7 +412,8 @@ const BasicInfoForm = ({ setOpenDeleteAccountSnackBar }) => {
     loadMatriculationYearList();
   }, []);
 
-  // function to load all courses from firebase (code section below is commented to avoid firebase quota)
+  // function to load all courses from firebase
+  // (code section below is commented to avoid hitting firebase quota)
   useEffect(() => {
     let courseArray = [];
     /*
@@ -450,6 +453,7 @@ const BasicInfoForm = ({ setOpenDeleteAccountSnackBar }) => {
         });
         */
         // code below adds a single 'Computer Science' course to the course dropdown
+        // (comment out if the code above is in use)
         let newElement = {
           "value": "SOC1",
           "label": "Computer Science"

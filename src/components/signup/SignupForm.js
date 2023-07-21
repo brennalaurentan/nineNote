@@ -286,6 +286,10 @@ const moduleGroupsArray = [
   {
     groupName: "foundation",
     collectionPath: '/graduationRequirements/computerScience/programme/foundation/foundation'
+  },
+  {
+    groupname: "unrestrictedElectives",
+    collectionPath: 'graduationRequirements/computerScience/unrestrictedElectives'
   }
 ];
 
@@ -576,7 +580,6 @@ const SignupForm = ({ setOpenSignupSuccessSnackBar }) => {
             creditsToMeet: setCreditsToMeet,
             creditsCompleted: 0,
             fourKModTaken: false
-            //modulesTaken: []
           });
         }
         // if moduleGroup is a focusArea elective, set the following default credit requirements
@@ -585,7 +588,6 @@ const SignupForm = ({ setOpenSignupSuccessSnackBar }) => {
           setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
             creditsToMeet: setCreditsToMeet,
             creditsCompleted: "0",
-            //modulesTaken: []
           });
         }
         // if moduleGroup is focusAreas_others
@@ -594,7 +596,6 @@ const SignupForm = ({ setOpenSignupSuccessSnackBar }) => {
           setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
             creditsToMeet: 0,
             creditsCompleted: 0,
-            //modulesTaken: []
           });
         }
         // if moduleGroup is industryExperience
@@ -604,7 +605,6 @@ const SignupForm = ({ setOpenSignupSuccessSnackBar }) => {
             creditsToMeet: setCreditsToMeet,
             creditsCompleted: 0,
             industryExperience_fulfilment: false
-            //modulesTaken: []
           })
         }
         // if moduleGroup is any of the universityLevel subgroups
@@ -613,7 +613,6 @@ const SignupForm = ({ setOpenSignupSuccessSnackBar }) => {
           setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
             creditsToMeet: setCreditsToMeet,
             creditsCompleted: 0,
-            //modulesTaken: [],
             uLSubgroup_fulfilment: false
           })
         }
@@ -634,7 +633,6 @@ const SignupForm = ({ setOpenSignupSuccessSnackBar }) => {
                 setDoc(doc(db, pathToCollection, userModuleGroup.groupName), {
                   creditsToMeet: setCreditsToMeet,
                   creditsCompleted: "0",
-                  //modulesTaken: []
                 });
               }
             });
@@ -788,7 +786,6 @@ const SignupForm = ({ setOpenSignupSuccessSnackBar }) => {
           type={"email"}
           onChangeAction={(event, value) => {
             setRegisterEmail(event.target.value);
-            console.log("live email update: " + registerEmail);
           }}
         />
         <FormField
@@ -796,7 +793,6 @@ const SignupForm = ({ setOpenSignupSuccessSnackBar }) => {
           type={"password"}
           onChangeAction={(event) => {
             setRegisterPassword(event.target.value);
-            console.log("live password update: " + registerPassword);
           }}
         />
         <FormField
@@ -807,13 +803,12 @@ const SignupForm = ({ setOpenSignupSuccessSnackBar }) => {
             let selectedMatriculationYearLabel = "";
             for (const matriculationYear of matriculationYearArray) {
               if (matriculationYear.value === event.target.value) {
-                console.log("matriculation year label: " + matriculationYear.label);
                 selectedMatriculationYearLabel = matriculationYear.label;
               }
             }
-            console.log("selected matriculation year label: " + selectedMatriculationYearLabel);
+            console.log("Selected matriculation year: " + selectedMatriculationYearLabel);
             setMatriculationYear(selectedMatriculationYearLabel);
-            console.log("live matriculationyear update: " + matriculationYear);
+            console.log("Selected matriculation year: " + matriculationYear);
           }} />
         <FormField
           field_name={"Current/Prospective Course"}
@@ -823,13 +818,12 @@ const SignupForm = ({ setOpenSignupSuccessSnackBar }) => {
             let selectedCourseLabel = "";
             for (const course of courseArray) {
               if (course.value === event.target.value) {
-                console.log("course label: " + course.label);
                 selectedCourseLabel = course.label;
               }
             }
-            console.log("selected course label: " + selectedCourseLabel);
+            console.log("Selected course: " + selectedCourseLabel);
             setCourse(selectedCourseLabel);
-            console.log("live course update: " + course);
+            console.log("Selected course: " + course);
           }} />
         <Link>
           <MainButton

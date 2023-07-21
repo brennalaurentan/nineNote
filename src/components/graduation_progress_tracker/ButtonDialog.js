@@ -413,7 +413,6 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
 
   // // code for dynamically retrieving modules from graduationRequirements collection in the database
   // useEffect(() => {
-  //   console.log("useeffect called");
   //   setModuleList([]);
   //   let arrayOfAllModules = [];
 
@@ -421,10 +420,11 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
   //   moduleGroupsArray.forEach(courseCollection => {
   //     let arrayOfModules = [];
 
+  //     // code below reads all the modules from database and displays
+  //     // each of them in the add module dropdown list
   //     async function loadModuleList() {
   //       try {
-  //         // code below reads all the modules from database and displays
-  //         // each of them in the add module dropdown list
+  //         console.log("loadModuleList() called");              
   //         const courseCollectionRef = collection(db, courseCollection.collectionPath);
   //         const courseCollectionSnapshot = await getDocs(courseCollectionRef);
   //         courseCollectionSnapshot.forEach(moduleItem => {
@@ -437,14 +437,14 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
   //             }
   //             // add module to arrayOfModules (for the collection)
   //             arrayOfModules.push(newModule);
-  //             console.log("added module: " + newModule.moduleCode);
   //           })
   //         // add arrayOfModules to arrayOfAllModules (for all collections)
   //         arrayOfAllModules = arrayOfAllModules.concat(arrayOfModules);
   //         // update moduleList state with the latest arrayOfAllModules
   //         setModuleList(arrayOfAllModules);
+  //         console.log("loadModuleList() success");
   //       } catch (error) {
-  //         console.log(error.message);
+  //         console.log("loadModuleList() failed: " + error.message);
   //       }
   //     }
   //     loadModuleList();
@@ -453,32 +453,33 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
 
   // // code for dynamically retrieving modules from exemptionLibrary collection in the database
   // useEffect(() => {
-  //   console.log("useeffect called");
   //   setExemptedModuleList([]);
   //   let arrayOfAllExemptions = [];
 
-  //   async function loadExemptionsList() {
+  //   // code below reads all the modules from database and displays
+  //   // each of them in the add module dropdown list
+    
+  //     async function loadExemptionsList() {
   //     try {
-  //       // code below reads all the modules from database and displays
-  //       // each of them in the add module dropdown list
+  //       console.log("loadExemptionsList() called");
   //       const courseCollectionRef = collection(db, "exemptionLibrary");
   //       const courseCollectionSnapshot = await getDocs(courseCollectionRef);
   //       courseCollectionSnapshot.forEach(exemptionItem => {
-  //           // for each module in the collection
-  //           const newExemption = {
-  //             "moduleCode": exemptionItem.data().moduleCode,
-  //             "moduleMC": exemptionItem.data().moduleMC,
-  //             "moduleName": exemptionItem.data().moduleName,
-  //             "moduleCategory": exemptionItem.data().moduleCategory
-  //           }
-  //           // add module to arrayOfAllExemptions (for the collection)
-  //           arrayOfAllExemptions.push(newExemption);
-  //           console.log("added module: " + newExemption.moduleCode);
-  //           // update exemptionList state with the latest arrayOfAllExemptions
-  //           setExemptedModuleList(arrayOfAllExemptions)
-  //         })
+  //         // for each module in the collection
+  //         const newExemption = {
+  //           "moduleCode": exemptionItem.data().moduleCode,
+  //           "moduleMC": exemptionItem.data().moduleMC,
+  //           "moduleName": exemptionItem.data().moduleName,
+  //           "moduleCategory": exemptionItem.data().moduleCategory
+  //         }
+  //         // add module to arrayOfAllExemptions (for the collection)
+  //         arrayOfAllExemptions.push(newExemption);
+  //         // update exemptionList state with the latest arrayOfAllExemptions
+  //         setExemptedModuleList(arrayOfAllExemptions)
+  //       })
+  //       console.log("loadExemptionsList() success");
   //     } catch (error) {
-  //       console.log(error.message);
+  //       console.log("loadExemptionsList() failed: " + error.message);
   //     }
   //   }
   //   loadExemptionsList();
@@ -539,32 +540,6 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
     })
     returnPath = returnPath.replace(/!/g, userEmail);
     return returnPath;
-  }
-
-  // function which updates the credit count in the database,
-  // given the module category, path in database, and number of credits to add
-  // by accessing the 'creditsToMeet' and 'creditsCompleted' fields in the given collection path
-  async function updateCreditCount(moduleCategory, collectionPath, creditsToAdd) {
-    try {
-      // obtain current credit count
-      const querySnapshot = await getDocs(collection(db, collectionPath));
-      let currentCreditCount = 0;
-      let creditsToMeet = 0;
-      querySnapshot.forEach((doc) => {
-        currentCreditCount = parseInt(doc.data().creditsCompleted);
-        creditsToMeet = doc.data().creditsToMeet;
-      })
-      // calculate new credit count
-      const newCreditCount = (currentCreditCount + creditsToAdd).toString();
-      // update credit count with new credit count
-      await setDoc(doc(db, collectionPath, moduleCategory), {
-        creditsCompleted: newCreditCount,
-        creditsToMeet: creditsToMeet
-      });
-    }
-    catch (error) {
-      console.log(error.message);
-    }
   }
 
   // function to retrieve the path to the collection storing all modules one can take
@@ -669,23 +644,23 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
 
   const handleAdd = async () => {
     try {
-      console.log("current user email is: " + user.email);
-      let totalNumModules = 0;
 
       async function moduleAlreadyTaken() {
+        console.log("moduleAlreadyTaken() called");
         let returnBool = false;
         const userAllModulesCollectionPath = "users/" + user.email + "/modules"
         const userAllModulesCollection = collection(db, userAllModulesCollectionPath);
         const userAllModulesQuerySnapshot = await getDocs(userAllModulesCollection);
         userAllModulesQuerySnapshot.forEach((moduleDoc) => {
           // module found in user's 'allModules' collection with the same module code, 
-          // means they've taken the module before
+          // means they've taken the module before - set flag to true
           if (moduleDoc.data().moduleCode === moduleCode) {
             returnBool = true;
           }
         })
+        console.log("moduleAlreadyTaken() success: moduleTaken is " + returnBool);
         // no module found in user's 'allModules' collection with the same module code,
-        // means they haven't taken the module before
+        // means they haven't taken the module before - set flag to false
         return returnBool;
       }
 
@@ -699,6 +674,7 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
           moduleCategory: moduleCategory,
           yearSem: yearSemCode
         })
+        console.log("Module added to user's database");
 
         // retrieve necessary info pertaining to current progress of the added module's module group
         let moduleGroupCreditsCompleted = 0;
@@ -710,19 +686,72 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
           userModuleCollectionPathSnapshot.forEach((moduleGroupInCollection) => {
             if (moduleGroupInCollection.id === moduleCategory) {
               moduleGroupCreditsCompleted = parseInt(moduleGroupInCollection.data().creditsCompleted);
-              console.log("module group credits completed: " + parseInt(moduleGroupInCollection.data().creditsCompleted));
+              console.log("Module group [" + moduleCategory + "] current credits completed = " + moduleGroupCreditsCompleted);
+              newModuleGroupCreditsCompleted = parseInt(moduleGroupCreditsCompleted) + parseInt(moduleMC);
+              console.log("Module group [" + moduleCategory + "] new credits completed = " + newModuleGroupCreditsCompleted);
               moduleGroupCreditsToMeet = parseInt(moduleGroupInCollection.data().creditsToMeet);
-              console.log("module group credits to meet: " + parseInt(moduleGroupInCollection.data().creditsToMeet));
+              console.log("Module group [" + moduleCategory + "] credits to meet = " + moduleGroupCreditsToMeet);
             }
           });
         }
         await retrieveUserModuleGroupProgress();
 
-        newModuleGroupCreditsCompleted = parseInt(moduleGroupCreditsCompleted) + parseInt(moduleMC);
-        console.log("original credits completed for " + moduleCategory + ": " + moduleGroupCreditsCompleted);
-        console.log("new credits completed for " + moduleCategory + ": " + newModuleGroupCreditsCompleted);
-        let countedModuleCreditsGainedForGroup = parseInt(moduleMC);
+        // obtain path to collection containing data for the module group, pertaining to the user
+        const userModuleCollectionPath = retrieveUserModuleCreditTrackerPath(user.email, moduleCategory);
 
+        // update the fields in the document for the module subgroup (except for unrestrictedElectives)
+        if (!moduleCategory.includes("unrestrictedElectives")) {
+          await updateDoc(doc(db, userModuleCollectionPath, moduleCategory), {
+            creditsCompleted: newModuleGroupCreditsCompleted,
+          })
+          console.log("Updated credit count in module group [" + moduleCategory + "]");
+        }
+
+        // specially for focusArea, update the creditsCompleted field in the focusAreas document
+        let focusAreasCreditsCompleted = 0;
+        let newFocusAreaCreditsCompleted = 0;
+        let countedFocusAreasCreditsGained = 0;
+        let focusAreasCreditsToMeet = 0;
+        if (userModuleCollectionPath.includes("focusAreas")) {
+          async function updateFocusAreaCredits() {
+            console.log("updateFocusAreaCredits() called");
+            const focusAreaCollectionPath = `users/${user.email}/gradProgress/programme/breadthAndDepth`;
+            const focusAreaCollection = collection(db, focusAreaCollectionPath);
+            const focusAreaQuerySnapshot = await getDocs(focusAreaCollection);
+            focusAreaQuerySnapshot.forEach((doc) => {
+              // run through focusArea subdocument
+              if (doc.id === "focusAreas") {
+                focusAreasCreditsCompleted = parseInt(doc.data().creditsCompleted);
+                console.log("updateFocusAreaCredits(): focusAreas current credits completed = " + focusAreasCreditsCompleted);
+                newFocusAreaCreditsCompleted = parseInt(focusAreasCreditsCompleted) + parseInt(moduleMC);
+                console.log("updateFocusAreaCredits(): focusAreas new credits completed = " + newFocusAreaCreditsCompleted);
+                focusAreasCreditsToMeet = parseInt(doc.data().creditsToMeet);
+                console.log("updateFocusAreaCredits(): focusAreas credits to meet = " + focusAreasCreditsToMeet);
+              }
+            })
+
+            await updateDoc(doc(db, focusAreaCollectionPath, "focusAreas"), {
+              creditsCompleted: parseInt(newFocusAreaCreditsCompleted)
+            })
+            console.log("updateFocusAreaCredits(): updated credit count in focusAreas document");
+            console.log("updateFocusAreaCredits() success");
+          }
+          await updateFocusAreaCredits();
+
+          // special additional check for 4k focusArea module
+          const moduleCodeNumbers = moduleCode.slice(-4);
+          if (moduleCategory.includes("primaries")) {
+            if (parseInt(moduleCodeNumbers) >= 4000) {
+              // update the fourKModTaken field in the focusArea subgroup
+              updateDoc(doc(db, userModuleCollectionPath, moduleCategory), {
+                fourKModTaken: true
+              })
+              console.log("Selected module [" + moduleCode + "] is a 4k focusArea module, 4k+ focusArea requirement met");
+            }
+          }
+        }
+
+        let countedModuleCreditsGainedForGroup = parseInt(moduleMC);
         // if original group credits completed already met or exceeded the credits to meet
         if (moduleGroupCreditsCompleted >= moduleGroupCreditsToMeet) {
           // set the 'counted credits' counter to 0 as the original already exceeded the creditsToMeet
@@ -733,77 +762,11 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
           // set the 'counted credits' counter to only as many that add up to the creditsToMeet
           countedModuleCreditsGainedForGroup = moduleGroupCreditsToMeet - moduleGroupCreditsCompleted;
         }
-        console.log("counted credits gained towards overall: " + countedModuleCreditsGainedForGroup);
-
-        // obtain path to collection containing data for the module group, pertaining to the user
-        const userModuleCollectionPath = retrieveUserModuleCreditTrackerPath(user.email, moduleCategory);
-
-        // update the fields in the document for the module subgroup (except for unrestrictedElectives)
-        if (!moduleCategory.includes("unrestrictedElectives")) {
-          console.log("[update fields in document for module subgroup] moduleCategory is " + moduleCategory + ", path is " + userModuleCollectionPath);
-          await updateDoc(doc(db, userModuleCollectionPath, moduleCategory), {
-            creditsCompleted: newModuleGroupCreditsCompleted,
-            creditsToMeet: moduleGroupCreditsToMeet
-          })
-        }
-
-        // special check for 4k module, if it's a focus area module
-        const moduleCodeNumbers = moduleCode.slice(-4);
-        if (moduleCategory.includes("primaries")) {
-          if (parseInt(moduleCodeNumbers) >= 4000) {
-            // update the fourKModTaken field in the focusArea subgroup
-            updateDoc(doc(db, userModuleCollectionPath, moduleCategory), {
-              fourKModTaken: true
-            })
-          }
-        }
-
-        // specially for focusArea, update the creditsCompleted field in the focusAreas document
-        let focusAreasCreditsCompleted = 0;
-        let newFocusAreaCreditsCompleted = 0;
-        let countedFocusAreasCreditsGained = 0;
-        let focusAreasCreditsToMeet = 0;
-        if (userModuleCollectionPath.includes("focusAreas")) {
-          async function updateFocusAreaCredits() {
-            const focusAreaCollectionPath = `users/${user.email}/gradProgress/programme/breadthAndDepth`;
-            const focusAreaCollection = collection(db, focusAreaCollectionPath);
-            const focusAreaQuerySnapshot = await getDocs(focusAreaCollection);
-            // run through focusArea subdocument, then industryExperience subdocument
-            focusAreaQuerySnapshot.forEach((doc) => {
-              if (doc.id === "focusAreas") {
-                focusAreasCreditsCompleted = parseInt(doc.data().creditsCompleted);
-                focusAreasCreditsToMeet = parseInt(doc.data().creditsToMeet);
-              }
-            })
-            console.log("focusAreas creditsCompleted: " + focusAreasCreditsCompleted);
-            newFocusAreaCreditsCompleted = parseInt(focusAreasCreditsCompleted) + parseInt(moduleMC);
-            console.log("new focusArea credits completed: " + newFocusAreaCreditsCompleted);
-            console.log("focusAreas credits to meet: " + focusAreasCreditsToMeet);
-            await updateDoc(doc(db, focusAreaCollectionPath, "focusAreas"), {
-              creditsCompleted: parseInt(newFocusAreaCreditsCompleted)
-            })
-            if (focusAreasCreditsCompleted < focusAreasCreditsToMeet) {
-              if (newFocusAreaCreditsCompleted <= focusAreasCreditsToMeet) {
-                // count full
-                countedFocusAreasCreditsGained = parseInt(newFocusAreaCreditsCompleted) - parseInt(focusAreasCreditsCompleted);
-              }
-              else {
-                // count partial, up to creditsToMeet
-                countedFocusAreasCreditsGained = parseInt(focusAreasCreditsToMeet) - parseInt(focusAreasCreditsCompleted);
-              }
-            }
-            else {
-              // count none
-              countedFocusAreasCreditsGained = 0;
-            }
-            console.log("countedFocusAreasCreditsGained is " + countedFocusAreasCreditsGained);
-          }
-          await updateFocusAreaCredits();
-        }
 
         // update the fields in the main module group 
         // (creditsCompleted field in main commonCurriculum/programme/unrestrictedElectives documents)
         async function updateMainModuleGroupCredits() {
+          console.log("updateMainModuleGroupCredits() called");
           const gradProgressCollectionPath = `users/${user.email}/gradProgress`;
           const gradProgressCollection = collection(db, gradProgressCollectionPath);
           const gradProgressQuerySnapshot = await getDocs(gradProgressCollection);
@@ -818,40 +781,54 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
           gradProgressQuerySnapshot.forEach((mainModuleGroup) => {
             if (mainModuleGroup.id === mainModuleGroupName) {
               let currentMainModuleGroupCreditsCompleted = parseInt(mainModuleGroup.data().creditsCompleted);
-              console.log("main module group is " + mainModuleGroupName);
-              console.log("updating main module credits, current credits completed = " + currentMainModuleGroupCreditsCompleted);
-              console.log("userModuleCollectionPath is: " + userModuleCollectionPath);
+              console.log("Main module group [" + mainModuleGroup.id + "] current credits completed = " + currentMainModuleGroupCreditsCompleted);
               if (userModuleCollectionPath.includes("focusAreas")) {
-                console.log("userModuleCollectionPath includes focusAreas, set countedModuleCreditsGainedForGroup to countedFocusAreasCreditsGained");
+                if (focusAreasCreditsCompleted < focusAreasCreditsToMeet) {
+                  if (newFocusAreaCreditsCompleted <= focusAreasCreditsToMeet) {
+                    // count full
+                    countedFocusAreasCreditsGained = parseInt(newFocusAreaCreditsCompleted) - parseInt(focusAreasCreditsCompleted);
+                  }
+                  else {
+                    // count partial, up to creditsToMeet
+                    countedFocusAreasCreditsGained = parseInt(focusAreasCreditsToMeet) - parseInt(focusAreasCreditsCompleted);
+                  }
+                }
+                else {
+                  // count none
+                  countedFocusAreasCreditsGained = 0;
+                }
                 countedModuleCreditsGainedForGroup = parseInt(countedFocusAreasCreditsGained);
               }
-              console.log("new credits completed = " + countedModuleCreditsGainedForGroup);
+              console.log("Main module group [" + mainModuleGroup.id + "] counted credits gained = " + countedModuleCreditsGainedForGroup);
               let newMainModuleGroupCreditsCompleted = currentMainModuleGroupCreditsCompleted + countedModuleCreditsGainedForGroup;
+              console.log("Main module group [" + mainModuleGroup.id + "] new credits completed = " + newMainModuleGroupCreditsCompleted);
+              let mainModuleGroupCreditsToMeet = parseInt(mainModuleGroup.data().creditsToMeet);
+              console.log("Main module group [" + mainModuleGroup.id + "] credits to meet = " + mainModuleGroupCreditsToMeet);
               updateDoc(doc(db, gradProgressCollectionPath, mainModuleGroupName), {
                 creditsCompleted: newMainModuleGroupCreditsCompleted
               })
-              console.log("updated main module credits, " + newMainModuleGroupCreditsCompleted);
+              console.log("Updated credit count in main module group [" + mainModuleGroup.id + "]");
             }
           })
+          console.log("updateMainModuleGroupCredits() success");
         }
         await updateMainModuleGroupCredits();
 
         // if an objective was met by adding this module (module group objective met)
         if ((moduleGroupCreditsCompleted < moduleGroupCreditsToMeet) && (newModuleGroupCreditsCompleted >= moduleGroupCreditsToMeet)) {
-          console.log(moduleCategory + " objective met!");
+          console.log("Module group [" + moduleCategory + "] requirement met!");
           // update the fields in the main group
           if (userModuleCollectionPath.includes("commonCurriculum")) {
             if (userModuleCollectionPath.includes("universityLevel")) {
-              console.log("creditsCompleted: " + newModuleGroupCreditsCompleted);
               // update the fulfilment in the subgroup itself as well
               await updateDoc(doc(db, userModuleCollectionPath, moduleCategory), {
-                creditsCompleted: parseInt(newModuleGroupCreditsCompleted),
-                creditsToMeet: parseInt(moduleGroupCreditsToMeet),
                 uLSubgroup_fulfilment: true
               })
+              console.log("Updated fulfilment field for group + [" + moduleCategory + "]");
 
               // check other universityLevel subgroups to see if it's the last one
               async function checkUniversityLevelFulfilment() {
+                console.log("checkUniversityLevelFulfilment() called");
                 let returnBool = true;
                 const collectionPath = retrieveUserModuleCreditTrackerPath(user.email, "communitiesAndEngagement");
                 const collectionRef = collection(db, collectionPath);
@@ -861,6 +838,7 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
                     returnBool = false;
                   }
                 });
+                console.log("checkUniversityLevelFulfilment() success: universityLevel requirement fulfilment is " + returnBool);
                 return returnBool;
               }
               // if all universityLevel subgroups have been satisfied
@@ -869,6 +847,7 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
                 updateDoc(doc(db, `users/${user.email}/gradProgress`, "commonCurriculum"), {
                   universityLevel_fulfilment: true
                 })
+                console.log("Updated universityLevel fulfilment field to true");
               }
             }
             // if not universityLevel (computingEthics, crossDisciplinaryEducation, interdisciplinaryEducation)
@@ -889,6 +868,7 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
                   interdisciplinaryEducation_fulfilment: true
                 })
               }
+              console.log("Updated [" + moduleCategory + "] fulfilment field to true");
             }
             await checkAndSetCommonCurriculumOverallFulfilment();
             // for programme requirement modules
@@ -897,6 +877,7 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
             if (userModuleCollectionPath.includes("focusAreas")) {
               // check that the 4k mod requirement has been met as well
               async function checkFocusArea4kFulfilment() {
+                console.log("checkFocusArea4kFulfilment() called");
                 let returnBool = false;
                 const focusAreaCollectionPath = retrieveUserModuleCreditTrackerPath(user.email, moduleCategory);
                 const focusAreaCollection = collection(db, focusAreaCollectionPath);
@@ -906,6 +887,7 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
                     returnBool = focusAreaSubgroup.data().fourKModTaken;
                   }
                 });
+                console.log("checkFocusArea4kFulfilment() success");
                 return returnBool;
               }
               let focusArea4kFulfilment = await checkFocusArea4kFulfilment(moduleCategory);
@@ -916,9 +898,11 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
                 await updateDoc(doc(db, `users/${user.email}/gradProgress/programme/breadthAndDepth`, "focusAreas"), {
                   oneFocusAreaCompleted: true,
                 })
+                console.log("Updated focusArea 4k requirement field to true");
 
                 // check creditsCompleted for focusAreas
                 async function checkFocusAreasCreditsCompleted() {
+                  console.log("checkFocusAreasCompleted() called");
                   let returnInt = 0;
                   const focusAreasCollectionPath = `users/${user.email}/gradProgress/programme/breadthAndDepth`;
                   const focusAreasCollection = collection(db, focusAreasCollectionPath);
@@ -928,6 +912,7 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
                       returnInt = parseInt(subDoc.data().creditsCompleted);
                     }
                   });
+                  console.log("checkFocusAreasCompleted() success: focusAreas credits completed = " + returnInt);
                   return returnInt;
                 }
 
@@ -937,11 +922,13 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
                   await updateDoc(doc(db, `users/${user.email}/gradProgress/programme/breadthAndDepth`, "focusAreas"), {
                     focusAreas_fulfilment: true,
                   })
+                  console.log("Updated focusAreas fulfilment to true (>=20 focusArea credits)");
                 }
 
                 // check other breadthAndDepth subgroups to see if it's the last one
                 let industryExperienceFulfilment = false;
                 async function checkIndustryExperienceFulfilment() {
+                  console.log("checkIndustryExperienceFulfilment() called");
                   let returnBool = false;
                   const breadthAndDepthCollectionPath = `users/${user.email}/gradProgress/programme/breadthAndDepth`;
                   const breadthAndDepthCollection = collection(db, breadthAndDepthCollectionPath);
@@ -951,11 +938,13 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
                       returnBool = breadthAndDepthSubgroup.data().industryExperience_fulfilment;
                     }
                   })
+                  console.log("checkIndustryExperienceFulfilment() success: industryExperience requirement met is " + returnBool);
                   return returnBool;
                 }
                 industryExperienceFulfilment = checkIndustryExperienceFulfilment();
 
                 async function checkBreadthAndDepthCredits() {
+                  console.log("checkBreadthAndDepthCredits() called");
                   let returnInt = 0;
                   let focusAreasCreditsCompleted = 0;
                   let industryExperienceCreditsCompleted = 0;
@@ -983,7 +972,7 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
                     }
                   })
                   returnInt = countedFocusAreasCredits + countedIndustryExperienceCredits;
-                  console.log("breadthanddepthcredits: " + returnInt);
+                  console.log("checkBreadthAndDepthCredits() success: breadthAndDepth credits = " + returnInt + "/32");
                   return returnInt;
                 }
 
@@ -993,24 +982,26 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
                   updateDoc(doc(db, `users/${user.email}/gradProgress`, "programme"), {
                     breadthAndDepth_fulfilment: true
                   });
+                  console.log("Updated breadthAndDepth fulfilment to true");
                 }
               }
-              // else, focus are 4k module requirement not met
+              // else, focus area 4k module requirement not met
               else {
-                console.log("focus area 4k module requirement not met");
+                console.log("focusArea 4k requirement is false");
               }
             }
             // industryExperience
             else if (moduleCategory.includes("industryExperience")) {
-              console.log("updating industryExperience_fulfilment to true");
               // update the fulfilment in the industryExperience subgroup (industryExperience_fulfilment field)
               await updateDoc(doc(db, `users/${user.email}/gradProgress/programme/breadthAndDepth`, "industryExperience"), {
                 industryExperience_fulfilment: true
               })
+              console.log("Updating industryExperience fulfilment field to true");
 
               // check other breadthAndDepth subgroups to see if it's the last one
               let focusAreaFulfilment = false;
               async function checkFocusAreaFulfilment() {
+                console.log("checkFocusAreaFulfilment() called");
                 let returnBool = false;
                 const breadthAndDepthCollectionPath = `users/${user.email}/gradProgress/programme/breadthAndDepth`;
                 const breadthAndDepthCollection = collection(db, breadthAndDepthCollectionPath);
@@ -1020,6 +1011,7 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
                     returnBool = breadthAndDepthSubgroup.data().focusAreas_fulfilment;
                   }
                 })
+                console.log("checkFocusAreaFulfilment() success: focusAreas fulfilment is " + returnBool);
                 return returnBool;
               }
               focusAreaFulfilment = checkFocusAreaFulfilment();
@@ -1028,6 +1020,7 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
               // by adding up the credits from focusAreas and industryExperience sub-subgroups
               // updates the 'creditsCompleted' field in the breadthAndDepth document, under programme main group
               async function checkBreadthAndDepthCredits() {
+                console.log("checkBreadthAndDepthCredits() called");
                 let returnInt = 0;
                 let focusAreasCreditsCompleted = 0;
                 let countedFocusAreasCreditsCompleted = 0;
@@ -1055,6 +1048,7 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
                   }
                 })
                 returnInt = parseInt(countedFocusAreasCreditsCompleted) + parseInt(countedIndustryExperienceCreditsCompleted);
+                console.log("checkBreadthAndDepthCredits() success: breadthAndDepth credits = " + returnInt + "/32");
                 return returnInt;
               }
 
@@ -1064,6 +1058,7 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
                 updateDoc(doc(db, `users/${user.email}/gradProgress`, "programme"), {
                   breadthAndDepth_fulfilment: true
                 });
+                console.log("Updated breadthAndDepth fulfilment to true");
               }
             }
             // mathematicsAndSciences or foundation
@@ -1080,16 +1075,14 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
                   foundation_fulfilment: true
                 })
               }
+              console.log("Updated [" + moduleCategory + "] fulfilment to true");
             }
             await checkAndSetProgrammeOverallFulfilment();
             // for unrestrictedElective requirement modules
           } else {
             await checkAndSetUnrestrictedElectivesOverallFulfilment();
           }
-        }
-
-        // update progress rings and progress bar
-        //GraduationProgressTracker();      
+        }  
 
         // close button dialog
         setOpen(false);
@@ -1100,7 +1093,7 @@ const ButtonDialog = ({ modLibrary, button_text, header, text, onSubmit, yearSem
       }
       // module taken before (moduleAlreadyTaken() returns true)
       else {
-        console.log("module already taken!");
+        console.log("Unable to add module: module already taken");
         setOpenModuleAlreadyAddedSnackBar(true);
       }
     } catch (error) {

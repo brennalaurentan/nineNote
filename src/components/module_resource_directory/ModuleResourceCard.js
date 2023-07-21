@@ -17,10 +17,9 @@ const ModuleResourceCard = ({ moduleCode, moduleMC, moduleName, moduleFaculty, m
             const moduleBooksRefArray = selectedModuleResources.moduleBooks;
             try {
                 if (Array.isArray(moduleBooksRefArray)) {
-                    console.log("yes, array!");
-                    console.log("books array: ", moduleBooksRefArray);
+                    console.log("Books array: ", moduleBooksRefArray);
                     const numberOfBooks = moduleBooksRefArray.length;
-                    console.log("number of books: ", numberOfBooks);
+                    console.log("Number of books: ", numberOfBooks);
 
                     let bookCount = 0;
                     let moduleBooksArray = [];
@@ -35,17 +34,16 @@ const ModuleResourceCard = ({ moduleCode, moduleMC, moduleName, moduleFaculty, m
                         }
                         moduleBooksArray.push(newBook);
                         bookCount = bookCount + 1;
-                        console.log("current book: ", newBook.bookTitle);
-                        console.log("loop local module books array: ", moduleBooksArray);
+                        console.log("Current book: ", newBook.bookTitle);
+                        console.log("Loop local module books array: ", moduleBooksArray);
                         
                         if (bookCount === numberOfBooks) {
                             setModuleBooks(moduleBooksArray);
                         }
                     });
 
-                    console.log("local module books array: ", moduleBooksArray);
+                    console.log("Local module books array: ", moduleBooksArray);
                 } else {
-                    console.log("no, not array!");
                     setModuleBooks([]);
                 }
             } catch (error) {

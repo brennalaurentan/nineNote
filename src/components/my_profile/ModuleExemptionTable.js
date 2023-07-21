@@ -19,15 +19,6 @@ function createData(name, exempted_mods) {
     };
 }
 
-// const rows = [
-//     createData('Financial Informatics', 'IS1108, CP3200'),
-//     createData('Business Administration', 'IS1108, CS2101'),
-//     createData('Games Design and Development', 'CS2101, IS1108'),
-//     createData('Music and Audio Technology', 'IS1108'),
-//     createData('Aerospace Electronics', 'CS2101'),
-//     createData('test', 'test'),
-// ];
-
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -102,17 +93,6 @@ function EnhancedTableHead(props) {
                         </TableSortLabel>
                     </TableCell>
                 ))}
-                {/* <TableCell padding="checkbox">
-                    <Checkbox
-                        color="primary"
-                        indeterminate={numSelected > 0 && numSelected < rowCount}
-                        checked={rowCount > 0 && numSelected === rowCount}
-                        onChange={onSelectAllClick}
-                        inputProps={{
-                            'aria-label': 'select all',
-                        }}
-                    />
-                </TableCell> */}
             </TableRow>
         </TableHead>
     );
@@ -223,7 +203,6 @@ const ModuleExemptionTable = ({rows, poly}) => {
                                         aria-checked={isItemSelected}
                                         tabIndex={-1}
                                         key={row.name}
-                                        // selected={isItemSelected}
                                         sx={{ cursor: 'pointer' }}
                                     >
                                         <TableCell
@@ -234,15 +213,6 @@ const ModuleExemptionTable = ({rows, poly}) => {
                                             {row.name}
                                         </TableCell>
                                         <TableCell align="left">{row.exempted_mods}</TableCell>
-                                        {/* <TableCell padding="checkbox">
-                                            <Checkbox
-                                                color="primary"
-                                                checked={isItemSelected}
-                                                inputProps={{
-                                                    'aria-labelledby': labelId,
-                                                }}
-                                            />
-                                        </TableCell> */}
                                     </TableRow>
                                 );
                             })}

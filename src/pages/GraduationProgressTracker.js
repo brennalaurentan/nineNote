@@ -13,7 +13,7 @@ import SnackBar from '../components/common/SnackBar';
 import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Stack, Snackbar, Alert, Typography } from '@mui/material';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
 import { db, auth } from '../components/others/firebase';
 
