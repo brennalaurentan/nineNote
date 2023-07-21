@@ -13,7 +13,7 @@ import { v4 } from 'uuid';
 import { auth, db } from '../others/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
-// import CreditCount from './CreditCount';
+import CreditCount from './CreditCount';
 
 const item1 = {
     id: v4(),
@@ -35,7 +35,8 @@ const ModuleExemptions = () => {
     }, [])
 
     const [moduleExemptions, setModuleExemptions] = useState({});
-    
+    const [moduleExemptionsCreditCount, setModuleExemptionsCreditCount] = useState(0);
+
     useEffect(() => {
         async function loadModuleExemptions() {
             const allModulesCollectionRef = collection(db, `users/${user.email}/modules`);
@@ -43,16 +44,20 @@ const ModuleExemptions = () => {
 
             try {
                 let exemptionMods = [];
+                let exemptionModsCreditCount = 0;
                 allModulesSnapshot.forEach(module => {
-                    const newItem = {
-                        moduleID: module.data().moduleID,
-                        moduleCode: module.data().moduleCode,
-                        moduleName: module.data().moduleName,
-                        moduleMC: module.data().moduleMC,
-                        moduleCategory: module.data().moduleCategory
-                    }
+                    if (module.data().yearSem === "Exemptions") {
+                        const newItem = {
+                            moduleID: module.data().moduleID,
+                            moduleCode: module.data().moduleCode,
+                            moduleName: module.data().moduleName,
+                            moduleMC: module.data().moduleMC,
+                            moduleCategory: module.data().moduleCategory
+                        }
 
-                    exemptionMods.push(newItem);
+                        exemptionMods.push(newItem);
+                        exemptionModsCreditCount = parseInt(module.data().moduleMC) + exemptionModsCreditCount;
+                    }
                 })
 
 
@@ -61,6 +66,7 @@ const ModuleExemptions = () => {
                 };
 
                 setModuleExemptions(newState);
+                setModuleExemptionsCreditCount(exemptionModsCreditCount);
 
                 console.log("new state: ", newState);
 
@@ -148,8 +154,8 @@ const ModuleExemptions = () => {
                         <>
                             <Box bgcolor="light_blue.light" padding="30px" borderRadius="30px" display="flex" flexDirection="column" gap="30px">
                                 <Stack direction="row" display="flex" justifyContent="space-between" alignItems="center" marginTop="5px">
-                                    <Typography variant="body_bold">{data.title}</Typography>
-                                    {/* <CreditCount moduleArray={data.items} calculateCredits={calculateCredits} /> */}
+                                    {/* <Typography variant="body_bold">{data.title}</Typography> */}
+                                    <CreditCount value={moduleExemptionsCreditCount} />
                                     <ButtonDialog
                                         button_text="+ ADD NEW"
                                         header="Add Module Exemptions"
