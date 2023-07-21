@@ -6,7 +6,7 @@
 import { Alert, AlertTitle, Typography, Box, Stack } from '@mui/material';
 import Report from '@mui/icons-material/Report';
 
-const ImportantDisplay = () => {
+const ThingsToNote = () => {
     return (
         <Box display="flex">
             <Alert icon={<Report fontSize="inherit" />} severity="warning">
@@ -15,11 +15,9 @@ const ImportantDisplay = () => {
                 </AlertTitle>
                 <Stack gap="16px">
                     <Typography variant="tag_thin">
-                        Adding any of these modules to your module planner <b>does not guarantee</b> you a spot in the module.
-                    </Typography>
-                    <Typography variant="tag_thin">
-                        You will still have to register for the module via <a href="https://www.nus.edu.sg/coursereg/">CourseReg@EduRec</a> as
-                        per normal.
+                        Pre-requisites are not accounted for. You may 
+                        find the respective module pre-requisites 
+                        on <a href='https://nusmods.com/courses?sem[0]=1&sem[1]=2&sem[2]=3&sem[3]=4'>NUSMODS</a>.
                     </Typography>
                 </Stack>
             </Alert>
@@ -27,4 +25,4 @@ const ImportantDisplay = () => {
     )
 }
 
-export default ImportantDisplay
+export default ThingsToNote
