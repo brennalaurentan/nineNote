@@ -4,6 +4,7 @@
 import MainButton from '../common/MainButton';
 import ModulePill from './ModulePill';
 import ButtonDialog from './ButtonDialog';
+import CreditCount from './CreditCount';
 
 // tools
 import React, { useState } from 'react';
@@ -305,21 +306,38 @@ const ModulePlanner = () => {
 
             try {
                 let y1s1Mods = [];
+                let y1s1ModsCreditCount = 0;
                 let y1s2Mods = [];
+                let y1s2ModsCreditCount = 0;
                 let y1st1Mods = [];
+                let y1st1ModsCreditCount = 0;
                 let y1st2Mods = [];
+                let y1st2ModsCreditCount = 0;
                 let y2s1Mods = [];
+                let y2s1ModsCreditCount = 0;
                 let y2s2Mods = [];
+                let y2s2ModsCreditCount = 0;
                 let y2st1Mods = [];
+                let y2st1ModsCreditCount = 0;
                 let y2st2Mods = [];
+                let y2st2ModsCreditCount = 0;
                 let y3s1Mods = [];
+                let y3s1ModsCreditCount = 0;
                 let y3s2Mods = [];
+                let y3s2ModsCreditCount = 0;
                 let y3st1Mods = [];
+                let y3st1ModsCreditCount = 0;
                 let y3st2Mods = [];
+                let y3st2ModsCreditCount = 0;
                 let y4s1Mods = [];
+                let y4s1ModsCreditCount = 0;
                 let y4s2Mods = [];
+                let y4s2ModsCreditCount = 0;
                 let y4st1Mods = [];
+                let y4st1ModsCreditCount = 0;
                 let y4st2Mods = [];
+                let y4st2ModsCreditCount = 0;
+
                 allModulesSnapshot.forEach(module => {
                     const newItem = {
                         moduleID: module.data().moduleID,
@@ -332,72 +350,89 @@ const ModulePlanner = () => {
                     switch (module.data().yearSem) {
                         case "Y1S1":
                             y1s1Mods.push(newItem);
+                            y1s1ModsCreditCount = parseInt(module.data().moduleMC) + y1s1ModsCreditCount;
                             break;
                         case "Y1S2":
                             y1s2Mods.push(newItem);
+                            y1s2ModsCreditCount = parseInt(module.data().moduleMC) + y1s2ModsCreditCount;
                             break;
                         case "Y1ST1":
                             y1st1Mods.push(newItem);
+                            y1st1ModsCreditCount = parseInt(module.data().moduleMC) + y1st1ModsCreditCount;
                             break;
                         case "Y1ST2":
                             y1st2Mods.push(newItem);
+                            y1st2ModsCreditCount = parseInt(module.data().moduleMC) + y1st2ModsCreditCount;
                             break;
                         case "Y2S1":
                             y2s1Mods.push(newItem);
+                            y2s1ModsCreditCount = parseInt(module.data().moduleMC) + y2s1ModsCreditCount;
                             break;
                         case "Y2S2":
                             y2s2Mods.push(newItem);
+                            y2s2ModsCreditCount = parseInt(module.data().moduleMC) + y2s2ModsCreditCount;
                             break;
                         case "Y2ST1":
                             y2st1Mods.push(newItem);
+                            y2st1ModsCreditCount = parseInt(module.data().moduleMC) + y2st1ModsCreditCount;
                             break;
                         case "Y2ST2":
                             y2st2Mods.push(newItem);
+                            y2st2ModsCreditCount = parseInt(module.data().moduleMC) + y2st2ModsCreditCount;
                             break;
                         case "Y3S1":
                             y3s1Mods.push(newItem);
+                            y3s1ModsCreditCount = parseInt(module.data().moduleMC) + y3s1ModsCreditCount;
                             break;
                         case "Y3S2":
                             y3s2Mods.push(newItem);
+                            y3s2ModsCreditCount = parseInt(module.data().moduleMC) + y3s2ModsCreditCount;
                             break;
                         case "Y3ST1":
                             y3st1Mods.push(newItem);
+                            y3st1ModsCreditCount = parseInt(module.data().moduleMC) + y3st1ModsCreditCount;
                             break;
                         case "Y3ST2":
                             y3st2Mods.push(newItem);
+                            y3st2ModsCreditCount = parseInt(module.data().moduleMC) + y3st2ModsCreditCount;
                             break;
                         case "Y4S1":
                             y4s1Mods.push(newItem);
+                            y4s1ModsCreditCount = parseInt(module.data().moduleMC) + y4s1ModsCreditCount;
                             break;
                         case "Y4S2":
                             y4s2Mods.push(newItem);
+                            y4s2ModsCreditCount = parseInt(module.data().moduleMC) + y4s2ModsCreditCount;
                             break;
                         case "Y4ST1":
                             y4st1Mods.push(newItem);
+                            y4st1ModsCreditCount = parseInt(module.data().moduleMC) + y4st1ModsCreditCount;
                             break;
                         case "Y4ST2":
                             y4st2Mods.push(newItem);
+                            y4st2ModsCreditCount = parseInt(module.data().moduleMC) + y4st2ModsCreditCount;
                             break;
+                        default:
                     }
                 })
 
                 let newState = {
-                    "Y1 S1": { title: "Y1 S1", items: y1s1Mods },
-                    "Y1 S2": { title: "Y1 S2", items: y1s2Mods },
-                    "Y1 ST1": { title: "Y1 ST1", items: y1st1Mods },
-                    "Y1 ST2": { title: "Y1 ST2", items: y1st2Mods },
-                    "Y2 S1": { title: "Y2 S1", items: y2s1Mods },
-                    "Y2 S2": { title: "Y2 S2", items: y2s2Mods },
-                    "Y2 ST1": { title: "Y2 ST1", items: y2st1Mods },
-                    "Y2 ST2": { title: "Y2 ST2", items: y2st2Mods },
-                    "Y3 S1": { title: "Y3 S1", items: y3s1Mods },
-                    "Y3 S2": { title: "Y3 S2", items: y3s2Mods },
-                    "Y3 ST1": { title: "Y3 ST1", items: y3st1Mods },
-                    "Y3 ST2": { title: "Y3 ST2", items: y3st2Mods },
-                    "Y4 S1": { title: "Y4 S1", items: y4s1Mods },
-                    "Y4 S2": { title: "Y4 S2", items: y4s2Mods },
-                    "Y4 ST1": { title: "Y4 ST1", items: y4st1Mods },
-                    "Y4 ST2": { title: "Y4 ST2", items: y4st2Mods }
+                    "Y1 S1": { title: "Y1 S1", items: y1s1Mods, credits: y1s1ModsCreditCount },
+                    "Y1 S2": { title: "Y1 S2", items: y1s2Mods, credits: y1s2ModsCreditCount },
+                    "Y1 ST1": { title: "Y1 ST1", items: y1st1Mods, credits: y1st1ModsCreditCount },
+                    "Y1 ST2": { title: "Y1 ST2", items: y1st2Mods, credits: y1st2ModsCreditCount },
+                    "Y2 S1": { title: "Y2 S1", items: y2s1Mods, credits: y2s1ModsCreditCount },
+                    "Y2 S2": { title: "Y2 S2", items: y2s2Mods, credits: y2s2ModsCreditCount },
+                    "Y2 ST1": { title: "Y2 ST1", items: y2st1Mods, credits: y2st1ModsCreditCount },
+                    "Y2 ST2": { title: "Y2 ST2", items: y2st2Mods, credits: y2st2ModsCreditCount },
+                    "Y3 S1": { title: "Y3 S1", items: y3s1Mods, credits: y3s1ModsCreditCount },
+                    "Y3 S2": { title: "Y3 S2", items: y3s2Mods, credits: y3s2ModsCreditCount },
+                    "Y3 ST1": { title: "Y3 ST1", items: y3st1Mods, credits: y3st1ModsCreditCount },
+                    "Y3 ST2": { title: "Y3 ST2", items: y3st2Mods, credits: y3st2ModsCreditCount },
+                    "Y4 S1": { title: "Y4 S1", items: y4s1Mods, credits: y4s1ModsCreditCount },
+                    "Y4 S2": { title: "Y4 S2", items: y4s2Mods, credits: y4s2ModsCreditCount },
+                    "Y4 ST1": { title: "Y4 ST1", items: y4st1Mods, credits: y4st1ModsCreditCount },
+                    "Y4 ST2": { title: "Y4 ST2", items: y4st2Mods, credits: y4st2ModsCreditCount }
                 };
 
                 setModulesBySemester(newState);
@@ -514,7 +549,7 @@ const ModulePlanner = () => {
                             moduleMC: moduleMC
                         },
                         ...prev[yearSem].items
-                    ]
+                    ],
                 }
             }
         })
@@ -530,7 +565,7 @@ const ModulePlanner = () => {
                     title: yearSem,
                     items: [
                         ...prev[yearSem].items.filter(module => module.moduleID !== moduleID)
-                    ]
+                    ],
                 }
             }
         })
@@ -546,9 +581,10 @@ const ModulePlanner = () => {
                 {_.map(modulesBySemester, (data, key) => {
                     return (
                         <>
+                            <Typography variant="body_bold">{data.title}</Typography>
                             <Box bgcolor="light_blue.light" padding="30px" borderRadius="30px" display="flex" flexDirection="column" gap="30px">
                                 <Stack direction="row" display="flex" justifyContent="space-between" alignItems="center" marginTop="5px">
-                                    <Typography variant="body_bold">{data.title}</Typography>
+                                    <CreditCount value={data.credits}/>
                                     <ButtonDialog
                                         modLibrary="planner"
                                         button_text="+ ADD NEW"
