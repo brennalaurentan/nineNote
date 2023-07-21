@@ -17,7 +17,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
 import { db, auth } from '../components/others/firebase';
 
-const GraduationProgressTracker = ({ openLoginSuccessSnackBar, setOpenLoginSuccessSnackBar }) => {
+const GraduationProgressTracker = ({ openLoginSuccessSnackBar, setOpenLoginSuccessSnackBar, openSignupSuccessSnackBar, setOpenSignupSuccessSnackBar }) => {
   // handles currently signed-in user
   const [user, setUser] = useState({});
 
@@ -33,6 +33,7 @@ const GraduationProgressTracker = ({ openLoginSuccessSnackBar, setOpenLoginSucce
       return;
     }
     setOpenLoginSuccessSnackBar(false);
+    setOpenSignupSuccessSnackBar(false);
   };
 
   // edits to the variables below will be reflected in the progress rings
@@ -112,6 +113,20 @@ const GraduationProgressTracker = ({ openLoginSuccessSnackBar, setOpenLoginSucce
         <Alert severity="success" sx={{ width: "100%" }}>
           <Typography variant="tag_thin">
             Logged in successfully.
+          </Typography>
+        </Alert>
+      </Snackbar>
+
+      {/* snackbar displays only when user enters graduation progress tracker from signup */}
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openSignupSuccessSnackBar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackBar}
+      >
+        <Alert severity="success" sx={{ width: "100%" }}>
+          <Typography variant="tag_thin">
+            Signed up successfully.
           </Typography>
         </Alert>
       </Snackbar>

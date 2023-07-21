@@ -16,137 +16,137 @@ import { query, collection, doc, setDoc, getDocs, addDoc } from 'firebase/firest
 import { forEach } from 'lodash';
 
 const userCreditTrackerPathArray = [
-  {   
+  {
     groupName: "computingEthics",
     collectionPath: '/users/!/gradProgress/commonCurriculum/computingEthics'
   },
   {
-      groupName: "crossdisciplinaryEducation",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/crossdisciplinaryEducation'
+    groupName: "crossdisciplinaryEducation",
+    collectionPath: '/users/!/gradProgress/commonCurriculum/crossdisciplinaryEducation'
   },
   {
-      groupName: "interdisciplinaryEducation",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/interdisciplinaryEducation'
+    groupName: "interdisciplinaryEducation",
+    collectionPath: '/users/!/gradProgress/commonCurriculum/interdisciplinaryEducation'
   },
   {
-      groupName: "communitiesAndEngagement",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
+    groupName: "communitiesAndEngagement",
+    collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
   },
   {
-      groupName: "critiqueAndExpression",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
+    groupName: "critiqueAndExpression",
+    collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
   },
   {
-      groupName: "culturesAndConnections",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
+    groupName: "culturesAndConnections",
+    collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
   },
   {
-      groupName: "dataLiteracy",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
+    groupName: "dataLiteracy",
+    collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
   },
   {
-      groupName: "digitalLiteracy",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
+    groupName: "digitalLiteracy",
+    collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
   },
   {
-      groupName: "singaporeStudies",
-      collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
+    groupName: "singaporeStudies",
+    collectionPath: '/users/!/gradProgress/commonCurriculum/universityLevel'
   },
   {
-      groupName: "algorithmsAndTheory_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "algorithmsAndTheory_electives",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "algorithmsAndTheory_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "algorithmsAndTheory_primaries",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "artificialIntelligence_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "artificialIntelligence_electives",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "artificialIntelligence_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "artificialIntelligence_primaries",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "computerGraphicsAndGames_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "computerGraphicsAndGames_electives",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "computerGraphicsAndGames_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "computerGraphicsAndGames_primaries",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "computerSecurity_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "computerSecurity_electives",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "computerSecurity_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "computerSecurity_primaries",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "databaseSystems_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "databaseSystems_electives",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "databaseSystems_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "databaseSystems_primaries",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "multimediaInformationRetrieval_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "multimediaInformationRetrieval_electives",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "multimediaInformationRetrieval_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "multimediaInformationRetrieval_primaries",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "networkingAndDistributedSystems_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "networkingAndDistributedSystems_electives",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "networkingAndDistributedSystems_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "networkingAndDistributedSystems_primaries",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "focusAreas_others",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "focusAreas_others",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "parallelComputing_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "parallelComputing_electives",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "parallelComputing_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "parallelComputing_primaries",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "programmingLanguages_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "programmingLanguages_electives",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "programmingLanguages_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "programmingLanguages_primaries",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "softwareEngineering_electives",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "softwareEngineering_electives",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "softwareEngineering_primaries",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
+    groupName: "softwareEngineering_primaries",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth/focusAreas/focusAreas'
   },
   {
-      groupName: "industryExperience",
-      collectionPath: '/users/!/gradProgress/programme/breadthAndDepth'
+    groupName: "industryExperience",
+    collectionPath: '/users/!/gradProgress/programme/breadthAndDepth'
   },
   {
-      groupName: "mathematicsAndSciences",
-      collectionPath: '/users/!/gradProgress/programme/mathematicsAndSciences'
+    groupName: "mathematicsAndSciences",
+    collectionPath: '/users/!/gradProgress/programme/mathematicsAndSciences'
   },
   {
-      groupName: "foundation",
-      collectionPath: '/users/!/gradProgress/programme/foundation'
+    groupName: "foundation",
+    collectionPath: '/users/!/gradProgress/programme/foundation'
   },
   {
     groupName: "unrestrictedElectives",
@@ -155,137 +155,137 @@ const userCreditTrackerPathArray = [
 ]
 
 const moduleGroupsArray = [
-  {   
-      groupName: "computingEthics",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/computingEthics/computingEthics'
+  {
+    groupName: "computingEthics",
+    collectionPath: '/graduationRequirements/computerScience/commonCurriculum/computingEthics/computingEthics'
   },
   {
-      groupName: "crossdisciplinaryEducation",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/crossdisciplinaryEducation/crossdisciplinaryEducation'
+    groupName: "crossdisciplinaryEducation",
+    collectionPath: '/graduationRequirements/computerScience/commonCurriculum/crossdisciplinaryEducation/crossdisciplinaryEducation'
   },
   {
-      groupName: "interdisciplinaryEducation",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/interdisciplinaryEducation/interdisciplinaryEducation'
+    groupName: "interdisciplinaryEducation",
+    collectionPath: '/graduationRequirements/computerScience/commonCurriculum/interdisciplinaryEducation/interdisciplinaryEducation'
   },
   {
-      groupName: "communitiesAndEngagement",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/communitiesAndEngagement'
+    groupName: "communitiesAndEngagement",
+    collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/communitiesAndEngagement'
   },
   {
-      groupName: "critiqueAndExpression",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/critiqueAndExpression'
+    groupName: "critiqueAndExpression",
+    collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/critiqueAndExpression'
   },
   {
-      groupName: "culturesAndConnections",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/culturesAndConnections'
+    groupName: "culturesAndConnections",
+    collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/culturesAndConnections'
   },
   {
-      groupName: "dataLiteracy",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/dataLiteracy'
+    groupName: "dataLiteracy",
+    collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/dataLiteracy'
   },
   {
-      groupName: "digitalLiteracy",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/digitalLiteracy'
+    groupName: "digitalLiteracy",
+    collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/digitalLiteracy'
   },
   {
-      groupName: "singaporeStudies",
-      collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/singaporeStudies'
+    groupName: "singaporeStudies",
+    collectionPath: '/graduationRequirements/computerScience/commonCurriculum/universityLevel/singaporeStudies'
   },
   {
-      groupName: "algorithmsAndTheory_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/algorithmsAndTheory/electives'
+    groupName: "algorithmsAndTheory_electives",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/algorithmsAndTheory/electives'
   },
   {
-      groupName: "algorithmsAndTheory_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/algorithmsAndTheory/primaries'
+    groupName: "algorithmsAndTheory_primaries",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/algorithmsAndTheory/primaries'
   },
   {
-      groupName: "artificialIntelligence_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/artificialIntelligence/electives'
+    groupName: "artificialIntelligence_electives",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/artificialIntelligence/electives'
   },
   {
-      groupName: "artificialIntelligence_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/artificialIntelligence/primaries'
+    groupName: "artificialIntelligence_primaries",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/artificialIntelligence/primaries'
   },
   {
-      groupName: "computerGraphicsAndGames_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerGraphicsAndGames/electives'
+    groupName: "computerGraphicsAndGames_electives",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerGraphicsAndGames/electives'
   },
   {
-      groupName: "computerGraphicsAndGames_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerGraphicsAndGames/primaries'
+    groupName: "computerGraphicsAndGames_primaries",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerGraphicsAndGames/primaries'
   },
   {
-      groupName: "computerSecurity_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerSecurity/electives'
+    groupName: "computerSecurity_electives",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerSecurity/electives'
   },
   {
-      groupName: "computerSecurity_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerSecurity/primaries'
+    groupName: "computerSecurity_primaries",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/computerSecurity/primaries'
   },
   {
-      groupName: "databaseSystems_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/databaseSystems/electives'
+    groupName: "databaseSystems_electives",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/databaseSystems/electives'
   },
   {
-      groupName: "databaseSystems_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/databaseSystems/primaries'
+    groupName: "databaseSystems_primaries",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/databaseSystems/primaries'
   },
   {
-      groupName: "multimediaInformationRetrieval_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/multimediaInformationRetrieval/primaries'
+    groupName: "multimediaInformationRetrieval_electives",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/multimediaInformationRetrieval/primaries'
   },
   {
-      groupName: "multimediaInformationRetrieval_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/multimediaInformationRetrieval/primaries'
+    groupName: "multimediaInformationRetrieval_primaries",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/multimediaInformationRetrieval/primaries'
   },
   {
-      groupName: "networkingAndDistributedSystems_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/networkingAndDistributedSystems/electives'
+    groupName: "networkingAndDistributedSystems_electives",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/networkingAndDistributedSystems/electives'
   },
   {
-      groupName: "networkingAndDistributedSystems_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/networkingAndDistributedSystems/primaries'
+    groupName: "networkingAndDistributedSystems_primaries",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/networkingAndDistributedSystems/primaries'
   },
   {
-      groupName: "focusAreas_others",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/others/others'
+    groupName: "focusAreas_others",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/others/others'
   },
   {
-      groupName: "parallelComputing_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/parallelComputing/electives'
+    groupName: "parallelComputing_electives",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/parallelComputing/electives'
   },
   {
-      groupName: "parallelComputing_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/parallelComputing/primaries'
+    groupName: "parallelComputing_primaries",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/parallelComputing/primaries'
   },
   {
-      groupName: "programmingLanguages_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/programmingLanguages/electives'
+    groupName: "programmingLanguages_electives",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/programmingLanguages/electives'
   },
   {
-      groupName: "programmingLanguages_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/programmingLanguages/primaries'
+    groupName: "programmingLanguages_primaries",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/programmingLanguages/primaries'
   },
   {
-      groupName: "softwareEngineering_electives",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/softwareEngineering/electives'
+    groupName: "softwareEngineering_electives",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/softwareEngineering/electives'
   },
   {
-      groupName: "softwareEngineering_primaries",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/softwareEngineering/primaries'
+    groupName: "softwareEngineering_primaries",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/focusAreas/softwareEngineering/primaries'
   },
   {
-      groupName: "industryExperience",
-      collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/industryExperience'
+    groupName: "industryExperience",
+    collectionPath: '/graduationRequirements/computerScience/programme/breadthAndDepth/industryExperience'
   },
   {
-      groupName: "mathematicsAndSciences",
-      collectionPath: '/graduationRequirements/computerScience/programme/mathematicsAndSciences/mathematicsAndSciences'
+    groupName: "mathematicsAndSciences",
+    collectionPath: '/graduationRequirements/computerScience/programme/mathematicsAndSciences/mathematicsAndSciences'
   },
   {
-      groupName: "foundation",
-      collectionPath: '/graduationRequirements/computerScience/programme/foundation/foundation'
+    groupName: "foundation",
+    collectionPath: '/graduationRequirements/computerScience/programme/foundation/foundation'
   }
 ];
 
@@ -422,7 +422,7 @@ const static_semesters = [
   "Y4ST2"
 ]
 
-const SignupForm = () => {
+const SignupForm = ({ setOpenSignupSuccessSnackBar }) => {
   const navigate = useNavigate();
   const [registerEmail, setRegisterEmail] = useState(null);
   const [registerPassword, setRegisterPassword] = useState(null);
@@ -472,15 +472,15 @@ const SignupForm = () => {
     const collectionRef = collection(db, collectionPath);
     const querySnapshot = await getDocs(collectionRef);
     querySnapshot.forEach((doc) => {
-        // each module in the database has the following details:
-        // moduleCode, moduleMC, moduleName, moduleCategory
-        const newModule = {
-            "moduleCode": doc.data().moduleCode,
-            "moduleMC": doc.data().moduleMC,
-            "moduleName": doc.data().moduleName,
-            "moduleCategory": doc.data().moduleCategory
-        }
-        arrayOfModules.push(newModule);
+      // each module in the database has the following details:
+      // moduleCode, moduleMC, moduleName, moduleCategory
+      const newModule = {
+        "moduleCode": doc.data().moduleCode,
+        "moduleMC": doc.data().moduleMC,
+        "moduleName": doc.data().moduleName,
+        "moduleCategory": doc.data().moduleCategory
+      }
+      arrayOfModules.push(newModule);
     })
     return arrayOfModules;
   }
@@ -491,6 +491,7 @@ const SignupForm = () => {
       console.log(registerPassword);
       const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
       navigate('/graduation-progress-tracker');
+      setOpenSignupSuccessSnackBar(true);
       console.log(user);
       const currentUserEmail = registerEmail;
 
@@ -641,7 +642,7 @@ const SignupForm = () => {
           getGradReqSubgroupCreditsToMeet();
         }
         moduleGroupIndex++;
-      });      
+      });
     } catch (error) {
       console.log(error.message)
       if (error.code === "auth/admin-restricted-operation") {
@@ -673,7 +674,7 @@ const SignupForm = () => {
       try {
         // code below reads all the matriculation years from database and
         // displays each of them in the matriculation year dropdown list
-        
+
         // const qSnapshot = getDocs(matriculationYearCollectionRef)
         //   .then((qSnapshot) => {
 
@@ -692,7 +693,7 @@ const SignupForm = () => {
         //     static_matriculation_year.forEach((item) => console.log(item));
         //     setMatriculationYearArray(matriculationYearArray);
         //   });
-          
+
         // once changed to dynamic, remove the line below (use the 'set' line above)
         // or it won't work
         setMatriculationYearArray(static_matriculation_year);

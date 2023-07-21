@@ -11,7 +11,7 @@ import signup_image from '../graphics/signup_image.png';
 import { Helmet } from 'react-helmet';
 import { Box } from '@mui/material';
 
-const Signup = () => {
+const Signup = ({ setOpenSignupSuccessSnackBar }) => {
   return (
     <>
       <Helmet>
@@ -27,7 +27,7 @@ const Signup = () => {
           height="85vh"
           gap={["50px", "300px"]}
         >
-          <SignupForm />
+          <SignupForm setOpenSignupSuccessSnackBar={setOpenSignupSuccessSnackBar} />
           <Box width={["50vw", "30vw"]}>
             <img src={signup_image} alt="Logo" width="100%" />
           </Box>
