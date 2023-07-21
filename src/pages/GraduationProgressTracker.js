@@ -100,7 +100,7 @@ const GraduationProgressTracker = ({ openLoginSuccessSnackBar, setOpenLoginSucce
           <GraduationStatus
             numerator={totalNumerator}
             denominator={totalDenominator} />
-          <ModuleExemptions />
+          <ModuleExemptions retrieveProgressFields={retrieveProgressFields}/>
         </Stack>
         <ModulePlanner retrieveProgressFields={retrieveProgressFields}/>
       </Stack>

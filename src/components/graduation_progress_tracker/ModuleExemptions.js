@@ -22,7 +22,7 @@ const item1 = {
     mc: 4
 }
 
-const ModuleExemptions = () => {
+const ModuleExemptions = ({ retrieveProgressFields }) => {
 
     // handles currently signed-in user
     const [user, setUser] = useState({});
@@ -101,7 +101,7 @@ const ModuleExemptions = () => {
         })
     }
 
-    const addModule = (moduleCode, moduleName, moduleMC, yearSem) => {
+    const addModule = (moduleCode, moduleName, moduleMC, moduleCategory, yearSem) => {
         console.log("Module Added: " + moduleCode);
         console.log("Year and Semester: " + yearSem);
         setModuleExemptions(prev => {
@@ -114,13 +114,15 @@ const ModuleExemptions = () => {
                             moduleID: v4(),
                             moduleCode: moduleCode,
                             moduleName: moduleName,
-                            moduleMC: moduleMC
+                            moduleMC: moduleMC,
+                            moduleCategory: moduleCategory,
                         },
                         ...prev[yearSem].items
                     ]
                 }
             }
         })
+        retrieveProgressFields();
     }
 
     const deleteModule = (moduleID, moduleCode, yearSem) => {
@@ -137,6 +139,7 @@ const ModuleExemptions = () => {
                 }
             }
         })
+        retrieveProgressFields();
     }
 
     // const calculateCredits = (moduleArray) => {
@@ -154,7 +157,6 @@ const ModuleExemptions = () => {
                         <>
                             <Box bgcolor="light_blue.light" padding="30px" borderRadius="30px" display="flex" flexDirection="column" gap="30px">
                                 <Stack direction="row" display="flex" justifyContent="space-between" alignItems="center" marginTop="5px">
-                                    {/* <Typography variant="body_bold">{data.title}</Typography> */}
                                     <CreditCount value={moduleExemptionsCreditCount} />
                                     <ButtonDialog
                                         modLibrary="exemptions"
