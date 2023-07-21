@@ -6,7 +6,7 @@ import RecommendedModulePillMenu from '../module_recommender/RecommendedModulePi
 // tools
 import { Typography, Stack, Box } from '@mui/material';
 
-const RecommendedModulePill = ({ moduleCode, moduleName, moduleMC, moduleStats, yearSem, onClick }) => {
+const RecommendedModulePill = ({ moduleCode, moduleName, moduleMC, moduleCategory, moduleStats, yearSem }) => {
     return (
         <>
             <Box
@@ -40,8 +40,9 @@ const RecommendedModulePill = ({ moduleCode, moduleName, moduleMC, moduleStats, 
                         moduleCode={moduleCode}
                         moduleName={moduleName}
                         moduleMC={moduleMC}
+                        moduleCategory={moduleCategory}
                         yearSem={yearSem}
-                        onMenuClick={onClick} />
+                    />
                 </Stack>
             </Box>
         </>
