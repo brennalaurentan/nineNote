@@ -157,6 +157,7 @@ const ModuleExemptions = () => {
                                     {/* <Typography variant="body_bold">{data.title}</Typography> */}
                                     <CreditCount value={moduleExemptionsCreditCount} />
                                     <ButtonDialog
+                                        modLibrary="exemptions"
                                         button_text="+ ADD NEW"
                                         header="Add Module Exemptions"
                                         text="Search for your exempted modules by their respective module code 
