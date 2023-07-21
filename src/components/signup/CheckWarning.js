@@ -6,7 +6,7 @@
 import { Alert, AlertTitle, Typography, Box } from '@mui/material';
 import ReportIcon from '@mui/icons-material/Report';
 
-const AlertDisplay = () => {
+const CheckWarning = () => {
     return (
         <Box width="400px">
             <Alert icon={<ReportIcon fontSize="inherit" />} severity="warning">
@@ -26,4 +26,4 @@ const AlertDisplay = () => {
     )
 }
 
-export default AlertDisplay
+export default CheckWarning

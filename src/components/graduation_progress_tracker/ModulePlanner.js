@@ -1,10 +1,10 @@
 // styles
 
 // components / pages / images
-import MainButton from '../common/MainButton';
 import ModulePill from './ModulePill';
 import ButtonDialog from './ButtonDialog';
 import CreditCount from './CreditCount';
+import ThingsToNote from './ThingsToNote';
 
 // tools
 import React, { useState } from 'react';
@@ -575,7 +575,7 @@ const ModulePlanner = () => {
         <Stack gap="32px" width="100vw">
             <Stack direction="row" display="flex" alignItems="center" justifyContent="space-between">
                 <Typography variant="h3">Module Planner</Typography>
-                <MainButton type="contained" main_color="blue.main" value="SAVE" />
+                <ThingsToNote />
             </Stack>
             <DragDropContext onDragEnd={handleDragEnd}>
                 {_.map(modulesBySemester, (data, key) => {
@@ -584,7 +584,7 @@ const ModulePlanner = () => {
                             <Typography variant="body_bold">{data.title}</Typography>
                             <Box bgcolor="light_blue.light" padding="30px" borderRadius="30px" display="flex" flexDirection="column" gap="30px">
                                 <Stack direction="row" display="flex" justifyContent="space-between" alignItems="center" marginTop="5px">
-                                    <CreditCount value={data.credits}/>
+                                    <CreditCount value={data.credits} />
                                     <ButtonDialog
                                         modLibrary="planner"
                                         button_text="+ ADD NEW"
