@@ -12,16 +12,6 @@ import { auth } from '../components/others/firebase';
 import { useState } from 'react';
 
 const MyProfile = ({ setOpenDeleteAccountSnackBar }) => {
-
-  /*
-  const auth = getAuth();
-  const user = auth.currentUser;
-  var userEmail = "";
-  if (user != null) {
-    userEmail = user.email;
-  }
-  */
-
   const [user, setUser] = useState({});
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);

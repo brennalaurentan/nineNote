@@ -2,7 +2,6 @@
 
 // components / pages / images
 import MainButton from '../common/MainButton';
-import FormField from '../common/FormField';
 
 // tools
 import * as React from 'react';

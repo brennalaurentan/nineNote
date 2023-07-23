@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { 
     Stack, Box, Table, TableBody, TableCell, TableContainer, 
     TableHead, TablePagination, TableRow, TableSortLabel, 
-    Typography, Paper, Checkbox 
+    Typography, Paper 
 } from '@mui/material'
 import { visuallyHidden } from '@mui/utils';
 

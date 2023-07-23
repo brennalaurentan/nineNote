@@ -9,11 +9,10 @@ import CheckWarning from '../signup/CheckWarning';
 // tools
 import { Stack, Link, Typography, Box, Snackbar, Alert } from '@mui/material';
 import { useEffect, useState } from "react";
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../others/firebase';
 import { useNavigate } from 'react-router-dom';
-import { query, collection, doc, setDoc, getDocs, addDoc } from 'firebase/firestore';
-import { forEach } from 'lodash';
+import { collection, doc, setDoc, getDocs } from 'firebase/firestore';
 
 const userCreditTrackerPathArray = [
   {
@@ -288,8 +287,8 @@ const moduleGroupsArray = [
     collectionPath: '/graduationRequirements/computerScience/programme/foundation/foundation'
   },
   {
-    groupname: "unrestrictedElectives",
-    collectionPath: 'graduationRequirements/computerScience/unrestrictedElectives'
+    groupName: "unrestrictedElectives",
+    collectionPath: '/graduationRequirements/computerScience/unrestrictedElectives/unrestrictedElectives/unrestrictedElectives'
   }
 ];
 

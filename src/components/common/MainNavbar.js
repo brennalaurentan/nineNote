@@ -5,7 +5,7 @@ import ninenote_white from '../../graphics/ninenote_white.png'
 import profile_image from '../../graphics/profile_image.png';
 
 // tools
-import { Link, Avatar, AppBar, Toolbar, Typography, Stack, Box } from '@mui/material';
+import { Link, AppBar, Toolbar, Typography, Stack, Box } from '@mui/material';
 import { auth } from '../others/firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { useState } from 'react';

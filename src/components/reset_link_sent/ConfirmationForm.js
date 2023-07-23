@@ -5,9 +5,8 @@ import MainButton from '../common/MainButton';
 import ninenote_blue from '../../graphics/ninenote_blue.png';
 
 // tools
-import { Grid, Box, Typography, Stack, IconButton } from '@mui/material';
+import { Grid, Box, Typography, Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const ConfirmationForm = () => {
     const navigate = useNavigate();
