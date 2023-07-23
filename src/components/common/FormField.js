@@ -3,7 +3,7 @@
 // components / pages / images
 
 // tools
-import { TextField, MenuItem, Select } from '@mui/material';
+import { TextField, MenuItem } from '@mui/material';
 
 const email_field = (field_name, onChangeAction) => < TextField
   id="outlined-search"

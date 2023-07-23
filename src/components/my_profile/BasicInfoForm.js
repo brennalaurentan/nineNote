@@ -459,11 +459,6 @@ const BasicInfoForm = ({ setOpenDeleteAccountSnackBar }) => {
           "label": "Computer Science"
         }
         courseArray.push(newElement);
-        newElement = {
-          "value": "SOC2",
-          "label": "Business Analytics"
-        }
-        courseArray.push(newElement);
         setCourseArray(courseArray);
       } catch (error) {
         console.log(error.message);

@@ -17,7 +17,6 @@ import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { db, auth } from '../others/firebase';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { setSelectionRange } from '@testing-library/user-event/dist/utils';
 
 const SemContainer = styled(Container)(({ theme }) => ({
   display: "flex",

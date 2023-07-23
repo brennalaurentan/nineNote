@@ -9,7 +9,7 @@ import profile_image from '../../graphics/profile_image.png';
 // tools
 import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Typography, Stack, Chip } from '@mui/material';
+import { Box, Typography, Stack } from '@mui/material';
 import { auth, db } from '../others/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { getDoc, doc } from 'firebase/firestore';

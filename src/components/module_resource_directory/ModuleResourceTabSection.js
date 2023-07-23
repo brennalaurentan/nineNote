@@ -7,7 +7,7 @@ import ModuleResourcePagination from './ModuleResourcePagination';
 
 // tools
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Stack, TextField } from '@mui/material';
+import { Typography, Stack, TextField } from '@mui/material';
 
 const ModuleResourceTabSection = ({ moduleData, moduleResources }) => {
     // handles text displayed when filtered modules is empty

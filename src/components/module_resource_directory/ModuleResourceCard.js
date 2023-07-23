@@ -3,7 +3,7 @@
 // components / pages / images
 
 // tools
-import { Card, CardContent, Stack, Typography, Box } from '@mui/material';
+import { Card, CardContent, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { getDoc } from 'firebase/firestore';
 
